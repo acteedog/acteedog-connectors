@@ -1,6 +1,6 @@
 # Acteedog Plugins
 
-Official and community-contributed connectors for [Acteedog](https://github.com/acteedog/acteedog).
+Official and community-contributed connectors for [Acteedog](https://github.com/acteedog/acteedog-release).
 
 ## 📦 Connectors
 
