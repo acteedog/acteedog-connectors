@@ -19,7 +19,7 @@
     {
       "id": "slack",
       "name": "Slack Connector",
-      "description": "Monitor channels, direct messages, and threads from Slack workspaces",
+      "description": "Monitor channels, direct messages, and threads from Slack workspaces. An user token with scopes: channels:history, channels:read, groups:read, im:read, mpim:read, search:read is required.",
       "latest_version": "0.1.0",
       "allowed_hosts": ["slack.com"],
       "versions": [
