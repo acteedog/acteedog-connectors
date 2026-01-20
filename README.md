@@ -1,4 +1,4 @@
-# Acteedog Plugins
+# Acteedog Connectors
 
 Official and community-contributed connectors for [Acteedog](https://github.com/acteedog/acteedog-release).
 
@@ -24,12 +24,12 @@ Official and community-contributed connectors for [Acteedog](https://github.com/
 
 ```
 acteedog-connectors/
-├── src/                          # Plugin source code
-│   ├── github-connector/         # GitHub plugin (Go)
-│   └── slack-connector/          # Slack plugin (Go)
-├── catalog/                      # Plugin distribution catalog
+├── src/                          # Connector source code
+│   ├── github-connector/         # GitHub connector (Go)
+│   └── slack-connector/          # Slack connector (Go)
+├── catalog/                      # Connector distribution catalog
 │   ├── catalog.json              # Catalog metadata
-│   ├── plugins/                  # Compiled WASM binaries
+│   ├── connectors/               # Compiled WASM binaries
 │   └── scripts/                  # Build and utility scripts
 └── .github/workflows/            # CI/CD automation
 ```
@@ -42,16 +42,16 @@ acteedog-connectors/
   - For detailed instructions, please refer to the documentation: TBD
 - Trigger an activity sync from the Acteedog activity screen.
 
-## 🛠️ Developing Plugins
+## 🛠️ Developing Connectors
 
-See [PLUGIN_DEVELOPMENT.md](./PLUGIN_DEVELOPMENT.md) for detailed instructions on creating new plugins.
+See [CONNECTOR_DEVELOPMENT.md](./CONNECTOR_DEVELOPMENT.md) for detailed instructions on creating new connectors.
 
 ### Quick Start
 
 - Clone this repository and `cd acteedog-connectors/src`
-- Initialize a new plugin: `xtp plugin init --schema-file acteedog-connector-schema.yaml --template Go --path your-connector`
+- Initialize a new connector: `xtp plugin init --schema-file acteedog-connector-schema.yaml --template Go --path your-connector`
 - Implement the required functions according to the [plugin schema](./src/acteedog-connector-schema.yaml) and test code
-- Build and test your plugin: `cd src/your-connector && xtp plugin build && xtp plugin test`
+- Build and test your connector: `cd src/your-connector && xtp plugin build && xtp plugin test`
 - Copy `dist/plugin.wasm` to `./catalog/connectors/your-connector/version/`
 - Test the connector locally with Acteedog
   - Run `./catalog/scripts/generate-checksums.sh` and add the generated checksums as a new section in `./catalog/catalog.json`
