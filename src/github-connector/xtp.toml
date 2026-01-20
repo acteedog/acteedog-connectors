@@ -1,0 +1,87 @@
+app_id = ""
+
+# This is where 'xtp plugin push' expects to find the wasm file after the build script has run.
+bin = "dist/plugin.wasm"
+extension_point_id = ""
+# This is the 'binding' name used for the plugin.
+name = "github-connector"
+
+[scripts]
+# xtp plugin build runs this script to generate the wasm file
+build = "mkdir -p dist && tinygo build -buildmode c-shared -target wasip1 -o dist/plugin.wasm ."
+
+# xtp plugin init runs this script to format the code
+format = "go fmt && go mod tidy && goimports -w main.go"
+
+# xtp plugin init runs this script before running the format script
+prepare = "bash prepare.sh && go get ./..."
+
+# ============================================================================
+# Test Configuration
+# ============================================================================
+
+[[test]]
+name = "transform_push_event"
+build = "tinygo build -o test/test_push.wasm -target wasi test/test_transform_push.go"
+with = "test/test_push.wasm"
+mock_input = { file = "testdata/events/push.json" }
+
+[[test]]
+name = "transform_pull_request_event"
+build = "tinygo build -o test/test_pr.wasm -target wasi test/test_transform_pr.go"
+with = "test/test_pr.wasm"
+mock_input = { file = "testdata/events/pull_request.json" }
+
+[[test]]
+name = "transform_issues_event"
+build = "tinygo build -o test/test_issues.wasm -target wasi test/test_transform_issues.go"
+with = "test/test_issues.wasm"
+mock_input = { file = "testdata/events/issues.json" }
+
+[[test]]
+name = "transform_pr_comment_event"
+build = "tinygo build -o test/test_pr_comment.wasm -target wasi test/test_transform_pr_comment.go"
+with = "test/test_pr_comment.wasm"
+mock_input = { file = "testdata/events/pr_comment.json" }
+
+[[test]]
+name = "transform_issue_comment_event"
+build = "tinygo build -o test/test_issue_comment.wasm -target wasi test/test_transform_issue_comment.go"
+with = "test/test_issue_comment.wasm"
+mock_input = { file = "testdata/events/issue_comment.json" }
+
+[[test]]
+name = "transform_delete_event"
+build = "tinygo build -o test/test_delete.wasm -target wasi test/test_transform_delete.go"
+with = "test/test_delete.wasm"
+mock_input = { file = "testdata/events/delete.json" }
+
+[[test]]
+name = "transform_pr_review_comment_event"
+build = "tinygo build -o test/test_pr_review_comment.wasm -target wasi test/test_transform_pr_review_comment.go"
+with = "test/test_pr_review_comment.wasm"
+mock_input = { file = "testdata/events/pr_review_comment.json" }
+
+[[test]]
+name = "transform_pr_review_event"
+build = "tinygo build -o test/test_pr_review.wasm -target wasi test/test_transform_pr_review.go"
+with = "test/test_pr_review.wasm"
+mock_input = { file = "testdata/events/pr_review.json" }
+
+[[test]]
+name = "enrichment_repository"
+build = "tinygo build -o test/test_enrich_repository.wasm -target wasi test/test_enrich_repository.go"
+with = "test/test_enrich_repository.wasm"
+mock_input = { file = "testdata/enrichment/repository.json" }
+
+[[test]]
+name = "enrichment_pr"
+build = "tinygo build -o test/test_enrich_pr.wasm -target wasi test/test_enrich_pr.go"
+with = "test/test_enrich_pr.wasm"
+mock_input = { file = "testdata/enrichment/pr.json" }
+
+[[test]]
+name = "enrichment_issue"
+build = "tinygo build -o test/test_enrich_issue.wasm -target wasi test/test_enrich_issue.go"
+with = "test/test_enrich_issue.wasm"
+mock_input = { file = "testdata/enrichment/issue.json" }

@@ -1,0 +1,92 @@
+{
+  "actor": {
+    "avatar_url": "https://avatars.githubusercontent.com/u/44557218?",
+    "display_login": "ymtdzzz",
+    "gravatar_id": "",
+    "id": 44557218,
+    "login": "ymtdzzz",
+    "url": "https://api.github.com/users/ymtdzzz"
+  },
+  "created_at": "2025-11-13T05:34:50Z",
+  "id": "4645219660",
+  "org": {
+    "avatar_url": "https://avatars.githubusercontent.com/u/00000000?",
+    "gravatar_id": "",
+    "id": 0,
+    "login": "testorg",
+    "url": "https://api.github.com/orgs/testorg"
+  },
+  "payload": {
+    "action": "created",
+    "pull_request": {
+      "base": {
+        "ref": "main",
+        "repo": {
+          "id": 0,
+          "name": "testrepo",
+          "url": "https://api.github.com/repos/testorg/testrepo"
+        },
+        "sha": "d3ccfcb34fbdd9ee3bb807aa04a0e2537d8d8031"
+      },
+      "head": {
+        "ref": "feature/my-awesome-feature",
+        "repo": {
+          "id": 0,
+          "name": "testrepo",
+          "url": "https://api.github.com/repos/testorg/testrepo"
+        },
+        "sha": "ea5f8265ebfc5cea3739ed2cbc6fa5b2ee3877b6"
+      },
+      "id": 1234567890,
+      "number": 52742,
+      "url": "https://api.github.com/repos/testorg/testrepo/pulls/52742"
+    },
+    "review": {
+      "_links": {
+        "html": {
+          "href": "https://github.com/testorg/testrepo/pull/52742#pullrequestreview-3457546608"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/testorg/testrepo/pulls/52742"
+        }
+      },
+      "body": "This is a great change! Approved.",
+      "commit_id": "ea5f8265ebfc5cea3739ed2cbc6fa5b2ee3877b6",
+      "html_url": "https://github.com/testorg/testrepo/pull/52742#pullrequestreview-3457546608",
+      "id": 1234567890,
+      "node_id": "node_id",
+      "pull_request_url": "https://api.github.com/repos/testorg/testrepo/pulls/52742",
+      "state": "approved",
+      "submitted_at": "2025-11-13T05:34:48Z",
+      "updated_at": "2025-11-13T05:34:48Z",
+      "user": {
+        "avatar_url": "https://avatars.githubusercontent.com/u/44557218?v=4",
+        "events_url": "https://api.github.com/users/ymtdzzz/events{/privacy}",
+        "followers_url": "https://api.github.com/users/ymtdzzz/followers",
+        "following_url": "https://api.github.com/users/ymtdzzz/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ymtdzzz/gists{/gist_id}",
+        "gravatar_id": "",
+        "html_url": "https://github.com/ymtdzzz",
+        "id": 44557218,
+        "login": "ymtdzzz",
+        "node_id": "node_id",
+        "organizations_url": "https://api.github.com/users/ymtdzzz/orgs",
+        "received_events_url": "https://api.github.com/users/ymtdzzz/received_events",
+        "repos_url": "https://api.github.com/users/ymtdzzz/repos",
+        "site_admin": false,
+        "starred_url": "https://api.github.com/users/ymtdzzz/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ymtdzzz/subscriptions",
+        "type": "User",
+        "url": "https://api.github.com/users/ymtdzzz",
+        "user_view_type": "public"
+      }
+    }
+  },
+  "public": false,
+  "repo": {
+    "id": 0,
+    "name": "testorg/testrepo",
+    "url": "https://api.github.com/repos/testorg/testrepo"
+  },
+  "type": "PullRequestReviewEvent"
+}

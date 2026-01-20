@@ -1,0 +1,235 @@
+version: v1-draft
+
+exports:
+  GetConfigSchema:
+    description: Get JSON Schema for user configuration
+    output:
+      contentType: application/json
+      $ref: "#/components/schemas/ConfigSchema"
+
+  FetchActivities:
+    description: Fetch activities from external service
+    input:
+      contentType: application/json
+      $ref: "#/components/schemas/FetchRequest"
+    output:
+      contentType: application/json
+      $ref: "#/components/schemas/FetchResponse"
+
+  EnrichContext:
+    description: Enrich context with additional information
+    input:
+      contentType: application/json
+      $ref: "#/components/schemas/EnrichRequest"
+    output:
+      contentType: application/json
+      $ref: "#/components/schemas/EnrichResponse"
+
+  TestConnection:
+    description: Test connection to the external service
+    input:
+      contentType: application/json
+      $ref: "#/components/schemas/TestConnectionRequest"
+
+  GetContextPatterns:
+    description: |
+      Get static URL patterns and context mapping definitions for cross-plugin context detection.
+      Pattern matching and context extraction will be done on the Tauri side for performance.
+    output:
+      contentType: application/json
+      $ref: "#/components/schemas/ContextPatternsResponse"
+
+components:
+  schemas:
+    ConfigSchema:
+      required:
+        - type
+        - properties
+      properties:
+        type:
+          type: string
+        properties:
+          type: object
+        required:
+          type: array
+          items:
+            type: string
+
+    FetchRequest:
+      required:
+        - config
+        - params
+      properties:
+        config:
+          type: object
+        params:
+          $ref: "#/components/schemas/FetchParams"
+
+    FetchParams:
+      required:
+        - targetDate
+      properties:
+        targetDate:
+          type: string
+
+    FetchResponse:
+      required:
+        - activities
+      properties:
+        activities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Activity"
+
+    Activity:
+      required:
+        - id
+        - timestamp
+        - title
+        - source
+        - activityType
+        - contexts
+        - metadata
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        source:
+          type: string
+        activityType:
+          type: string
+        url:
+          type: string
+        metadata:
+          type: object
+        contexts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Context"
+
+    Context:
+      required:
+        - id
+        - name
+        - level
+        - connectorId
+        - resourceType
+        - parentId
+        - metadata
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        level:
+          type: integer
+        parentId:
+          type: string
+        connectorId:
+          type: string
+        resourceType:
+          type: string
+          description: "Resource type (e.g., 'source', 'repository', 'pull_request', 'issue', 'channel', 'thread')"
+        title:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+        metadata:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    EnrichRequest:
+      required:
+        - config
+        - context
+      properties:
+        config:
+          type: object
+        context:
+          $ref: "#/components/schemas/Context"
+
+    EnrichResponse:
+      required:
+        - context
+        - status
+      properties:
+        context:
+          $ref: "#/components/schemas/Context"
+        status:
+          $ref: "#/components/schemas/EnrichResponseStatusEnum"
+
+    EnrichResponseStatusEnum:
+      type: string
+      enum:
+        - success
+        - partial_failure
+        - failed
+
+    ContextPatternsResponse:
+      required:
+        - patterns
+      properties:
+        patterns:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContextPatternDefinition"
+
+    ContextPatternDefinition:
+      required:
+        - pattern
+        - contextMappings
+      properties:
+        pattern:
+          type: string
+          description: "Regex pattern with named groups (e.g., 'https://github\\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/pull/(?P<number>\\d+)')"
+        contextMappings:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContextMapping"
+          description: "List of context mappings to create from URL pattern matches"
+
+    ContextMapping:
+      required:
+        - nameTemplate
+        - level
+        - resourceType
+        - idTemplate
+      properties:
+        nameTemplate:
+          type: string
+          description: "Template for context name using {{groupName}} placeholders (e.g., 'repository:{{owner}}/{{repo}}'). For static names, use plain strings without placeholders (e.g., 'github:source')."
+        level:
+          type: integer
+          description: "Hierarchy level (1=source, 2=repository, 3=PR/Issue)"
+        resourceType:
+          type: string
+          description: "Resource type identifier (e.g., 'source', 'repository', 'pull_request', 'issue', 'channel', 'thread')"
+        parentIndex:
+          type: integer
+          description: "Index of parent context in contextMappings array (null for root/level 1)"
+        idTemplate:
+          type: string
+          description: "Template for context ID using {{groupName}} placeholders (e.g., 'repository:{{owner}}/{{repo}}')"
+        enrichmentParams:
+          type: object
+          description: "Parameters for enrichment using {{groupName}} templates (e.g., {'repo': '{{owner}}/{{repo}}', 'pr_number': '{{number}}'})"
+
+    TestConnectionRequest:
+      required:
+        - config
+      properties:
+        config:
+          type: object
+          description: "Connector configuration including credentials"

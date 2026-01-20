@@ -1,0 +1,285 @@
+// Note: run `go doc -all` in this package to see all of the types and functions available.
+// ./pdk.gen.go contains the domain types from the host where your plugin will run.
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/extism/go-pdk"
+)
+
+const (
+	// ConnectorVersion is the version of this connector
+	ConnectorVersion = "0.1.0"
+	// ConnectorID is the unique identifier for this connector
+	ConnectorID = "github"
+	// GithubAPIBaseURL is the base URL for GitHub API
+	GithubAPIBaseURL = "https://api.github.com"
+)
+
+// Resource type constants for context identification
+const (
+	ResourceTypeSource      = "source"
+	ResourceTypeRepository  = "repository"
+	ResourceTypePullRequest = "pull_request"
+	ResourceTypeIssue       = "issue"
+)
+
+// GetConfigSchema returns the configuration schema for the GitHub connector
+func GetConfigSchema() (ConfigSchema, error) {
+	return ConfigSchema{
+		Type: "object",
+		Properties: map[string]any{
+			"credential_personal_access_token": map[string]any{
+				"type":        "string",
+				"title":       "Personal Access Token",
+				"description": "GitHub Personal Access Token for authentication",
+			},
+			"username": map[string]any{
+				"type":        "string",
+				"title":       "Username",
+				"description": "GitHub username to fetch activities for",
+			},
+			"repository_patterns": map[string]any{
+				"type": "array",
+				"items": map[string]any{
+					"type": "string",
+				},
+				"title":       "Repository Patterns",
+				"description": "Repository patterns to include (e.g., 'myorg/*', 'user/repo'). Leave empty for all repositories. Use * for wildcards.",
+			},
+		},
+		Required: &[]string{
+			"credential_personal_access_token",
+			"username",
+		},
+	}, nil
+}
+
+// TestConnection tests the GitHub API connection using the provided configuration
+func TestConnection(input TestConnectionRequest) error {
+	pdk.Log(pdk.LogInfo, "TestConnection: Starting GitHub API connection test")
+
+	err := validateConfig(input.Config)
+	if err != nil {
+		pdk.Log(pdk.LogError, fmt.Sprintf("Configuration validation failed: %v", err))
+		return err
+	}
+
+	config, ok := input.Config.(map[string]any)
+	if !ok {
+		return fmt.Errorf("invalid configuration format")
+	}
+
+	token, ok := config["credential_personal_access_token"].(string)
+	if !ok || token == "" {
+		return fmt.Errorf("personal access token is required")
+	}
+
+	url := fmt.Sprintf("%s/user", GithubAPIBaseURL)
+
+	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
+	req.SetHeader("Authorization", fmt.Sprintf("token %s", token))
+	req.SetHeader("Accept", "application/vnd.github.v3+json")
+	req.SetHeader("User-Agent", "acteedog-github-connector")
+
+	pdk.Log(pdk.LogInfo, fmt.Sprintf("Testing connection to: %s", url))
+
+	res := req.Send()
+	statusCode := res.Status()
+
+	pdk.Log(pdk.LogInfo, fmt.Sprintf("Response status: %d", statusCode))
+
+	if statusCode == 200 {
+		pdk.Log(pdk.LogInfo, "Connection test successful")
+		return nil
+	}
+
+	var errorMsg string
+	if statusCode == 401 {
+		errorMsg = "Authentication failed: Invalid or expired Personal Access Token"
+	} else if statusCode == 403 {
+		errorMsg = "Access forbidden: Check token permissions"
+	} else if statusCode >= 500 {
+		errorMsg = fmt.Sprintf("GitHub API server error (status %d)", statusCode)
+	} else {
+		errorMsg = fmt.Sprintf("Connection failed with status %d", statusCode)
+	}
+
+	var githubError struct {
+		Message string `json:"message"`
+	}
+	if err := json.Unmarshal(res.Body(), &githubError); err == nil && githubError.Message != "" {
+		errorMsg = fmt.Sprintf("%s: %s", errorMsg, githubError.Message)
+	}
+
+	pdk.Log(pdk.LogError, errorMsg)
+
+	return fmt.Errorf("%s", errorMsg)
+}
+
+// validateConfig checks required fields and repository pattern formats
+func validateConfig(config any) error {
+	configMap, ok := config.(map[string]any)
+	if !ok {
+		return fmt.Errorf("invalid configuration format")
+	}
+
+	token, ok := configMap["credential_personal_access_token"].(string)
+	if !ok || token == "" {
+		return fmt.Errorf("personal Access Token is required")
+	}
+
+	username, ok := configMap["username"].(string)
+	if !ok || username == "" {
+		return fmt.Errorf("username is required")
+	}
+
+	if patternsInterface, ok := configMap["repository_patterns"]; ok && patternsInterface != nil {
+		patterns, ok := patternsInterface.([]any)
+		if !ok {
+			return fmt.Errorf("repository_patterns must be an array")
+		}
+
+		for i, p := range patterns {
+			patternStr, ok := p.(string)
+			if !ok {
+				return fmt.Errorf("repository_patterns[%d] must be a string", i)
+			}
+
+			if err := validateRepositoryPattern(patternStr); err != nil {
+				return fmt.Errorf("repository pattern at line %d: %w", i+1, err)
+			}
+		}
+	}
+
+	return nil
+}
+
+// validateRepositoryPattern validates a repository pattern format
+func validateRepositoryPattern(pattern string) error {
+	if pattern == "" {
+		return fmt.Errorf("pattern cannot be empty")
+	}
+
+	// Check if pattern contains '/'
+	hasSlash := false
+	for _, ch := range pattern {
+		if ch == '/' {
+			hasSlash = true
+			break
+		}
+	}
+
+	if !hasSlash {
+		return fmt.Errorf("pattern must be in 'owner/repo' format (e.g., 'myorg/*', 'user/repo'). Got: '%s'", pattern)
+	}
+
+	// Split and validate parts
+	parts := []string{}
+	current := ""
+	for _, ch := range pattern {
+		if ch == '/' {
+			if current == "" {
+				return fmt.Errorf("invalid pattern: owner or repo part cannot be empty. Got: '%s'", pattern)
+			}
+			parts = append(parts, current)
+			current = ""
+		} else {
+			current += string(ch)
+		}
+	}
+	if current == "" {
+		return fmt.Errorf("invalid pattern: repo part cannot be empty. Got: '%s'", pattern)
+	}
+	parts = append(parts, current)
+
+	// Should have exactly 2 parts (owner/repo)
+	if len(parts) != 2 {
+		return fmt.Errorf("pattern must have exactly one '/' separator (e.g., 'owner/repo'). Got: '%s'", pattern)
+	}
+
+	return nil
+}
+
+// getStringValue safely extracts string value from map
+func getStringValue(m map[string]any, key string) string {
+	if val, ok := m[key]; ok {
+		if str, ok := val.(string); ok {
+			return str
+		}
+	}
+	return ""
+}
+
+// getNestedString safely extracts nested string value
+func getNestedString(m map[string]any, keys ...string) string {
+	current := m
+	for i, key := range keys {
+		if i == len(keys)-1 {
+			// Last key - extract string
+			return getStringValue(current, key)
+		}
+		// Navigate deeper
+		if nested, ok := current[key].(map[string]any); ok {
+			current = nested
+		} else {
+			return ""
+		}
+	}
+	return ""
+}
+
+// extractLogins extracts login names from array of user objects
+func extractLogins(usersInterface any) []string {
+	if usersInterface == nil {
+		return []string{}
+	}
+
+	users, ok := usersInterface.([]any)
+	if !ok {
+		return []string{}
+	}
+
+	logins := make([]string, 0, len(users))
+	for _, userInterface := range users {
+		user, ok := userInterface.(map[string]any)
+		if !ok {
+			continue
+		}
+		if login, ok := user["login"].(string); ok {
+			logins = append(logins, login)
+		}
+	}
+	return logins
+}
+
+// extractLabelNames extracts label names from array of label objects
+func extractLabelNames(labelsInterface any) []string {
+	if labelsInterface == nil {
+		return []string{}
+	}
+
+	labels, ok := labelsInterface.([]any)
+	if !ok {
+		return []string{}
+	}
+
+	names := make([]string, 0, len(labels))
+	for _, labelInterface := range labels {
+		label, ok := labelInterface.(map[string]any)
+		if !ok {
+			continue
+		}
+		if name, ok := label["name"].(string); ok {
+			names = append(names, name)
+		}
+	}
+	return names
+}
+
+// ptrString returns a pointer to a string
+func ptrString(s string) *string {
+	return &s
+}

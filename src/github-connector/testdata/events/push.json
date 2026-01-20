@@ -1,0 +1,26 @@
+{
+  "actor": {
+    "avatar_url": "https://avatars.githubusercontent.com/u/44557218?",
+    "display_login": "ymtdzzz",
+    "gravatar_id": "",
+    "id": 44557218,
+    "login": "ymtdzzz",
+    "url": "https://api.github.com/users/ymtdzzz"
+  },
+  "created_at": "2025-11-12T12:04:19Z",
+  "id": "5894071350",
+  "payload": {
+    "before": "61f45b540397ef414133da92c420442b5acac554",
+    "head": "4fb5eb96ecc5141ff2383d720508bd0ccaa1b820",
+    "push_id": 28187454874,
+    "ref": "refs/heads/feature/refactor_components",
+    "repository_id": 776805339
+  },
+  "public": true,
+  "repo": {
+    "id": 776805339,
+    "name": "ymtdzzz/otel-tui",
+    "url": "https://api.github.com/repos/ymtdzzz/otel-tui"
+  },
+  "type": "PushEvent"
+}

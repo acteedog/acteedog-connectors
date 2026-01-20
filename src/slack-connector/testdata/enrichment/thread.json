@@ -1,0 +1,56 @@
+{
+  "has_more": false,
+  "messages": [
+    {
+      "blocks": [
+        {
+          "block_id": "IQw2X",
+          "elements": [
+            {
+              "elements": [{ "text": "後からぶら下げる", "type": "text" }],
+              "type": "rich_text_section"
+            }
+          ],
+          "type": "rich_text"
+        }
+      ],
+      "client_msg_id": "0e62f08a-68f8-4b79-9eec-3d8dd28f722d",
+      "is_locked": false,
+      "last_read": "1765613227.980829",
+      "latest_reply": "1765613227.980829",
+      "reply_count": 1,
+      "reply_users": ["U099SQHSJCW"],
+      "reply_users_count": 1,
+      "subscribed": true,
+      "team": "T099VUE950C",
+      "text": "後からぶら下げる",
+      "thread_ts": "1765613134.990399",
+      "ts": "1765613134.990399",
+      "type": "message",
+      "user": "U099SQHSJCW"
+    },
+    {
+      "blocks": [
+        {
+          "block_id": "1M8T4",
+          "elements": [
+            {
+              "elements": [{ "text": "リプライです", "type": "text" }],
+              "type": "rich_text_section"
+            }
+          ],
+          "type": "rich_text"
+        }
+      ],
+      "client_msg_id": "26a755cc-cc5b-4ad6-b3f5-8a2b986cb2e0",
+      "parent_user_id": "U099SQHSJCW",
+      "team": "T099VUE950C",
+      "text": "リプライです",
+      "thread_ts": "1765613134.990399",
+      "ts": "1765613227.980829",
+      "type": "message",
+      "user": "U099SQHSJCW"
+    }
+  ],
+  "ok": true
+}

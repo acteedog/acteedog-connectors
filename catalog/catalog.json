@@ -1,0 +1,35 @@
+{
+  "version": "1",
+  "connectors": [
+    {
+      "id": "github",
+      "name": "GitHub Connector",
+      "description": "Track commits, pull requests, issues, and reviews from GitHub repositories",
+      "latest_version": "0.1.0",
+      "allowed_hosts": ["api.github.com"],
+      "versions": [
+        {
+          "version": "0.1.0",
+          "min_acteedog_version": "0.1.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/github/0.1.0/plugin.wasm",
+          "checksum": "sha256:a5093547c473a029e2d0331d6b0a2731f93ef5881da32878546db67916eddebe"
+        }
+      ]
+    },
+    {
+      "id": "slack",
+      "name": "Slack Connector",
+      "description": "Monitor channels, direct messages, and threads from Slack workspaces",
+      "latest_version": "0.1.0",
+      "allowed_hosts": ["slack.com"],
+      "versions": [
+        {
+          "version": "0.1.0",
+          "min_acteedog_version": "0.1.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/slack/0.1.0/plugin.wasm",
+          "checksum": "sha256:50aef769997374073b6b70d845609dd54ede000447df3d44791772152db47921"
+        }
+      ]
+    }
+  ]
+}

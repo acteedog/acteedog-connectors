@@ -1,0 +1,45 @@
+{
+  "channel": {
+    "context_team_id": "T099VUE950C",
+    "created": 1754877776,
+    "creator": "U099SQHSJCW",
+    "id": "C099VUEKVBN",
+    "internal_team_ids": ["T099VUE950C"],
+    "is_archived": false,
+    "is_channel": true,
+    "is_ext_shared": false,
+    "is_general": true,
+    "is_group": false,
+    "is_im": false,
+    "is_member": true,
+    "is_moved": 0,
+    "is_mpim": false,
+    "is_org_shared": false,
+    "is_pending_ext_shared": false,
+    "is_private": false,
+    "is_read_only": false,
+    "is_shared": false,
+    "is_thread_only": false,
+    "last_read": "1765613227.980829",
+    "name": "general",
+    "name_normalized": "general",
+    "parent_conversation": null,
+    "pending_connected_team_ids": [],
+    "pending_shared": [],
+    "previous_names": [],
+    "purpose": {
+      "creator": "U099SQHSJCW",
+      "last_set": 1754877776,
+      "value": "This channel is for workspace-wide communication and announcements. All members are in this channel."
+    },
+    "shared_team_ids": ["T099VUE950C"],
+    "topic": {
+      "creator": "U099SQHSJCW",
+      "last_set": 1754877776,
+      "value": "Company-wide announcements and work-based matters"
+    },
+    "unlinked": 0,
+    "updated": 1765204429239
+  },
+  "ok": true
+}

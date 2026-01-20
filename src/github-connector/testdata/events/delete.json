@@ -1,0 +1,25 @@
+{
+  "actor": {
+    "avatar_url": "https://avatars.githubusercontent.com/u/44557218?",
+    "display_login": "ymtdzzz",
+    "gravatar_id": "",
+    "id": 44557218,
+    "login": "ymtdzzz",
+    "url": "https://api.github.com/users/ymtdzzz"
+  },
+  "created_at": "2025-11-18T00:37:03Z",
+  "id": "6031147775",
+  "payload": {
+    "full_ref": "refs/heads/chore/golangci-lint",
+    "pusher_type": "user",
+    "ref": "chore/golangci-lint",
+    "ref_type": "branch"
+  },
+  "public": true,
+  "repo": {
+    "id": 776805339,
+    "name": "ymtdzzz/otel-tui",
+    "url": "https://api.github.com/repos/ymtdzzz/otel-tui"
+  },
+  "type": "DeleteEvent"
+}

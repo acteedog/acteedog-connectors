@@ -1,0 +1,45 @@
+app_id = ""
+
+# This is where 'xtp plugin push' expects to find the wasm file after the build script has run.
+bin = "dist/plugin.wasm"
+extension_point_id = ""
+# This is the 'binding' name used for the plugin.
+name = "slack-connector"
+
+[scripts]
+# xtp plugin build runs this script to generate the wasm file
+build = "mkdir -p dist && tinygo build -buildmode c-shared -target wasip1 -o dist/plugin.wasm ."
+
+# xtp plugin init runs this script to format the code
+format = "go fmt && go mod tidy && goimports -w main.go"
+
+# xtp plugin init runs this script before running the format script
+prepare = "bash prepare.sh && go get ./..."
+
+# ============================================================================
+# Test Configuration
+# ============================================================================
+
+[[test]]
+name = "enrichment_channel"
+build = "tinygo build -o test/test_enrich_channel.wasm -target wasi test/test_enrich_channel.go"
+with = "test/test_enrich_channel.wasm"
+mock_input = { file = "testdata/enrichment/channel.json" }
+
+[[test]]
+name = "enrichment_thread"
+build = "tinygo build -o test/test_enrich_thread.wasm -target wasi test/test_enrich_thread.go"
+with = "test/test_enrich_thread.wasm"
+mock_input = { file = "testdata/enrichment/thread.json" }
+
+[[test]]
+name = "transform_reply"
+build = "tinygo build -o test/test_transform_reply.wasm -target wasi test/test_transform_reply.go"
+with = "test/test_transform_reply.wasm"
+mock_input = { file = "testdata/events/reply.json" }
+
+[[test]]
+name = "transform_standalone"
+build = "tinygo build -o test/test_transform_standalone.wasm -target wasi test/test_transform_standalone.go"
+with = "test/test_transform_standalone.wasm"
+mock_input = { file = "testdata/events/thread_without_reply.json" }

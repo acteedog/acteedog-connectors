@@ -1,0 +1,45 @@
+{
+  "blocks": [
+    {
+      "block_id": "1M8T4",
+      "elements": [
+        {
+          "elements": [
+            {
+              "text": "リプライです",
+              "type": "text"
+            }
+          ],
+          "type": "rich_text_section"
+        }
+      ],
+      "type": "rich_text"
+    }
+  ],
+  "channel": {
+    "id": "C099VUEKVBN",
+    "is_channel": true,
+    "is_ext_shared": false,
+    "is_group": false,
+    "is_im": false,
+    "is_mpim": false,
+    "is_org_shared": false,
+    "is_pending_ext_shared": false,
+    "is_private": false,
+    "is_shared": false,
+    "name": "general",
+    "pending_shared": [],
+    "teams": ["T099VUE950C"]
+  },
+  "db_message": {},
+  "iid": "89839a93-5f4b-4edc-83a7-f381ee1a8ee3",
+  "no_reactions": true,
+  "permalink": "https://test-workspace.slack.com/archives/C099VUEKVBN/p1765613227980829?thread_ts=1765613134.990399",
+  "score": 293.86963,
+  "team": "T099VUE950C",
+  "text": "リプライです",
+  "ts": "1765613227.980829",
+  "type": "message",
+  "user": "U099SQHSJCW",
+  "username": "sd099rsefgdb_user"
+}

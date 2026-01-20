@@ -1,0 +1,45 @@
+{
+  "blocks": [
+    {
+      "block_id": "31/gC",
+      "elements": [
+        {
+          "elements": [
+            {
+              "text": "単体メッセージ",
+              "type": "text"
+            }
+          ],
+          "type": "rich_text_section"
+        }
+      ],
+      "type": "rich_text"
+    }
+  ],
+  "channel": {
+    "id": "C099VUEKVBN",
+    "is_channel": true,
+    "is_ext_shared": false,
+    "is_group": false,
+    "is_im": false,
+    "is_mpim": false,
+    "is_org_shared": false,
+    "is_pending_ext_shared": false,
+    "is_private": false,
+    "is_shared": false,
+    "name": "general",
+    "pending_shared": [],
+    "teams": ["T099VUE950C"]
+  },
+  "db_message": {},
+  "iid": "d523fc50-3e16-4993-a9ca-3b5ebbca5cea",
+  "no_reactions": true,
+  "permalink": "https://test-workspace.slack.com/archives/C099VUEKVBN/p1765611321248519",
+  "score": 97.95351,
+  "team": "T099VUE950C",
+  "text": "単体メッセージ",
+  "ts": "1765611321.248519",
+  "type": "message",
+  "user": "U099SQHSJCW",
+  "username": "sd099rsefgdb_user"
+}
