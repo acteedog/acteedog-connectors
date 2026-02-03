@@ -10,20 +10,10 @@ import (
 )
 
 const (
-	// ConnectorVersion is the version of this connector
-	ConnectorVersion = "0.1.0"
 	// ConnectorID is the unique identifier for this connector
 	ConnectorID = "github"
 	// GithubAPIBaseURL is the base URL for GitHub API
 	GithubAPIBaseURL = "https://api.github.com"
-)
-
-// Resource type constants for context identification
-const (
-	ResourceTypeSource      = "source"
-	ResourceTypeRepository  = "repository"
-	ResourceTypePullRequest = "pull_request"
-	ResourceTypeIssue       = "issue"
 )
 
 // GetConfigSchema returns the configuration schema for the GitHub connector
@@ -201,85 +191,4 @@ func validateRepositoryPattern(pattern string) error {
 	}
 
 	return nil
-}
-
-// getStringValue safely extracts string value from map
-func getStringValue(m map[string]any, key string) string {
-	if val, ok := m[key]; ok {
-		if str, ok := val.(string); ok {
-			return str
-		}
-	}
-	return ""
-}
-
-// getNestedString safely extracts nested string value
-func getNestedString(m map[string]any, keys ...string) string {
-	current := m
-	for i, key := range keys {
-		if i == len(keys)-1 {
-			// Last key - extract string
-			return getStringValue(current, key)
-		}
-		// Navigate deeper
-		if nested, ok := current[key].(map[string]any); ok {
-			current = nested
-		} else {
-			return ""
-		}
-	}
-	return ""
-}
-
-// extractLogins extracts login names from array of user objects
-func extractLogins(usersInterface any) []string {
-	if usersInterface == nil {
-		return []string{}
-	}
-
-	users, ok := usersInterface.([]any)
-	if !ok {
-		return []string{}
-	}
-
-	logins := make([]string, 0, len(users))
-	for _, userInterface := range users {
-		user, ok := userInterface.(map[string]any)
-		if !ok {
-			continue
-		}
-		if login, ok := user["login"].(string); ok {
-			logins = append(logins, login)
-		}
-	}
-	return logins
-}
-
-// extractLabelNames extracts label names from array of label objects
-func extractLabelNames(labelsInterface any) []string {
-	if labelsInterface == nil {
-		return []string{}
-	}
-
-	labels, ok := labelsInterface.([]any)
-	if !ok {
-		return []string{}
-	}
-
-	names := make([]string, 0, len(labels))
-	for _, labelInterface := range labels {
-		label, ok := labelInterface.(map[string]any)
-		if !ok {
-			continue
-		}
-		if name, ok := label["name"].(string); ok {
-			names = append(names, name)
-		}
-	}
-	return names
-}
-
-// ptrString returns a pointer to a string
-func ptrString(s string) *string {
-	return &s
 }

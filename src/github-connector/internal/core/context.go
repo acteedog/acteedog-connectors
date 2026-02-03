@@ -1,8 +1,24 @@
-package main
+package core
 
 import (
 	"fmt"
+	"time"
 )
+
+type Context struct {
+	ConnectorId  string
+	CreatedAt    *time.Time
+	Description  *string
+	Id           string
+	Level        int64
+	Metadata     any
+	Name         string
+	ParentId     string
+	ResourceType string
+	Title        *string
+	UpdatedAt    *time.Time
+	Url          *string
+}
 
 // ContextGenerator provides factory methods for creating standardized Context objects
 type ContextGenerator struct {
@@ -17,9 +33,9 @@ func NewContextGenerator() *ContextGenerator {
 }
 
 // CreateSourceContext creates a Level 1 source context for GitHub
-func (g *ContextGenerator) CreateSourceContext() Context {
-	id := makeContextID(ResourceTypeSource, "")
-	return Context{
+func (g *ContextGenerator) CreateSourceContext() *Context {
+	id := MakeSourceContextID()
+	return &Context{
 		Id:           id,
 		Name:         id,
 		Level:        1,
@@ -36,10 +52,10 @@ func (g *ContextGenerator) CreateSourceContext() Context {
 }
 
 // CreateRepositoryContext creates a Level 2 repository context
-func (g *ContextGenerator) CreateRepositoryContext(repoName string) Context {
-	id := makeContextID(ResourceTypeRepository, repoName)
-	parentID := makeContextID(ResourceTypeSource, "")
-	return Context{
+func (g *ContextGenerator) CreateRepositoryContext(repoName string) *Context {
+	id := MakeRepositoryContextID(repoName)
+	parentID := MakeSourceContextID()
+	return &Context{
 		Id:           id,
 		Name:         fmt.Sprintf("repository:%s", repoName),
 		Level:        2,
@@ -56,10 +72,10 @@ func (g *ContextGenerator) CreateRepositoryContext(repoName string) Context {
 }
 
 // CreatePRContext creates a Level 3 pull request context
-func (g *ContextGenerator) CreatePRContext(repoName string, prNumber int) Context {
-	id := makeContextID(ResourceTypePullRequest, fmt.Sprintf("%d", prNumber))
-	parentID := makeContextID(ResourceTypeRepository, repoName)
-	return Context{
+func (g *ContextGenerator) CreatePRContext(repoName string, prNumber int) *Context {
+	id := MakePullRequestContextID(repoName, fmt.Sprintf("%d", prNumber))
+	parentID := MakeRepositoryContextID(repoName)
+	return &Context{
 		Id:           id,
 		Name:         fmt.Sprintf("PR #%d", prNumber),
 		Level:        3,
@@ -77,10 +93,10 @@ func (g *ContextGenerator) CreatePRContext(repoName string, prNumber int) Contex
 }
 
 // CreateIssueContext creates a Level 3 issue context
-func (g *ContextGenerator) CreateIssueContext(repoName string, issueNumber int) Context {
-	id := makeContextID(ResourceTypeIssue, fmt.Sprintf("%d", issueNumber))
-	parentID := makeContextID(ResourceTypeRepository, repoName)
-	return Context{
+func (g *ContextGenerator) CreateIssueContext(repoName string, issueNumber int) *Context {
+	id := MakeIssueContextID(repoName, fmt.Sprintf("%d", issueNumber))
+	parentID := MakeRepositoryContextID(repoName)
+	return &Context{
 		Id:           id,
 		Name:         fmt.Sprintf("Issue #%d", issueNumber),
 		Level:        3,
@@ -95,4 +111,9 @@ func (g *ContextGenerator) CreateIssueContext(repoName string, issueNumber int) 
 			},
 		},
 	}
+}
+
+// ptrString returns a pointer to a string
+func ptrString(s string) *string {
+	return &s
 }

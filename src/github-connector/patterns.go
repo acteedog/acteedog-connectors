@@ -1,5 +1,7 @@
 package main
 
+import "github-connector/internal/core"
+
 // GetContextPatterns returns URL patterns and context mappings for cross-plugin detection
 func GetContextPatterns() (ContextPatternsResponse, error) {
 	return ContextPatternsResponse{
@@ -11,17 +13,17 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 					{
 						NameTemplate:     "github:source",
 						Level:            1,
-						ResourceType:     ResourceTypeSource,
+						ResourceType:     core.ResourceTypeSource,
 						ParentIndex:      nil,
-						IdTemplate:       makeContextID(ResourceTypeSource, ""),
+						IdTemplate:       core.MakeSourceContextID(),
 						EnrichmentParams: map[string]any{},
 					},
 					{
 						NameTemplate: "repository:{{owner}}/{{repo}}",
 						Level:        2,
-						ResourceType: ResourceTypeRepository,
+						ResourceType: core.ResourceTypeRepository,
 						ParentIndex:  int64Ptr(0),
-						IdTemplate:   makeContextID(ResourceTypeRepository, "{{owner}}/{{repo}}"),
+						IdTemplate:   core.MakeRepositoryContextID("{{owner}}/{{repo}}"),
 						EnrichmentParams: map[string]any{
 							"repo": "{{owner}}/{{repo}}",
 						},
@@ -29,9 +31,9 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 					{
 						NameTemplate: "PR #{{number}}",
 						Level:        3,
-						ResourceType: ResourceTypePullRequest,
+						ResourceType: core.ResourceTypePullRequest,
 						ParentIndex:  int64Ptr(1),
-						IdTemplate:   makeContextID(ResourceTypePullRequest, "{{number}}"),
+						IdTemplate:   core.MakePullRequestContextID("{{owner}}/{{repo}}", "{{number}}"),
 						EnrichmentParams: map[string]any{
 							"repo":      "{{owner}}/{{repo}}",
 							"pr_number": "{{number}}",
@@ -46,17 +48,17 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 					{
 						NameTemplate:     "github:source",
 						Level:            1,
-						ResourceType:     ResourceTypeSource,
+						ResourceType:     core.ResourceTypeSource,
 						ParentIndex:      nil,
-						IdTemplate:       makeContextID(ResourceTypeSource, ""),
+						IdTemplate:       core.MakeSourceContextID(),
 						EnrichmentParams: map[string]any{},
 					},
 					{
 						NameTemplate: "repository:{{owner}}/{{repo}}",
 						Level:        2,
-						ResourceType: ResourceTypeRepository,
+						ResourceType: core.ResourceTypeRepository,
 						ParentIndex:  int64Ptr(0),
-						IdTemplate:   makeContextID(ResourceTypeRepository, "{{owner}}/{{repo}}"),
+						IdTemplate:   core.MakeRepositoryContextID("{{owner}}/{{repo}}"),
 						EnrichmentParams: map[string]any{
 							"repo": "{{owner}}/{{repo}}",
 						},
@@ -64,36 +66,12 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 					{
 						NameTemplate: "Issue #{{number}}",
 						Level:        3,
-						ResourceType: ResourceTypeIssue,
+						ResourceType: core.ResourceTypeIssue,
 						ParentIndex:  int64Ptr(1),
-						IdTemplate:   makeContextID(ResourceTypeIssue, "{{number}}"),
+						IdTemplate:   core.MakeIssueContextID("{{owner}}/{{repo}}", "{{number}}"),
 						EnrichmentParams: map[string]any{
 							"repo":         "{{owner}}/{{repo}}",
 							"issue_number": "{{number}}",
-						},
-					},
-				},
-			},
-			// Commit URL pattern
-			{
-				Pattern: `https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/commit/(?P<sha>[a-f0-9]+)`,
-				ContextMappings: []ContextMapping{
-					{
-						NameTemplate:     "github:source",
-						Level:            1,
-						ResourceType:     ResourceTypeSource,
-						ParentIndex:      nil,
-						IdTemplate:       makeContextID(ResourceTypeSource, ""),
-						EnrichmentParams: map[string]any{},
-					},
-					{
-						NameTemplate: "repository:{{owner}}/{{repo}}",
-						Level:        2,
-						ResourceType: ResourceTypeRepository,
-						ParentIndex:  int64Ptr(0),
-						IdTemplate:   makeContextID(ResourceTypeRepository, "{{owner}}/{{repo}}"),
-						EnrichmentParams: map[string]any{
-							"repo": "{{owner}}/{{repo}}",
 						},
 					},
 				},
@@ -105,17 +83,17 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 					{
 						NameTemplate:     "github:source",
 						Level:            1,
-						ResourceType:     ResourceTypeSource,
+						ResourceType:     core.ResourceTypeSource,
 						ParentIndex:      nil,
-						IdTemplate:       makeContextID(ResourceTypeSource, ""),
+						IdTemplate:       core.MakeSourceContextID(),
 						EnrichmentParams: map[string]any{},
 					},
 					{
 						NameTemplate: "repository:{{owner}}/{{repo}}",
 						Level:        2,
-						ResourceType: ResourceTypeRepository,
+						ResourceType: core.ResourceTypeRepository,
 						ParentIndex:  int64Ptr(0),
-						IdTemplate:   makeContextID(ResourceTypeRepository, "{{owner}}/{{repo}}"),
+						IdTemplate:   core.MakeRepositoryContextID("{{owner}}/{{repo}}"),
 						EnrichmentParams: map[string]any{
 							"repo": "{{owner}}/{{repo}}",
 						},
