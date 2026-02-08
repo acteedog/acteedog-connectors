@@ -5,8 +5,6 @@ import (
 )
 
 const (
-	// ConnectorVersion is the version of this connector
-	ConnectorVersion = "0.1.0"
 	// ConnectorID is the unique identifier for this connector
 	ConnectorID = "github"
 	// GithubAPIBaseURL is the base URL for GitHub API

@@ -41,23 +41,6 @@ func convertContexts(contexts []*core.Context) []Context {
 	return converted
 }
 
-func convertContext(context *core.Context) Context {
-	return Context{
-		ConnectorId:  context.ConnectorId,
-		CreatedAt:    context.CreatedAt,
-		Description:  context.Description,
-		Id:           context.Id,
-		Level:        context.Level,
-		Metadata:     context.Metadata,
-		Name:         context.Name,
-		ParentId:     context.ParentId,
-		ResourceType: context.ResourceType,
-		Title:        context.Title,
-		UpdatedAt:    context.UpdatedAt,
-		Url:          context.Url,
-	}
-}
-
 func convertActivities(activities []*fetch.Activity) []Activity {
 	converted := make([]Activity, len(activities))
 	for i, activity := range activities {
