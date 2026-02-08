@@ -41,6 +41,7 @@ func EnrichContext(input EnrichRequest) (EnrichResponse, error) {
 
 	return EnrichResponse{
 		Context: convertContext(enrichedContext),
+		Status:  EnrichResponseStatusEnumSuccess,
 	}, nil
 }
 
