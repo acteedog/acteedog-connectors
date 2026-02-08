@@ -5,28 +5,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"regexp"
-	"strconv"
-	"strings"
-	"time"
+	"slack-connector/internal/core"
 
 	"github.com/extism/go-pdk"
-)
-
-const (
-	// ConnectorVersion is the version of this connector
-	ConnectorVersion = "0.1.0"
-	// ConnectorID is the unique identifier for this connector
-	ConnectorID = "slack"
-	// SlackAPIBaseURL is the base URL for Slack API
-	SlackAPIBaseURL = "https://slack.com/api"
-)
-
-// Resource type constants for context identification
-const (
-	ResourceTypeSource  = "source"
-	ResourceTypeChannel = "channel"
-	ResourceTypeThread  = "thread"
 )
 
 // GetConfigSchema returns the configuration schema for the Slack connector
@@ -79,7 +60,7 @@ func TestConnection(input TestConnectionRequest) error {
 		return fmt.Errorf("bot_token is required")
 	}
 
-	url := fmt.Sprintf("%s/auth.test", SlackAPIBaseURL)
+	url := fmt.Sprintf("%s/auth.test", core.SlackAPIBaseURL)
 
 	req := pdk.NewHTTPRequest(pdk.MethodPost, url)
 	req.SetHeader("Authorization", fmt.Sprintf("Bearer %s", botToken))
@@ -161,86 +142,4 @@ func getStringValue(m map[string]any, key string) string {
 		}
 	}
 	return ""
-}
-
-// getNestedString safely extracts nested string value
-func getNestedString(m map[string]any, keys ...string) string {
-	current := m
-	for i, key := range keys {
-		if i == len(keys)-1 {
-			// Last key - extract string
-			return getStringValue(current, key)
-		}
-		// Navigate deeper
-		if nested, ok := current[key].(map[string]any); ok {
-			current = nested
-		} else {
-			return ""
-		}
-	}
-	return ""
-}
-
-// getIntValue safely extracts int64 value from map
-func getIntValue(m map[string]any, key string) int64 {
-	if val, ok := m[key]; ok {
-		switch v := val.(type) {
-		case int64:
-			return v
-		case float64:
-			return int64(v)
-		case int:
-			return int64(v)
-		}
-	}
-	return 0
-}
-
-// getBoolValue safely extracts bool value from map
-func getBoolValue(m map[string]any, key string) bool {
-	if val, ok := m[key]; ok {
-		if b, ok := val.(bool); ok {
-			return b
-		}
-	}
-	return false
-}
-
-// parseThreadTS extracts thread_ts from permalink
-// Example: https://...slack.com/archives/C099VUEKVBN/p1765613227980829?thread_ts=1765613134.990399
-// Returns: "1765613134.990399" or empty string if not found
-func parseThreadTS(permalink string) string {
-	re := regexp.MustCompile(`thread_ts=([0-9.]+)`)
-	matches := re.FindStringSubmatch(permalink)
-	if len(matches) >= 2 {
-		return matches[1]
-	}
-	return ""
-}
-
-// formatSlackTS converts Slack timestamp to URL format
-// Example: "1765611321.248519" -> "1765611321248519"
-func formatSlackTS(ts string) string {
-	return strings.ReplaceAll(ts, ".", "")
-}
-
-// convertSlackTSToTime converts Slack timestamp to time.Time
-// Slack timestamp format: "1765611321.248519" (epoch seconds with microseconds)
-func convertSlackTSToTime(ts string) (time.Time, error) {
-	// Parse as float to handle the decimal part
-	epochFloat, err := strconv.ParseFloat(ts, 64)
-	if err != nil {
-		return time.Time{}, fmt.Errorf("failed to parse timestamp: %w", err)
-	}
-
-	// Convert to Unix timestamp (seconds and nanoseconds)
-	seconds := int64(epochFloat)
-	nanos := int64((epochFloat - float64(seconds)) * 1e9)
-
-	return time.Unix(seconds, nanos), nil
-}
-
-// ptrString returns a pointer to a string
-func ptrString(s string) *string {
-	return &s
 }
