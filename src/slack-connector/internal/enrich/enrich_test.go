@@ -15,7 +15,7 @@ import (
 func loadJSONTestData(t *testing.T, path string) map[string]any {
 	t.Helper()
 
-	b, err := os.ReadFile(path)
+	b, err := os.ReadFile(path) // nolint:gosec
 	if err != nil {
 		t.Fatalf("Failed to read test data file: %v", err)
 	}
