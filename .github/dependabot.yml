@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "gomod"
+    directory: "/src/github-connector"
+    schedule:
+      interval: "weekly"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "gomod"
+    directory: "/src/slack-connector"
+    schedule:
+      interval: "weekly"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    groups:
+      dependencies:
+        patterns:
+          - "*"

@@ -1,0 +1,42 @@
+name: lint-and-test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        connector:
+          - github-connector
+          - slack-connector
+    defaults:
+      run:
+        working-directory: src/${{ matrix.connector }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: src/${{ matrix.connector }}/go.mod
+          cache: false
+      - name: Setup Golang caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-golang-
+      - name: Run lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: latest
+          working-directory: src/${{ matrix.connector }}
+          args: ./internal/...
+      - name: Run test
+        run: go test ./internal/...

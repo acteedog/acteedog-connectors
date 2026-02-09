@@ -134,13 +134,13 @@ func (e *ContextEnricher) applyThreadEnrichment(context *core.Context, apiResp m
 
 	messages, ok := messagesInterface.([]any)
 	if !ok || len(messages) == 0 {
-		return nil, fmt.Errorf("Messages array is empty or invalid")
+		return nil, fmt.Errorf("messages array is empty or invalid")
 	}
 
 	// Get first message (parent message)
 	parentMsg, ok := messages[0].(map[string]any)
 	if !ok {
-		return nil, fmt.Errorf("First message is not a map")
+		return nil, fmt.Errorf("first message is not a map")
 	}
 
 	text := core.GetStringValue(parentMsg, "text")
@@ -152,7 +152,7 @@ func (e *ContextEnricher) applyThreadEnrichment(context *core.Context, apiResp m
 	url := fmt.Sprintf("https://%s/archives/%s/p%s", e.config.workspaceURL, channelID, formatSlackTS(parentTS))
 	createdAt, err := parseSlackTS(core.GetStringValue(parentMsg, "thread_ts"))
 	if err != nil {
-		return nil, fmt.Errorf("Failed to parse createdAt for thread: %w", err)
+		return nil, fmt.Errorf("failed to parse createdAt for thread: %w", err)
 	} else {
 		context.CreatedAt = &createdAt
 		context.UpdatedAt = &createdAt // Slack does not provide updatedAt for threads
