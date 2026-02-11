@@ -163,19 +163,9 @@ components:
     EnrichResponse:
       required:
         - context
-        - status
       properties:
         context:
           $ref: "#/components/schemas/Context"
-        status:
-          $ref: "#/components/schemas/EnrichResponseStatusEnum"
-
-    EnrichResponseStatusEnum:
-      type: string
-      enum:
-        - success
-        - partial_failure
-        - failed
 
     ContextPatternsResponse:
       required:

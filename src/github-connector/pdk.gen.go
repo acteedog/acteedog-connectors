@@ -2,7 +2,7 @@
 package main
 
 import (
-	"errors"
+	
 	"time"
 
 	pdk "github.com/extism/go-pdk"
@@ -244,47 +244,8 @@ func _TestConnection() int32 {
 	// 
 	type EnrichResponse struct {
 						Context Context `json:"context"`
-						Status EnrichResponseStatusEnum `json:"status"`
 		
 	}
-		
-	
-		
-	
-	// 
-	type EnrichResponseStatusEnum string
-	const (
-					EnrichResponseStatusEnumSuccess EnrichResponseStatusEnum = "success"
-					EnrichResponseStatusEnumPartialFailure EnrichResponseStatusEnum = "partial_failure"
-					EnrichResponseStatusEnumFailed EnrichResponseStatusEnum = "failed"
-			)
-
-	func (v EnrichResponseStatusEnum) String() string {
-		switch (v) {
-				case EnrichResponseStatusEnumSuccess:
-			return `success`
-				case EnrichResponseStatusEnumPartialFailure:
-			return `partial_failure`
-				case EnrichResponseStatusEnumFailed:
-			return `failed`
-				default: 
-			return ""
-		}
-	}
-
-	func stringToEnrichResponseStatusEnum(s string) (EnrichResponseStatusEnum, error) {
-		switch (s) {
-				case `success`:
-			return EnrichResponseStatusEnumSuccess, nil
-				case `partial_failure`:
-			return EnrichResponseStatusEnumPartialFailure, nil
-				case `failed`:
-			return EnrichResponseStatusEnumFailed, nil
-				default:
-			return EnrichResponseStatusEnum(""), errors.New("unable to convert string to EnrichResponseStatusEnum")
-		}
-	}
-
 		
 	
 		
