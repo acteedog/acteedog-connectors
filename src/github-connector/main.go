@@ -5,15 +5,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github-connector/internal/core"
 
 	"github.com/extism/go-pdk"
-)
-
-const (
-	// ConnectorID is the unique identifier for this connector
-	ConnectorID = "github"
-	// GithubAPIBaseURL is the base URL for GitHub API
-	GithubAPIBaseURL = "https://api.github.com"
 )
 
 // GetConfigSchema returns the configuration schema for the GitHub connector
@@ -67,7 +61,7 @@ func TestConnection(input TestConnectionRequest) error {
 		return fmt.Errorf("personal access token is required")
 	}
 
-	url := fmt.Sprintf("%s/user", GithubAPIBaseURL)
+	url := fmt.Sprintf("%s/user", core.GithubAPIBaseURL)
 
 	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
 	req.SetHeader("Authorization", fmt.Sprintf("token %s", token))

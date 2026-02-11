@@ -104,11 +104,11 @@ func extractEnrichmentParams(metadata any) (map[string]any, error) {
 type enrichHTTPClient struct{}
 
 func (c *enrichHTTPClient) FetchRepository(token, repo string) (map[string]any, error) {
-	url := fmt.Sprintf("%s/repos/%s", GithubAPIBaseURL, repo)
+	url := fmt.Sprintf("%s/repos/%s", core.GithubAPIBaseURL, repo)
 	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
 	req.SetHeader("Authorization", "token "+token)
 	req.SetHeader("Accept", "application/vnd.github+json")
-	req.SetHeader("User-Agent", "acteedog/"+ConnectorID)
+	req.SetHeader("User-Agent", "acteedog/"+core.ConnectorID)
 
 	res := req.Send()
 	if res.Status() != 200 {
@@ -125,11 +125,11 @@ func (c *enrichHTTPClient) FetchRepository(token, repo string) (map[string]any, 
 }
 
 func (c *enrichHTTPClient) FetchPullRequest(token, repo, number string) (map[string]any, error) {
-	url := fmt.Sprintf("%s/repos/%s/pulls/%s", GithubAPIBaseURL, repo, number)
+	url := fmt.Sprintf("%s/repos/%s/pulls/%s", core.GithubAPIBaseURL, repo, number)
 	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
 	req.SetHeader("Authorization", "token "+token)
 	req.SetHeader("Accept", "application/vnd.github+json")
-	req.SetHeader("User-Agent", "acteedog/"+ConnectorID)
+	req.SetHeader("User-Agent", "acteedog/"+core.ConnectorID)
 
 	res := req.Send()
 	if res.Status() != 200 {
@@ -146,11 +146,11 @@ func (c *enrichHTTPClient) FetchPullRequest(token, repo, number string) (map[str
 }
 
 func (c *enrichHTTPClient) FetchIssue(token, repo, number string) (map[string]any, error) {
-	url := fmt.Sprintf("%s/repos/%s/issues/%s", GithubAPIBaseURL, repo, number)
+	url := fmt.Sprintf("%s/repos/%s/issues/%s", core.GithubAPIBaseURL, repo, number)
 	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
 	req.SetHeader("Authorization", "token "+token)
 	req.SetHeader("Accept", "application/vnd.github+json")
-	req.SetHeader("User-Agent", "acteedog/"+ConnectorID)
+	req.SetHeader("User-Agent", "acteedog/"+core.ConnectorID)
 
 	res := req.Send()
 	if res.Status() != 200 {

@@ -73,7 +73,7 @@ func (c *fetchHTTPClient) FetchActivities(token, username string, page int) ([]m
 	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
 	req.SetHeader("Authorization", "token "+token)
 	req.SetHeader("Accept", "application/vnd.github+json")
-	req.SetHeader("User-Agent", "acteedog/"+ConnectorID)
+	req.SetHeader("User-Agent", "acteedog/"+core.ConnectorID)
 
 	res := req.Send()
 
