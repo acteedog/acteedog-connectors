@@ -20,7 +20,6 @@ func EnrichContext(input EnrichRequest) (EnrichResponse, error) {
 		pdk.Log(pdk.LogWarn, fmt.Sprintf("No enrichment params for context %s, skipping", input.Context.Id))
 		return EnrichResponse{
 			Context: input.Context,
-			Status:  EnrichResponseStatusEnumSuccess,
 		}, nil
 	}
 
@@ -41,7 +40,6 @@ func EnrichContext(input EnrichRequest) (EnrichResponse, error) {
 
 	return EnrichResponse{
 		Context: convertContext(enrichedContext),
-		Status:  EnrichResponseStatusEnumSuccess,
 	}, nil
 }
 
