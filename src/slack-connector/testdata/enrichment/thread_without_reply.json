@@ -1,0 +1,33 @@
+{
+  "has_more": false,
+  "messages": [
+    {
+      "blocks": [
+        {
+          "block_id": "IQw2X",
+          "elements": [
+            {
+              "elements": [{ "text": "test message", "type": "text" }],
+              "type": "rich_text_section"
+            }
+          ],
+          "type": "rich_text"
+        }
+      ],
+      "client_msg_id": "0e62f08a-68f8-4b79-9eec-3d8dd28f722d",
+      "is_locked": false,
+      "last_read": "1765613227.980829",
+      "latest_reply": "1765613227.980829",
+      "reply_count": 1,
+      "reply_users": ["U099SQHSJCW"],
+      "reply_users_count": 1,
+      "subscribed": true,
+      "team": "T099VUE950C",
+      "text": "test message",
+      "ts": "1765613134.990399",
+      "type": "message",
+      "user": "U099SQHSJCW"
+    }
+  ],
+  "ok": true
+}
