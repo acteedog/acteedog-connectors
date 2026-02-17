@@ -150,7 +150,11 @@ func (e *ContextEnricher) applyThreadEnrichment(context *core.Context, apiResp m
 	description := text
 	// Format: https://{workspace_url}/archives/{channel_id}/p{ts with dots removed}
 	url := fmt.Sprintf("https://%s/archives/%s/p%s", e.config.workspaceURL, channelID, formatSlackTS(parentTS))
-	createdAt, err := parseSlackTS(core.GetStringValue(parentMsg, "thread_ts"))
+	ts := core.GetStringValue(parentMsg, "thread_ts")
+	if ts == "" {
+		ts = core.GetStringValue(parentMsg, "ts")
+	}
+	createdAt, err := parseSlackTS(ts)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse createdAt for thread: %w", err)
 	} else {
@@ -169,7 +173,7 @@ func (e *ContextEnricher) applyThreadEnrichment(context *core.Context, apiResp m
 
 	metadataMap["parent_user"] = core.GetStringValue(parentMsg, "user")
 	metadataMap["parent_ts"] = parentTS
-	metadataMap["thread_ts"] = core.GetStringValue(parentMsg, "thread_ts")
+	metadataMap["thread_ts"] = ts
 	metadataMap["team"] = core.GetStringValue(parentMsg, "team")
 	metadataMap["reply_count"] = getIntValue(parentMsg, "reply_count")
 	metadataMap["reply_users_count"] = getIntValue(parentMsg, "reply_users_count")

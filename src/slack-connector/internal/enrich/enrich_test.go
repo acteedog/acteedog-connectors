@@ -129,6 +129,41 @@ func TestEnrichContext(t *testing.T) {
 			wantErr: false,
 		},
 		{
+			name: "enrich thread context without reply",
+			getMockHTTP: func(ctrl *gomock.Controller) HTTPClient {
+				response := loadJSONTestData(t, "../../testdata/enrichment/thread_without_reply.json")
+
+				mockHTTP := mock_enrich.NewMockHTTPClient(ctrl)
+				mockHTTP.EXPECT().FetchThread("token", "C099VUEKVBN", "1765613134.990399").Return(response, nil).Times(1)
+				return mockHTTP
+			},
+			resourceType: "thread",
+			cfg: map[string]any{
+				"bot_token":     "token",
+				"workspace_url": "example.slack.com",
+			},
+			params: map[string]any{
+				"channel_id": "C099VUEKVBN",
+				"thread_ts":  "1765613134.990399",
+			},
+			want: &core.Context{
+				Title:       ptrString("Thread: test message"),
+				Description: ptrString("test message"),
+				Url:         ptrString("https://example.slack.com/archives/C099VUEKVBN/p1765613134990399"),
+				CreatedAt:   ptrTime(time.Date(2025, 12, 13, 8, 5, 34, 990399000, time.UTC)),
+				UpdatedAt:   ptrTime(time.Date(2025, 12, 13, 8, 5, 34, 990399000, time.UTC)),
+				Metadata: map[string]any{
+					"parent_user":       "U099SQHSJCW",
+					"parent_ts":         "1765613134.990399",
+					"thread_ts":         "1765613134.990399",
+					"team":              "T099VUE950C",
+					"reply_count":       int64(1),
+					"reply_users_count": int64(1),
+				},
+			},
+			wantErr: false,
+		},
+		{
 			name: "invalid resource type",
 			getMockHTTP: func(ctrl *gomock.Controller) HTTPClient {
 				mockHTTP := mock_enrich.NewMockHTTPClient(ctrl)
