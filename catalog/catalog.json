@@ -30,6 +30,12 @@
       "allowed_hosts": ["slack.com"],
       "versions": [
         {
+          "version": "0.2.1",
+          "min_acteedog_version": "0.1.5",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/slack/0.2.1/plugin.wasm",
+          "checksum": "sha256:faa2ecf0c32b4e2c8876226220de7151e1bb18fdf7bd7cb331c0da64418827c8"
+        },
+        {
           "version": "0.2.0",
           "min_acteedog_version": "0.1.5",
           "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/slack/0.2.0/plugin.wasm",
