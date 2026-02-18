@@ -5,9 +5,15 @@
       "id": "github",
       "name": "GitHub Connector",
       "description": "Track commits, pull requests, issues, and reviews from GitHub repositories",
-      "latest_version": "0.2.0",
+      "latest_version": "0.2.1",
       "allowed_hosts": ["api.github.com"],
       "versions": [
+        {
+          "version": "0.2.1",
+          "min_acteedog_version": "0.1.5",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/github/0.2.1/plugin.wasm",
+          "checksum": "sha256:f4115f9e853bdb0cf4927291582e3af75d668d7175b4d2c9818136b05a0b908b"
+        },
         {
           "version": "0.2.0",
           "min_acteedog_version": "0.1.5",
