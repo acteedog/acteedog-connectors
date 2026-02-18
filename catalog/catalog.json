@@ -5,9 +5,15 @@
       "id": "github",
       "name": "GitHub Connector",
       "description": "Track commits, pull requests, issues, and reviews from GitHub repositories",
-      "latest_version": "0.2.1",
+      "latest_version": "0.2.2",
       "allowed_hosts": ["api.github.com"],
       "versions": [
+        {
+          "version": "0.2.2",
+          "min_acteedog_version": "0.1.5",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/github/0.2.2/plugin.wasm",
+          "checksum": "sha256:f44f1c5b7841a79860b2872713e2196574d96a63209174bfcdb3f0811dfe0cac"
+        },
         {
           "version": "0.2.1",
           "min_acteedog_version": "0.1.5",
@@ -32,9 +38,15 @@
       "id": "slack",
       "name": "Slack Connector",
       "description": "Monitor channels, direct messages, and threads from Slack workspaces. An user token with scopes: channels:history, channels:read, groups:read, im:read, mpim:read, search:read is required.",
-      "latest_version": "0.2.1",
+      "latest_version": "0.2.2",
       "allowed_hosts": ["slack.com"],
       "versions": [
+        {
+          "version": "0.2.2",
+          "min_acteedog_version": "0.1.5",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/slack/0.2.2/plugin.wasm",
+          "checksum": "sha256:0c70bf3b0b95a1280e33686d20a36d68878672e6e9806810e75c263bb39ce9e2"
+        },
         {
           "version": "0.2.1",
           "min_acteedog_version": "0.1.5",
