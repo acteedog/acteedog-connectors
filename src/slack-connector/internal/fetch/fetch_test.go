@@ -6,6 +6,7 @@ import (
 	"slack-connector/internal/core"
 	mock_fetch "slack-connector/mock/fetch"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
@@ -64,7 +65,7 @@ func TestFetchActivities(t *testing.T) {
 					Title:        "Message in #general",
 					Description:  ptrString("単体メッセージ"),
 					Url:          ptrString("https://test-workspace.slack.com/archives/C099VUEKVBN/p1765611321248519"),
-					Timestamp:    "2025-12-13T07:35:21Z",
+					Timestamp:    time.Date(2025, 12, 13, 7, 35, 21, 248518943, time.UTC),
 					Metadata: map[string]any{
 						"channel_id":   "C099VUEKVBN",
 						"channel_name": "general",
@@ -152,7 +153,7 @@ func TestFetchActivities(t *testing.T) {
 					Title:        "Message in #general",
 					Description:  ptrString("リプライです"),
 					Url:          ptrString("https://test-workspace.slack.com/archives/C099VUEKVBN/p1765613227980829?thread_ts=1765613134.990399"),
-					Timestamp:    "2025-12-13T08:07:07Z",
+					Timestamp:    time.Date(2025, 12, 13, 8, 7, 7, 980829000, time.UTC),
 					Metadata: map[string]any{
 						"channel_id":   "C099VUEKVBN",
 						"channel_name": "general",
