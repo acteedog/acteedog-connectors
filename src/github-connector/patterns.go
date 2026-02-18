@@ -8,7 +8,7 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 		Patterns: []ContextPatternDefinition{
 			// Pull Request URL pattern
 			{
-				Pattern: `https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/pull/(?P<number>\d+)`,
+				Pattern: core.ContextPatternPullRequest,
 				ContextMappings: []ContextMapping{
 					{
 						NameTemplate:     "github:source",
@@ -43,7 +43,7 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 			},
 			// Issue URL pattern
 			{
-				Pattern: `https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/issues/(?P<number>\d+)`,
+				Pattern: core.ContextPatternIssue,
 				ContextMappings: []ContextMapping{
 					{
 						NameTemplate:     "github:source",
@@ -78,7 +78,7 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 			},
 			// Repository URL pattern
 			{
-				Pattern: `https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/?$`,
+				Pattern: core.ContextPatternRepository,
 				ContextMappings: []ContextMapping{
 					{
 						NameTemplate:     "github:source",
