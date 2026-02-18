@@ -149,7 +149,7 @@ func _TestConnection() int32 {
 						Id string `json:"id"`
 						Metadata interface{} `json:"metadata"`
 						Source string `json:"source"`
-						Timestamp string `json:"timestamp"`
+						Timestamp time.Time `json:"timestamp"`
 						Title string `json:"title"`
 						Url *string `json:"url,omitempty"`
 		

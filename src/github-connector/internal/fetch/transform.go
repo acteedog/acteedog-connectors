@@ -3,6 +3,7 @@ package fetch
 import (
 	"fmt"
 	"github-connector/internal/core"
+	"time"
 )
 
 type Activity struct {
@@ -12,7 +13,7 @@ type Activity struct {
 	Id           string
 	Metadata     any
 	Source       string
-	Timestamp    string
+	Timestamp    time.Time
 	Title        string
 	Url          *string
 }
@@ -57,7 +58,7 @@ func transformPushEvent(event map[string]any) (*Activity, error) {
 	}
 
 	id := core.MakeActivityID(fmt.Sprintf("%v", event["id"]))
-	timestamp, _ := event["created_at"].(string)
+	timestampStr, _ := event["created_at"].(string)
 	repoName, _ := repo["name"].(string)
 	ref, _ := payload["ref"].(string)
 	head, _ := payload["head"].(string)
@@ -65,6 +66,11 @@ func transformPushEvent(event map[string]any) (*Activity, error) {
 	title := fmt.Sprintf("Push to %s", repoName)
 	description := fmt.Sprintf("Pushed to %s in %s", ref, repoName)
 	url := fmt.Sprintf("https://github.com/%s/commit/%s", repoName, head)
+	timestamp, err := time.Parse(time.RFC3339, timestampStr)
+	if err != nil {
+		return nil, fmt.Errorf("invalid timestamp format: %w", err)
+	}
+	timestamp = timestamp.UTC()
 
 	// Metadata
 	metadata := map[string]any{
@@ -110,7 +116,7 @@ func transformPullRequestEvent(event map[string]any) (*Activity, error) {
 	}
 
 	id := core.MakeActivityID(fmt.Sprintf("%v", event["id"]))
-	timestamp, _ := event["created_at"].(string)
+	timestampStr, _ := event["created_at"].(string)
 	repoName, _ := repo["name"].(string)
 	prNumber := int(payload["number"].(float64))
 	action, _ := payload["action"].(string)
@@ -118,6 +124,11 @@ func transformPullRequestEvent(event map[string]any) (*Activity, error) {
 	title := fmt.Sprintf("PR #%d %s in %s", prNumber, action, repoName)
 	description := fmt.Sprintf("Pull request #%d was %s", prNumber, action)
 	url := fmt.Sprintf("https://github.com/%s/pull/%d", repoName, prNumber)
+	timestamp, err := time.Parse(time.RFC3339, timestampStr)
+	if err != nil {
+		return nil, fmt.Errorf("invalid timestamp format: %w", err)
+	}
+	timestamp = timestamp.UTC()
 
 	base, _ := pr["base"].(map[string]any)
 	head, _ := pr["head"].(map[string]any)
@@ -168,7 +179,7 @@ func transformIssuesEvent(event map[string]any) (*Activity, error) {
 	}
 
 	id := core.MakeActivityID(fmt.Sprintf("%v", event["id"]))
-	timestamp, _ := event["created_at"].(string)
+	timestampStr, _ := event["created_at"].(string)
 	repoName, _ := repo["name"].(string)
 	issueNumber := int(issue["number"].(float64))
 	action, _ := payload["action"].(string)
@@ -176,6 +187,11 @@ func transformIssuesEvent(event map[string]any) (*Activity, error) {
 	title := fmt.Sprintf("Issue #%d %s in %s", issueNumber, action, repoName)
 	description := fmt.Sprintf("Issue #%d was %s", issueNumber, action)
 	url, _ := issue["html_url"].(string)
+	timestamp, err := time.Parse(time.RFC3339, timestampStr)
+	if err != nil {
+		return nil, fmt.Errorf("invalid timestamp format: %w", err)
+	}
+	timestamp = timestamp.UTC()
 
 	user, _ := issue["user"].(map[string]any)
 	labels := extractLabels(issue["labels"])
@@ -238,13 +254,18 @@ func transformPRCommentEvent(event map[string]any) (*Activity, error) {
 	comment, _ := payload["comment"].(map[string]any)
 
 	id := core.MakeActivityID(fmt.Sprintf("%v", event["id"]))
-	timestamp, _ := event["created_at"].(string)
+	timestampStr, _ := event["created_at"].(string)
 	repoName, _ := repo["name"].(string)
 	prNumber := int(issue["number"].(float64))
 
 	title := fmt.Sprintf("Commented on PR #%d", prNumber)
 	description, _ := comment["body"].(string)
 	url, _ := comment["html_url"].(string)
+	timestamp, err := time.Parse(time.RFC3339, timestampStr)
+	if err != nil {
+		return nil, fmt.Errorf("invalid timestamp format: %w", err)
+	}
+	timestamp = timestamp.UTC()
 
 	commentUser, _ := comment["user"].(map[string]any)
 	metadata := map[string]any{
@@ -282,13 +303,18 @@ func transformIssueCommentOnlyEvent(event map[string]any) (*Activity, error) {
 	comment, _ := payload["comment"].(map[string]any)
 
 	id := core.MakeActivityID(fmt.Sprintf("%v", event["id"]))
-	timestamp, _ := event["created_at"].(string)
+	timestampStr, _ := event["created_at"].(string)
 	repoName, _ := repo["name"].(string)
 	issueNumber := int(issue["number"].(float64))
 
 	title := fmt.Sprintf("Commented on Issue #%d", issueNumber)
 	description, _ := comment["body"].(string)
 	url, _ := comment["html_url"].(string)
+	timestamp, err := time.Parse(time.RFC3339, timestampStr)
+	if err != nil {
+		return nil, fmt.Errorf("invalid timestamp format: %w", err)
+	}
+	timestamp = timestamp.UTC()
 
 	commentUser, _ := comment["user"].(map[string]any)
 	metadata := map[string]any{
@@ -333,7 +359,7 @@ func transformDeleteEvent(event map[string]any) (*Activity, error) {
 	actor, _ := event["actor"].(map[string]any)
 
 	id := core.MakeActivityID(fmt.Sprintf("%v", event["id"]))
-	timestamp, _ := event["created_at"].(string)
+	timestampStr, _ := event["created_at"].(string)
 	repoName, _ := repo["name"].(string)
 	refType, _ := payload["ref_type"].(string)
 	ref, _ := payload["ref"].(string)
@@ -341,6 +367,11 @@ func transformDeleteEvent(event map[string]any) (*Activity, error) {
 	title := fmt.Sprintf("Deleted %s %s in %s", refType, ref, repoName)
 	description := fmt.Sprintf("%s %s was deleted", refType, ref)
 	url := fmt.Sprintf("https://github.com/%s", repoName)
+	timestamp, err := time.Parse(time.RFC3339, timestampStr)
+	if err != nil {
+		return nil, fmt.Errorf("invalid timestamp format: %w", err)
+	}
+	timestamp = timestamp.UTC()
 
 	metadata := map[string]any{
 		"ref_type":    refType,
@@ -391,13 +422,18 @@ func transformPRReviewCommentEvent(event map[string]any) (*Activity, error) {
 	}
 
 	id := core.MakeActivityID(fmt.Sprintf("%v", event["id"]))
-	timestamp, _ := event["created_at"].(string)
+	timestampStr, _ := event["created_at"].(string)
 	repoName, _ := repo["name"].(string)
 	prNumber := int(pr["number"].(float64))
 
 	title := fmt.Sprintf("Commented on PR #%d in %s", prNumber, repoName)
 	description, _ := comment["body"].(string)
 	url, _ := comment["html_url"].(string)
+	timestamp, err := time.Parse(time.RFC3339, timestampStr)
+	if err != nil {
+		return nil, fmt.Errorf("invalid timestamp format: %w", err)
+	}
+	timestamp = timestamp.UTC()
 
 	commentUser, _ := comment["user"].(map[string]any)
 	prBase, _ := pr["base"].(map[string]any)
@@ -456,13 +492,18 @@ func transformPRReviewEvent(event map[string]any) (*Activity, error) {
 	}
 
 	id := core.MakeActivityID(fmt.Sprintf("%v", event["id"]))
-	timestamp, _ := event["created_at"].(string)
+	timestampStr, _ := event["created_at"].(string)
 	repoName, _ := repo["name"].(string)
 	prNumber := int(pr["number"].(float64))
 
 	title := fmt.Sprintf("Reviewed PR #%d in %s", prNumber, repoName)
 	description, _ := review["body"].(string)
 	url, _ := review["html_url"].(string)
+	timestamp, err := time.Parse(time.RFC3339, timestampStr)
+	if err != nil {
+		return nil, fmt.Errorf("invalid timestamp format: %w", err)
+	}
+	timestamp = timestamp.UTC()
 
 	reviewer, _ := review["user"].(map[string]any)
 	prBase, _ := pr["base"].(map[string]any)

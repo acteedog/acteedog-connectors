@@ -15,7 +15,7 @@ type Activity struct {
 	Id           string
 	Metadata     any
 	Source       string
-	Timestamp    string
+	Timestamp    time.Time
 	Title        string
 	Url          *string
 }
@@ -174,7 +174,7 @@ func transformMessage(message map[string]any, cgen *core.ContextGenerator) (*Act
 
 	activity := Activity{
 		Id:           core.MakeActivityID(ts),
-		Timestamp:    timestamp.Format(time.RFC3339),
+		Timestamp:    timestamp,
 		Source:       core.ConnectorID,
 		ActivityType: "message",
 		Title:        title,
