@@ -18,7 +18,7 @@ func GetConfigSchema() (ConfigSchema, error) {
 			"bot_token": map[string]any{
 				"type":        "string",
 				"title":       "Bot User OAuth Token",
-				"description": "Slack Bot Token (xoxb-...) with search:read scope",
+				"description": "Slack Bot Token (xoxb-...)",
 			},
 			"user_id": map[string]any{
 				"type":        "string",

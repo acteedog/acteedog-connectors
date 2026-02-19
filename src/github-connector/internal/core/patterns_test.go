@@ -192,6 +192,13 @@ func TestContextPatternRepository(t *testing.T) {
 			wantOwner: "octocat",
 			wantRepo:  "Hello-World",
 		},
+		{
+			name:      "repository URL end with query parameters",
+			input:     "https://github.com/octocat/Hello-World?param=value",
+			wantMatch: true,
+			wantOwner: "octocat",
+			wantRepo:  "Hello-World",
+		},
 	}
 
 	for _, tt := range tests {
