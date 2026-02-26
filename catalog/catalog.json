@@ -9,6 +9,12 @@
       "allowed_hosts": ["api.github.com"],
       "versions": [
         {
+          "version": "0.2.4",
+          "min_acteedog_version": "0.1.5",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/github/0.2.3/plugin.wasm",
+          "checksum": "sha256:0a1e8d5519d0d5a14af0e15696d00e3fb946a942ee8e343c4979fd1de12a502e"
+        },
+        {
           "version": "0.2.3",
           "min_acteedog_version": "0.1.5",
           "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/github/0.2.3/plugin.wasm",
@@ -47,6 +53,12 @@
       "latest_version": "0.2.2",
       "allowed_hosts": ["slack.com"],
       "versions": [
+        {
+          "version": "0.2.3",
+          "min_acteedog_version": "0.1.5",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/slack/0.2.2/plugin.wasm",
+          "checksum": "sha256:b0717393d4a0f21f07283cd61e3a7cd38d0a9c8ec6a4018c05548a634b7fd8b2"
+        },
         {
           "version": "0.2.2",
           "min_acteedog_version": "0.1.5",
