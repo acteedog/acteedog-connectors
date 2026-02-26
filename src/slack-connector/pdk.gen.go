@@ -214,6 +214,8 @@ func _TestConnection() int32 {
 	type ContextPatternDefinition struct {
 						// List of context mappings to create from URL pattern matches
 				ContextMappings []ContextMapping `json:"contextMappings"`
+						// Optional regex pattern to exclude URLs from matching even if pattern matches (e.g., 'https://github\.com/user-attachments/')
+				ExcludePattern *string `json:"excludePattern,omitempty"`
 						// Regex pattern with named groups (e.g., 'https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/pull/(?P<number>\d+)')
 				Pattern string `json:"pattern"`
 		

@@ -223,3 +223,45 @@ func TestContextPatternRepository(t *testing.T) {
 		})
 	}
 }
+
+func TestContextExcludePatternRepository(t *testing.T) {
+	tests := []struct {
+		name      string
+		input     string
+		wantMatch bool
+	}{
+		{
+			name:      "user-attachments asset URL should be excluded",
+			input:     "https://github.com/user-attachments/assets/a548f44f-5f9d-4ad0-8c2b-e7211b7bc08b",
+			wantMatch: true,
+		},
+		{
+			name:      "user-attachments URL without path should be excluded",
+			input:     "https://github.com/user-attachments/",
+			wantMatch: true,
+		},
+		{
+			name:      "regular repository URL should not be excluded",
+			input:     "https://github.com/octocat/Hello-World",
+			wantMatch: false,
+		},
+		{
+			name:      "pull request URL should not be excluded",
+			input:     "https://github.com/octocat/Hello-World/pull/42",
+			wantMatch: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			re := regexp.MustCompile(ContextExcludePatternRepository)
+			match := re.FindStringSubmatch(tt.input)
+
+			if tt.wantMatch {
+				assert.NotNil(t, match)
+			} else {
+				assert.Nil(t, match)
+			}
+		})
+	}
+}
