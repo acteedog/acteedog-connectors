@@ -185,6 +185,9 @@ components:
         pattern:
           type: string
           description: "Regex pattern with named groups (e.g., 'https://github\\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/pull/(?P<number>\\d+)')"
+        excludePattern:
+          type: string
+          description: "Optional regex pattern to exclude URLs from matching even if pattern matches (e.g., 'https://github\\.com/user-attachments/')"
         contextMappings:
           type: array
           items:

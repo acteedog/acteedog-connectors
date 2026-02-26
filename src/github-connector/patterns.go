@@ -78,7 +78,8 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 			},
 			// Repository URL pattern
 			{
-				Pattern: core.ContextPatternRepository,
+				Pattern:        core.ContextPatternRepository,
+				ExcludePattern: strPtr(core.ContextExcludePatternRepository),
 				ContextMappings: []ContextMapping{
 					{
 						NameTemplate:     "github:source",
@@ -107,4 +108,9 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 // int64Ptr returns a pointer to an int64
 func int64Ptr(i int64) *int64 {
 	return &i
+}
+
+// strPtr returns a pointer to a string
+func strPtr(s string) *string {
+	return &s
 }
