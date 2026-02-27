@@ -5,7 +5,7 @@
       "id": "github",
       "name": "GitHub Connector",
       "description": "Track commits, pull requests, issues, and reviews from GitHub repositories",
-      "latest_version": "0.2.3",
+      "latest_version": "0.2.4",
       "allowed_hosts": ["api.github.com"],
       "versions": [
         {
@@ -50,7 +50,7 @@
       "id": "slack",
       "name": "Slack Connector",
       "description": "Monitor channels, direct messages, and threads from Slack workspaces. An user token with scopes: channels:history, channels:read, groups:read, im:read, mpim:read, search:read is required.",
-      "latest_version": "0.2.2",
+      "latest_version": "0.2.3",
       "allowed_hosts": ["slack.com"],
       "versions": [
         {
