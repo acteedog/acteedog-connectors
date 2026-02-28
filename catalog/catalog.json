@@ -7,6 +7,9 @@
       "description": "Track commits, pull requests, issues, and reviews from GitHub repositories",
       "latest_version": "0.2.4",
       "allowed_hosts": ["api.github.com"],
+      "capabilities": {
+        "activity": true
+      },
       "versions": [
         {
           "version": "0.2.4",
@@ -52,6 +55,9 @@
       "description": "Monitor channels, direct messages, and threads from Slack workspaces. An user token with scopes: channels:history, channels:read, groups:read, im:read, mpim:read, search:read is required.",
       "latest_version": "0.2.3",
       "allowed_hosts": ["slack.com"],
+      "capabilities": {
+        "activity": false
+      },
       "versions": [
         {
           "version": "0.2.3",
