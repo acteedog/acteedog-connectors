@@ -1,0 +1,8 @@
+name: local
+variables:
+  - name: username
+    value: ymtdzzz
+  - secret: true
+    name: token
+  - name: baseUrl
+    value: https://api.github.com

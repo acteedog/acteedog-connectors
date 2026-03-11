@@ -1,0 +1,16 @@
+opencollection: 1.0.0
+info:
+  name: "connectors"
+  type: workspace
+
+collections:
+  - name: "github"
+    path: "collections/github"
+  - name: "slack"
+    path: "collections/slack"
+  - name: "jira"
+    path: "collections/jira"
+
+specs:
+
+docs: ''

@@ -1,0 +1,10 @@
+name: local
+variables:
+  - secret: true
+    name: userId
+  - name: baseUrl
+    value: https://slack.com/api
+  - secret: true
+    name: token
+  - secret: true
+    name: channel_id

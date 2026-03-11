@@ -1,0 +1,10 @@
+name: local
+variables:
+  - secret: true
+    name: token
+  - name: baseUrl
+    value: https://api.atlassian.com/ex/jira/{{cloudId}}
+  - secret: true
+    name: email
+  - secret: true
+    name: cloudId

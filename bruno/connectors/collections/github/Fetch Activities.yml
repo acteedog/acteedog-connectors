@@ -1,0 +1,27 @@
+info:
+  name: Fetch Activities
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{baseUrl}}/users/{{username}}/events?per_page=100&page={{page}}"
+  params:
+    - name: per_page
+      value: "100"
+      type: query
+    - name: page
+      value: "{{page}}"
+      type: query
+  auth: inherit
+
+runtime:
+  variables:
+    - name: page
+      value: "1"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
