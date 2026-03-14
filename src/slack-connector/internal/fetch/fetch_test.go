@@ -63,7 +63,7 @@ func TestFetchActivities(t *testing.T) {
 					Source:       "slack",
 					Id:           "slack:1765611321.248519",
 					Title:        "Message in #general",
-					Description:  ptrString("単体メッセージ"),
+					Description:  "単体メッセージ",
 					Url:          ptrString("https://test-workspace.slack.com/archives/C099VUEKVBN/p1765611321248519"),
 					Timestamp:    time.Date(2025, 12, 13, 7, 35, 21, 248518943, time.UTC),
 					Metadata: map[string]any{
@@ -151,7 +151,7 @@ func TestFetchActivities(t *testing.T) {
 					Source:       "slack",
 					Id:           "slack:1765613227.980829",
 					Title:        "Message in #general",
-					Description:  ptrString("リプライです"),
+					Description:  "リプライです",
 					Url:          ptrString("https://test-workspace.slack.com/archives/C099VUEKVBN/p1765613227980829?thread_ts=1765613134.990399"),
 					Timestamp:    time.Date(2025, 12, 13, 8, 7, 7, 980829000, time.UTC),
 					Metadata: map[string]any{

@@ -145,7 +145,7 @@ func _TestConnection() int32 {
 	type Activity struct {
 						ActivityType string `json:"activityType"`
 						Contexts []Context `json:"contexts"`
-						Description *string `json:"description,omitempty"`
+						Description string `json:"description"`
 						Id string `json:"id"`
 						Metadata interface{} `json:"metadata"`
 						Source string `json:"source"`

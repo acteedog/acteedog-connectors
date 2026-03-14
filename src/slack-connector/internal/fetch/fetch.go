@@ -11,7 +11,7 @@ import (
 type Activity struct {
 	ActivityType string
 	Contexts     []*core.Context
-	Description  *string
+	Description  string
 	Id           string
 	Metadata     any
 	Source       string
@@ -178,7 +178,7 @@ func transformMessage(message map[string]any, cgen *core.ContextGenerator) (*Act
 		Source:       core.ConnectorID,
 		ActivityType: "message",
 		Title:        title,
-		Description:  &description,
+		Description:  description,
 		Url:          &permalink,
 		Metadata: map[string]any{
 			"channel_id":   channelID,

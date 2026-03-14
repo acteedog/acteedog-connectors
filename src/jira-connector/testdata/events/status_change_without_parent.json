@@ -1,0 +1,243 @@
+{
+  "issues": [
+    {
+      "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+      "id": "10003",
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/issue/10003",
+      "key": "TES-4",
+      "changelog": {
+        "startAt": 0,
+        "maxResults": 4,
+        "total": 4,
+        "histories": [
+          {
+            "id": "10049",
+            "author": {
+              "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/user?accountId=account-id",
+              "accountId": "account-id",
+              "emailAddress": "test.user@example.com",
+              "avatarUrls": {
+                "48x48": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+                "24x24": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+                "16x16": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+                "32x32": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png"
+              },
+              "displayName": "Test User",
+              "active": true,
+              "timeZone": "Asia/Tokyo",
+              "accountType": "atlassian"
+            },
+            "created": "2026-03-10T23:06:11.606+0900",
+            "items": [
+              {
+                "field": "IssueParentAssociation",
+                "fieldtype": "jira",
+                "from": null,
+                "fromString": null,
+                "to": "10038",
+                "toString": "TES-6"
+              }
+            ]
+          },
+          {
+            "id": "10045",
+            "author": {
+              "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/user?accountId=account-id",
+              "accountId": "account-id",
+              "emailAddress": "test.user@example.com",
+              "avatarUrls": {
+                "48x48": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+                "24x24": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+                "16x16": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+                "32x32": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png"
+              },
+              "displayName": "Test User",
+              "active": true,
+              "timeZone": "Asia/Tokyo",
+              "accountType": "atlassian"
+            },
+            "created": "2026-03-10T22:51:01.216+0900",
+            "items": [
+              {
+                "field": "status",
+                "fieldtype": "jira",
+                "fieldId": "status",
+                "from": "10000",
+                "fromString": "To Do",
+                "to": "10001",
+                "toString": "Doing"
+              }
+            ]
+          }
+        ]
+      },
+      "fields": {
+        "statuscategorychangedate": "2026-03-10T22:51:01.217+0900",
+        "issuetype": {
+          "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/issuetype/10003",
+          "id": "10003",
+          "description": "This is a task issue type.",
+          "iconUrl": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+          "name": "Task",
+          "subtask": false,
+          "avatarId": 10318,
+          "entityId": "entity-id",
+          "hierarchyLevel": 0
+        },
+        "parent": null,
+        "components": [],
+        "timespent": null,
+        "timeoriginalestimate": null,
+        "project": {
+          "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/project/10000",
+          "id": "10000",
+          "key": "TES",
+          "name": "test-project",
+          "projectTypeKey": "software",
+          "simplified": true,
+          "avatarUrls": {
+            "48x48": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410",
+            "24x24": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410?size=small",
+            "16x16": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410?size=xsmall",
+            "32x32": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410?size=medium"
+          }
+        },
+        "description": {
+          "type": "doc",
+          "version": 1,
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "This is a test task."
+                }
+              ]
+            }
+          ]
+        },
+        "fixVersions": [],
+        "aggregatetimespent": null,
+        "customfield_10034": null,
+        "statusCategory": {
+          "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/statuscategory/4",
+          "id": 4,
+          "key": "indeterminate",
+          "colorName": "yellow",
+          "name": "Doing"
+        },
+        "resolution": null,
+        "customfield_10015": null,
+        "timetracking": {},
+        "security": null,
+        "attachment": [],
+        "aggregatetimeestimate": null,
+        "resolutiondate": null,
+        "workratio": -1,
+        "summary": "Test Task",
+        "issuerestriction": {
+          "issuerestrictions": {},
+          "shouldDisplay": true
+        },
+        "watches": {
+          "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/issue/TES-4/watchers",
+          "watchCount": 1,
+          "isWatching": true
+        },
+        "lastViewed": "2026-03-10T23:06:18.882+0900",
+        "creator": {
+          "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/user?accountId=account-id",
+          "accountId": "account-id",
+          "emailAddress": "test.user@example.com",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+            "24x24": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+            "16x16": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+            "32x32": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png"
+          },
+          "displayName": "Test User",
+          "active": true,
+          "timeZone": "Asia/Tokyo",
+          "accountType": "atlassian"
+        },
+        "subtasks": [],
+        "created": "2026-01-17T18:16:26.490+0900",
+        "customfield_10021": null,
+        "reporter": {
+          "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/user?accountId=account-id",
+          "accountId": "account-id",
+          "emailAddress": "test.user@example.com",
+          "avatarUrls": {
+            "48x48": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+            "24x24": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+            "16x16": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+            "32x32": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png"
+          },
+          "displayName": "Test User",
+          "active": true,
+          "timeZone": "Asia/Tokyo",
+          "accountType": "atlassian"
+        },
+        "aggregateprogress": {
+          "progress": 0,
+          "total": 0
+        },
+        "priority": {
+          "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/priority/3",
+          "iconUrl": "https://subdomain.atlassian.net/images/icons/priorities/medium_new.svg",
+          "name": "Medium",
+          "id": "3"
+        },
+        "customfield_10001": null,
+        "labels": ["bug"],
+        "environment": null,
+        "customfield_10019": "0|i0000n:",
+        "timeestimate": null,
+        "aggregatetimeoriginalestimate": null,
+        "versions": [],
+        "duedate": null,
+        "progress": {
+          "progress": 0,
+          "total": 0
+        },
+        "issuelinks": [],
+        "votes": {
+          "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/issue/TES-4/votes",
+          "votes": 0,
+          "hasVoted": false
+        },
+        "comment": {
+          "comments": [],
+          "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/issue/10003/comment",
+          "maxResults": 0,
+          "total": 0,
+          "startAt": 0
+        },
+        "assignee": null,
+        "worklog": {
+          "startAt": 0,
+          "maxResults": 20,
+          "total": 0,
+          "worklogs": []
+        },
+        "updated": "2026-03-10T23:12:57.237+0900",
+        "status": {
+          "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/status/10001",
+          "description": "",
+          "iconUrl": "https://subdomain.atlassian.net/images/icons/statuses/generic.png",
+          "name": "Doing",
+          "id": "10001",
+          "statusCategory": {
+            "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "Doing"
+          }
+        }
+      }
+    }
+  ],
+  "isLast": true
+}

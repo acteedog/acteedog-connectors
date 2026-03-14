@@ -1,0 +1,43 @@
+{
+  "expand": "description,lead,issueTypes,url,projectKeys,permissions,insight",
+  "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/project/10000",
+  "id": "10000",
+  "key": "TES",
+  "description": "Test project",
+  "lead": {
+    "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/user?accountId=account-id",
+    "accountId": "account-id",
+    "avatarUrls": {
+      "48x48": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+      "24x24": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+      "16x16": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+      "32x32": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png"
+    },
+    "displayName": "Test User",
+    "active": true
+  },
+  "components": [],
+  "issueTypes": [],
+  "assigneeType": "UNASSIGNED",
+  "versions": [],
+  "name": "test-project",
+  "roles": {
+    "atlassian-addons-project-access": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/project/10000/role/10007",
+    "Administrator": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/project/10000/role/10004",
+    "Viewer": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/project/10000/role/10006",
+    "Member": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/project/10000/role/10005"
+  },
+  "avatarUrls": {
+    "48x48": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410",
+    "24x24": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410?size=small",
+    "16x16": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410?size=xsmall",
+    "32x32": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410?size=medium"
+  },
+  "projectTypeKey": "software",
+  "simplified": true,
+  "style": "next-gen",
+  "isPrivate": false,
+  "properties": {},
+  "entityId": "entity-id",
+  "uuid": "entity-id"
+}

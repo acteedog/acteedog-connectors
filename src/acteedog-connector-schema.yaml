@@ -86,6 +86,7 @@ components:
         - id
         - timestamp
         - title
+        - description
         - source
         - activityType
         - contexts
