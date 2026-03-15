@@ -15,7 +15,7 @@
           "version": "0.1.0",
           "min_acteedog_version": "0.2.0",
           "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/jira/0.1.0/plugin.wasm",
-          "checksum": "sha256:1c6a81c63817c4db946914cd493e7c1cc6e756eae3d5c4b498fff728d4c1e695"
+          "checksum": "sha256:10c3e900a9485b9c5ac51698702a7bc2e19a2be9b14ab68dfba87b8db1849b3a"
         }
       ]
     },

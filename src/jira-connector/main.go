@@ -59,7 +59,7 @@ func GetConfigSchema() (ConfigSchema, error) {
 					"type": "string",
 				},
 				"title":       "Project IDs",
-				"description": "List of Jira project IDs to fetch activities from (e.g., 10001)",
+				"description": "List of Jira project IDs to fetch activities from (e.g., 10001) You can find it at https://your-subdomain.atlassian.net/rest/api/3/KEY",
 			},
 			"site_subdomain": map[string]any{
 				"type":        "string",
