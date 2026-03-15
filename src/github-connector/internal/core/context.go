@@ -10,7 +10,6 @@ type Context struct {
 	CreatedAt    *time.Time
 	Description  *string
 	Id           string
-	Level        int64
 	Metadata     any
 	Name         string
 	ParentId     string
@@ -32,13 +31,12 @@ func NewContextGenerator() *ContextGenerator {
 	}
 }
 
-// CreateSourceContext creates a Level 1 source context for GitHub
+// CreateSourceContext creates a source context for GitHub
 func (g *ContextGenerator) CreateSourceContext() *Context {
 	id := MakeSourceContextID()
 	return &Context{
 		Id:           id,
 		Name:         id,
-		Level:        1,
 		ParentId:     "", // Top level - no parent
 		ConnectorId:  g.connectorID,
 		ResourceType: ResourceTypeSource,
@@ -51,14 +49,13 @@ func (g *ContextGenerator) CreateSourceContext() *Context {
 	}
 }
 
-// CreateRepositoryContext creates a Level 2 repository context
+// CreateRepositoryContext creates a repository context
 func (g *ContextGenerator) CreateRepositoryContext(repoName string) *Context {
 	id := MakeRepositoryContextID(repoName)
 	parentID := MakeSourceContextID()
 	return &Context{
 		Id:           id,
 		Name:         fmt.Sprintf("repository:%s", repoName),
-		Level:        2,
 		ParentId:     parentID,
 		ConnectorId:  g.connectorID,
 		ResourceType: ResourceTypeRepository,
@@ -71,14 +68,13 @@ func (g *ContextGenerator) CreateRepositoryContext(repoName string) *Context {
 	}
 }
 
-// CreatePRContext creates a Level 3 pull request context
+// CreatePRContext creates a pull request context
 func (g *ContextGenerator) CreatePRContext(repoName string, prNumber int) *Context {
 	id := MakePullRequestContextID(repoName, fmt.Sprintf("%d", prNumber))
 	parentID := MakeRepositoryContextID(repoName)
 	return &Context{
 		Id:           id,
 		Name:         fmt.Sprintf("PR #%d", prNumber),
-		Level:        3,
 		ParentId:     parentID,
 		ConnectorId:  g.connectorID,
 		ResourceType: ResourceTypePullRequest,
@@ -92,14 +88,13 @@ func (g *ContextGenerator) CreatePRContext(repoName string, prNumber int) *Conte
 	}
 }
 
-// CreateIssueContext creates a Level 3 issue context
+// CreateIssueContext creates an issue context
 func (g *ContextGenerator) CreateIssueContext(repoName string, issueNumber int) *Context {
 	id := MakeIssueContextID(repoName, fmt.Sprintf("%d", issueNumber))
 	parentID := MakeRepositoryContextID(repoName)
 	return &Context{
 		Id:           id,
 		Name:         fmt.Sprintf("Issue #%d", issueNumber),
-		Level:        3,
 		ParentId:     parentID,
 		ConnectorId:  g.connectorID,
 		ResourceType: ResourceTypeIssue,

@@ -12,7 +12,6 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 				ContextMappings: []ContextMapping{
 					{
 						NameTemplate:     "github:source",
-						Level:            1,
 						ResourceType:     core.ResourceTypeSource,
 						ParentIndex:      nil,
 						IdTemplate:       core.MakeSourceContextID(),
@@ -20,7 +19,6 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 					},
 					{
 						NameTemplate: "repository:{{owner}}/{{repo}}",
-						Level:        2,
 						ResourceType: core.ResourceTypeRepository,
 						ParentIndex:  int64Ptr(0),
 						IdTemplate:   core.MakeRepositoryContextID("{{owner}}/{{repo}}"),
@@ -30,7 +28,6 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 					},
 					{
 						NameTemplate: "PR #{{number}}",
-						Level:        3,
 						ResourceType: core.ResourceTypePullRequest,
 						ParentIndex:  int64Ptr(1),
 						IdTemplate:   core.MakePullRequestContextID("{{owner}}/{{repo}}", "{{number}}"),
@@ -47,7 +44,6 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 				ContextMappings: []ContextMapping{
 					{
 						NameTemplate:     "github:source",
-						Level:            1,
 						ResourceType:     core.ResourceTypeSource,
 						ParentIndex:      nil,
 						IdTemplate:       core.MakeSourceContextID(),
@@ -55,7 +51,6 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 					},
 					{
 						NameTemplate: "repository:{{owner}}/{{repo}}",
-						Level:        2,
 						ResourceType: core.ResourceTypeRepository,
 						ParentIndex:  int64Ptr(0),
 						IdTemplate:   core.MakeRepositoryContextID("{{owner}}/{{repo}}"),
@@ -65,7 +60,6 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 					},
 					{
 						NameTemplate: "Issue #{{number}}",
-						Level:        3,
 						ResourceType: core.ResourceTypeIssue,
 						ParentIndex:  int64Ptr(1),
 						IdTemplate:   core.MakeIssueContextID("{{owner}}/{{repo}}", "{{number}}"),
@@ -83,7 +77,6 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 				ContextMappings: []ContextMapping{
 					{
 						NameTemplate:     "github:source",
-						Level:            1,
 						ResourceType:     core.ResourceTypeSource,
 						ParentIndex:      nil,
 						IdTemplate:       core.MakeSourceContextID(),
@@ -91,7 +84,6 @@ func GetContextPatterns() (ContextPatternsResponse, error) {
 					},
 					{
 						NameTemplate: "repository:{{owner}}/{{repo}}",
-						Level:        2,
 						ResourceType: core.ResourceTypeRepository,
 						ParentIndex:  int64Ptr(0),
 						IdTemplate:   core.MakeRepositoryContextID("{{owner}}/{{repo}}"),

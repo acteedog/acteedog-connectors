@@ -11,7 +11,6 @@ type Context struct {
 	CreatedAt    *time.Time
 	Description  *string
 	Id           string
-	Level        int64
 	Metadata     any
 	Name         string
 	ParentId     string
@@ -35,7 +34,7 @@ func NewContextGenerator(cloudID string) *ContextGenerator {
 	}
 }
 
-// CreateSourceContext creates a Level 1 source context for Jira
+// CreateSourceContext creates a source context for Jira
 func (g *ContextGenerator) CreateSourceContext() *Context {
 	id := MakeSourceContextID()
 	url := fmt.Sprintf("%s/%s", JiraAPIBase, g.cloudID)
@@ -44,7 +43,6 @@ func (g *ContextGenerator) CreateSourceContext() *Context {
 	return &Context{
 		Id:           id,
 		Name:         id,
-		Level:        1,
 		ParentId:     "",
 		ConnectorId:  g.connectorID,
 		ResourceType: ResourceTypeSource,
@@ -57,7 +55,7 @@ func (g *ContextGenerator) CreateSourceContext() *Context {
 	}
 }
 
-// CreateProjectContext creates a Level 2 project context
+// CreateProjectContext creates a project context
 func (g *ContextGenerator) CreateProjectContext(projectID, projectName string) *Context {
 	id := MakeProjectContextID(projectID)
 	parentID := MakeSourceContextID()
@@ -66,7 +64,6 @@ func (g *ContextGenerator) CreateProjectContext(projectID, projectName string) *
 	return &Context{
 		Id:           id,
 		Name:         name,
-		Level:        2,
 		ParentId:     parentID,
 		ConnectorId:  g.connectorID,
 		ResourceType: ResourceTypeProject,
@@ -84,7 +81,7 @@ func issueContextName(issueTypeName, issueKey string) string {
 	return fmt.Sprintf("%s %s", issueTypeName, issueKey)
 }
 
-// CreateIssueContextWithProjectParent creates a Level 3 issue context with a project as parent
+// CreateIssueContextWithProjectParent creates an issue context with a project as parent
 func (g *ContextGenerator) CreateIssueContextWithProjectParent(issueID, issueKey, summary, projectID, issueTypeName string) *Context {
 	id := MakeIssueContextID(issueID)
 	parentID := MakeProjectContextID(projectID)
@@ -93,7 +90,6 @@ func (g *ContextGenerator) CreateIssueContextWithProjectParent(issueID, issueKey
 	return &Context{
 		Id:           id,
 		Name:         name,
-		Level:        3,
 		ParentId:     parentID,
 		ConnectorId:  g.connectorID,
 		ResourceType: ResourceTypeIssue,
@@ -106,7 +102,7 @@ func (g *ContextGenerator) CreateIssueContextWithProjectParent(issueID, issueKey
 	}
 }
 
-// CreateIssueContextWithIssueParent creates a Level 3 issue context with a parent issue as parent
+// CreateIssueContextWithIssueParent creates an issue context with a parent issue as parent
 func (g *ContextGenerator) CreateIssueContextWithIssueParent(issueID, issueKey, summary, parentIssueID, issueTypeName string) *Context {
 	id := MakeIssueContextID(issueID)
 	parentID := MakeIssueContextID(parentIssueID)
@@ -115,7 +111,6 @@ func (g *ContextGenerator) CreateIssueContextWithIssueParent(issueID, issueKey, 
 	return &Context{
 		Id:           id,
 		Name:         name,
-		Level:        3,
 		ParentId:     parentID,
 		ConnectorId:  g.connectorID,
 		ResourceType: ResourceTypeIssue,
@@ -128,7 +123,7 @@ func (g *ContextGenerator) CreateIssueContextWithIssueParent(issueID, issueKey, 
 	}
 }
 
-// CreateParentIssueContext creates a Level 3 parent issue context with a project as parent
+// CreateParentIssueContext creates a parent issue context with a project as parent
 func (g *ContextGenerator) CreateParentIssueContext(issueID, issueKey, summary, projectID, issueTypeName string) *Context {
 	id := MakeIssueContextID(issueID)
 	parentID := MakeProjectContextID(projectID)
@@ -137,7 +132,6 @@ func (g *ContextGenerator) CreateParentIssueContext(issueID, issueKey, summary, 
 	return &Context{
 		Id:           id,
 		Name:         name,
-		Level:        3,
 		ParentId:     parentID,
 		ConnectorId:  g.connectorID,
 		ResourceType: ResourceTypeIssue,

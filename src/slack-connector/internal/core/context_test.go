@@ -12,7 +12,6 @@ func TestCreateSourceContext(t *testing.T) {
 	want := &Context{
 		Id:           "slack:source",
 		Name:         "slack:source",
-		Level:        1,
 		ParentId:     "",
 		ConnectorId:  "slack",
 		ResourceType: "source",
@@ -32,7 +31,6 @@ func TestCreateChannelContext(t *testing.T) {
 	want := &Context{
 		Id:           "slack:channel:C1234567890",
 		Name:         "channel #general",
-		Level:        2,
 		ParentId:     "slack:source",
 		ConnectorId:  "slack",
 		ResourceType: "channel",
@@ -52,7 +50,6 @@ func TestCreateThreadContext(t *testing.T) {
 	want := &Context{
 		Id:           "slack:thread:C1234567890:1623855600.000200",
 		Name:         "Thread 1623855600.000200",
-		Level:        3,
 		ParentId:     "slack:channel:C1234567890",
 		ConnectorId:  "slack",
 		ResourceType: "thread",

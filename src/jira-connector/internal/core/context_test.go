@@ -16,7 +16,6 @@ func TestCreateSourceContext(t *testing.T) {
 	want := &Context{
 		Id:           "jira:source",
 		Name:         "jira:source",
-		Level:        1,
 		ParentId:     "",
 		ConnectorId:  "jira",
 		ResourceType: "source",
@@ -36,7 +35,6 @@ func TestCreateProjectContext(t *testing.T) {
 	want := &Context{
 		Id:           "jira:project:10000",
 		Name:         "project test-project",
-		Level:        2,
 		ParentId:     "jira:source",
 		ConnectorId:  "jira",
 		ResourceType: "project",
@@ -56,7 +54,6 @@ func TestCreateIssueContextWithProjectParent(t *testing.T) {
 	want := &Context{
 		Id:           "jira:issue:10038",
 		Name:         "Epic TES-6",
-		Level:        3,
 		ParentId:     "jira:project:10000",
 		ConnectorId:  "jira",
 		ResourceType: "issue",
@@ -76,7 +73,6 @@ func TestCreateIssueContextWithIssueParent(t *testing.T) {
 	want := &Context{
 		Id:           "jira:issue:10003",
 		Name:         "Subtask TES-1",
-		Level:        3,
 		ParentId:     "jira:issue:10000",
 		ConnectorId:  "jira",
 		ResourceType: "issue",
@@ -96,7 +92,6 @@ func TestCreateParentIssueContext(t *testing.T) {
 	want := &Context{
 		Id:           "jira:issue:10000",
 		Name:         "Epic TES-5",
-		Level:        3,
 		ParentId:     "jira:project:20000",
 		ConnectorId:  "jira",
 		ResourceType: "issue",

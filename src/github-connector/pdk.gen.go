@@ -175,7 +175,6 @@ func _TestConnection() int32 {
 						CreatedAt *time.Time `json:"createdAt,omitempty"`
 						Description *string `json:"description,omitempty"`
 						Id string `json:"id"`
-						Level int64 `json:"level"`
 						Metadata interface{} `json:"metadata"`
 						Name string `json:"name"`
 						ParentId string `json:"parentId"`
@@ -196,11 +195,9 @@ func _TestConnection() int32 {
 				EnrichmentParams interface{} `json:"enrichmentParams,omitempty"`
 						// Template for context ID using {{groupName}} placeholders (e.g., 'repository:{{owner}}/{{repo}}')
 				IdTemplate string `json:"idTemplate"`
-						// Hierarchy level (1=source, 2=repository, 3=PR/Issue)
-				Level int64 `json:"level"`
 						// Template for context name using {{groupName}} placeholders (e.g., 'repository:{{owner}}/{{repo}}'). For static names, use plain strings without placeholders (e.g., 'github:source').
 				NameTemplate string `json:"nameTemplate"`
-						// Index of parent context in contextMappings array (null for root/level 1)
+						// Index of parent context in contextMappings array (null for root contexts)
 				ParentIndex *int64 `json:"parentIndex,omitempty"`
 						// Resource type identifier (e.g., 'source', 'repository', 'pull_request', 'issue', 'channel', 'thread')
 				ResourceType string `json:"resourceType"`
