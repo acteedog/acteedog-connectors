@@ -17,18 +17,18 @@ const (
 )
 
 // MakeActivityID creates an activity ID for issue creation
-func MakeIssueCreatedActivityID(issueID string) string {
-	return fmt.Sprintf("%s:issue:%s:created", ConnectorID, issueID)
+func MakeIssueCreatedActivityID(projectID, issueID string) string {
+	return fmt.Sprintf("%s:project:%s:issue:%s:created", ConnectorID, projectID, issueID)
 }
 
 // MakeCommentActivityID creates an activity ID for a comment
-func MakeCommentActivityID(issueID, commentID string) string {
-	return fmt.Sprintf("%s:issue:%s:comment:%s", ConnectorID, issueID, commentID)
+func MakeCommentActivityID(projectID, issueID, commentID string) string {
+	return fmt.Sprintf("%s:project:%s:issue:%s:comment:%s", ConnectorID, projectID, issueID, commentID)
 }
 
 // MakeStatusChangedActivityID creates an activity ID for a status change
-func MakeStatusChangedActivityID(issueID, historyID string) string {
-	return fmt.Sprintf("%s:issue:%s:status_changed:%s", ConnectorID, issueID, historyID)
+func MakeStatusChangedActivityID(projectID, issueID, historyID string) string {
+	return fmt.Sprintf("%s:project:%s:issue:%s:status_changed:%s", ConnectorID, projectID, issueID, historyID)
 }
 
 // MakeSourceContextID creates a source context ID
@@ -42,6 +42,6 @@ func MakeProjectContextID(projectID string) string {
 }
 
 // MakeIssueContextID creates an issue context ID
-func MakeIssueContextID(issueID string) string {
-	return fmt.Sprintf("%s:%s:%s", ConnectorID, ResourceTypeIssue, issueID)
+func MakeIssueContextID(projectID, issueID string) string {
+	return fmt.Sprintf("%s:%s:%s:%s:%s", ConnectorID, ResourceTypeProject, projectID, ResourceTypeIssue, issueID)
 }

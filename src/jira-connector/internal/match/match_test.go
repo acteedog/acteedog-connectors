@@ -90,7 +90,7 @@ func TestMatchURL_IssueWithProject(t *testing.T) {
 	assert.Equal(t, "project", got[1].ResourceType)
 	assert.Equal(t, "jira:source", got[1].ParentId)
 
-	assert.Equal(t, "jira:issue:10001", got[2].Id)
+	assert.Equal(t, "jira:project:10000:issue:10001", got[2].Id)
 	assert.Equal(t, "issue", got[2].ResourceType)
 	assert.Equal(t, "jira:project:10000", got[2].ParentId)
 }
@@ -106,11 +106,11 @@ func TestMatchURL_IssueWithParent(t *testing.T) {
 	assert.Equal(t, "jira:source", got[0].Id)
 	assert.Equal(t, "jira:project:10000", got[1].Id)
 	// parent issue
-	assert.Equal(t, "jira:issue:10001", got[2].Id)
+	assert.Equal(t, "jira:project:10000:issue:10001", got[2].Id)
 	assert.Equal(t, "jira:project:10000", got[2].ParentId)
 	// child issue
-	assert.Equal(t, "jira:issue:10002", got[3].Id)
-	assert.Equal(t, "jira:issue:10001", got[3].ParentId)
+	assert.Equal(t, "jira:project:10000:issue:10002", got[3].Id)
+	assert.Equal(t, "jira:project:10000:issue:10001", got[3].ParentId)
 }
 
 func TestMatchURL_EnrichmentParams(t *testing.T) {

@@ -83,7 +83,7 @@ func issueContextName(issueTypeName, issueKey string) string {
 
 // CreateIssueContextWithProjectParent creates an issue context with a project as parent
 func (g *ContextGenerator) CreateIssueContextWithProjectParent(issueID, issueKey, summary, projectID, issueTypeName string) *Context {
-	id := MakeIssueContextID(issueID)
+	id := MakeIssueContextID(projectID, issueID)
 	parentID := MakeProjectContextID(projectID)
 	name := issueContextName(issueTypeName, issueKey)
 	title := summary
@@ -103,9 +103,9 @@ func (g *ContextGenerator) CreateIssueContextWithProjectParent(issueID, issueKey
 }
 
 // CreateIssueContextWithIssueParent creates an issue context with a parent issue as parent
-func (g *ContextGenerator) CreateIssueContextWithIssueParent(issueID, issueKey, summary, parentIssueID, issueTypeName string) *Context {
-	id := MakeIssueContextID(issueID)
-	parentID := MakeIssueContextID(parentIssueID)
+func (g *ContextGenerator) CreateIssueContextWithIssueParent(issueID, issueKey, summary, projectID, parentIssueID, issueTypeName string) *Context {
+	id := MakeIssueContextID(projectID, issueID)
+	parentID := MakeIssueContextID(projectID, parentIssueID)
 	name := issueContextName(issueTypeName, issueKey)
 	title := summary
 	return &Context{
@@ -125,7 +125,7 @@ func (g *ContextGenerator) CreateIssueContextWithIssueParent(issueID, issueKey, 
 
 // CreateParentIssueContext creates a parent issue context with a project as parent
 func (g *ContextGenerator) CreateParentIssueContext(issueID, issueKey, summary, projectID, issueTypeName string) *Context {
-	id := MakeIssueContextID(issueID)
+	id := MakeIssueContextID(projectID, issueID)
 	parentID := MakeProjectContextID(projectID)
 	name := issueContextName(issueTypeName, issueKey)
 	title := summary

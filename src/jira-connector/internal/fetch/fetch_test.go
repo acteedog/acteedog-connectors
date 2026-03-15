@@ -58,7 +58,7 @@ func TestFetchActivities(t *testing.T) {
 			targetDate: "2026-03-10",
 			want: []*Activity{
 				{
-					Id:           "jira:issue:10038:created",
+					Id:           "jira:project:10000:issue:10038:created",
 					Source:       "jira",
 					ActivityType: "created",
 					Title:        "Created issue TES-6: Test Epic",
@@ -99,7 +99,7 @@ func TestFetchActivities(t *testing.T) {
 						},
 						{
 							ConnectorId:  "jira",
-							Id:           "jira:issue:10038",
+							Id:           "jira:project:10000:issue:10038",
 							Name:         "epic TES-6",
 							ParentId:     "jira:project:10000",
 							ResourceType: "issue",
@@ -129,7 +129,7 @@ func TestFetchActivities(t *testing.T) {
 			want: []*Activity{
 				{
 					// comment id=10000: "2026-03-10T22:26:30.554+0900" → UTC 13:26:30.554
-					Id:           "jira:issue:10003:comment:10000",
+					Id:           "jira:project:10000:issue:10003:comment:10000",
 					Source:       "jira",
 					ActivityType: "commented",
 					Title:        "Commented on TES-4: Test Task",
@@ -171,7 +171,7 @@ func TestFetchActivities(t *testing.T) {
 						{
 							// parent issue TES-6
 							ConnectorId:  "jira",
-							Id:           "jira:issue:10038",
+							Id:           "jira:project:10000:issue:10038",
 							Name:         "Epic TES-6",
 							ParentId:     "jira:project:10000",
 							ResourceType: "issue",
@@ -185,9 +185,9 @@ func TestFetchActivities(t *testing.T) {
 						{
 							// issue TES-4
 							ConnectorId:  "jira",
-							Id:           "jira:issue:10003",
+							Id:           "jira:project:10000:issue:10003",
 							Name:         "Task TES-4",
-							ParentId:     "jira:issue:10038",
+							ParentId:     "jira:project:10000:issue:10038",
 							ResourceType: "issue",
 							Title:        ptrString("Test Task"),
 							Metadata: map[string]any{
@@ -200,7 +200,7 @@ func TestFetchActivities(t *testing.T) {
 				},
 				{
 					// comment id=10001: "2026-03-10T23:12:48.274+0900" → UTC 14:12:48.274
-					Id:           "jira:issue:10003:comment:10001",
+					Id:           "jira:project:10000:issue:10003:comment:10001",
 					Source:       "jira",
 					ActivityType: "commented",
 					Title:        "Commented on TES-4: Test Task",
@@ -241,7 +241,7 @@ func TestFetchActivities(t *testing.T) {
 						},
 						{
 							ConnectorId:  "jira",
-							Id:           "jira:issue:10038",
+							Id:           "jira:project:10000:issue:10038",
 							Name:         "Epic TES-6",
 							ParentId:     "jira:project:10000",
 							ResourceType: "issue",
@@ -254,9 +254,9 @@ func TestFetchActivities(t *testing.T) {
 						},
 						{
 							ConnectorId:  "jira",
-							Id:           "jira:issue:10003",
+							Id:           "jira:project:10000:issue:10003",
 							Name:         "Task TES-4",
-							ParentId:     "jira:issue:10038",
+							ParentId:     "jira:project:10000:issue:10038",
 							ResourceType: "issue",
 							Title:        ptrString("Test Task"),
 							Metadata: map[string]any{
@@ -284,7 +284,7 @@ func TestFetchActivities(t *testing.T) {
 			want: []*Activity{
 				{
 					// history id=10045: "2026-03-10T22:51:01.216+0900" → UTC 13:51:01.216
-					Id:           "jira:issue:10003:status_changed:10045",
+					Id:           "jira:project:10000:issue:10003:status_changed:10045",
 					Source:       "jira",
 					ActivityType: "status_changed",
 					Title:        "Changed status of TES-4 from To Do to Doing",
@@ -326,7 +326,7 @@ func TestFetchActivities(t *testing.T) {
 						},
 						{
 							ConnectorId:  "jira",
-							Id:           "jira:issue:10003",
+							Id:           "jira:project:10000:issue:10003",
 							Name:         "Task TES-4",
 							ParentId:     "jira:project:10000",
 							ResourceType: "issue",

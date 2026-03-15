@@ -119,7 +119,7 @@ func (f *ActivityFetcher) transformIssue(issue *JiraIssue, cgen *core.ContextGen
 			issueTypeName = issue.Fields.IssueType.Name
 		}
 		parentCtx = cgen.CreateParentIssueContext(parentID, parentKey, parentSummary, projectID, parentIssueTypeName)
-		issueCtx = cgen.CreateIssueContextWithIssueParent(issueID, issueKey, summary, parentID, issueTypeName)
+		issueCtx = cgen.CreateIssueContextWithIssueParent(issueID, issueKey, summary, projectID, parentID, issueTypeName)
 	} else {
 		issueTypeName := ""
 		if issue.Fields.IssueType != nil {
@@ -146,7 +146,7 @@ func (f *ActivityFetcher) transformIssue(issue *JiraIssue, cgen *core.ContextGen
 				title := fmt.Sprintf("Created issue %s: %s", issueKey, summary)
 				issueURL := ptrStr(fmt.Sprintf("https://%s.atlassian.net/browse/%s", f.config.SiteSubdomain, issueKey))
 				activities = append(activities, &Activity{
-					Id:           core.MakeIssueCreatedActivityID(issueID),
+					Id:           core.MakeIssueCreatedActivityID(projectID, issueID),
 					Timestamp:    createdTime,
 					Source:       core.ConnectorID,
 					ActivityType: "created",
@@ -187,7 +187,7 @@ func (f *ActivityFetcher) transformIssue(issue *JiraIssue, cgen *core.ContextGen
 			title := fmt.Sprintf("Commented on %s: %s", issueKey, summary)
 			commentURL := ptrStr(fmt.Sprintf("https://%s.atlassian.net/browse/%s?focusedCommentId=%s", f.config.SiteSubdomain, issueKey, comment.ID))
 			activities = append(activities, &Activity{
-				Id:           core.MakeCommentActivityID(issueID, comment.ID),
+				Id:           core.MakeCommentActivityID(projectID, issueID, comment.ID),
 				Timestamp:    commentCreatedTime,
 				Source:       core.ConnectorID,
 				ActivityType: "commented",
@@ -236,7 +236,7 @@ func (f *ActivityFetcher) transformIssue(issue *JiraIssue, cgen *core.ContextGen
 			title := fmt.Sprintf("Changed status of %s from %s to %s", issueKey, fromStatus, toStatus)
 			issueURL := ptrStr(fmt.Sprintf("https://%s.atlassian.net/browse/%s", f.config.SiteSubdomain, issueKey))
 			activities = append(activities, &Activity{
-				Id:           core.MakeStatusChangedActivityID(issueID, history.ID),
+				Id:           core.MakeStatusChangedActivityID(projectID, issueID, history.ID),
 				Timestamp:    historyCreatedTime,
 				Source:       core.ConnectorID,
 				ActivityType: "status_changed",

@@ -96,7 +96,7 @@ func (m *ContextMatcher) buildContexts(issue *IssueResponse) []*core.Context {
 			parentTypeName = parent.Fields.IssueType.Name
 		}
 		parentCtx := gen.CreateParentIssueContext(parent.ID, parent.Key, parent.Key, issue.Fields.Project.ID, parentTypeName)
-		issueCtx := gen.CreateIssueContextWithIssueParent(issue.ID, issue.Key, issue.Key, parent.ID, issueTypeName)
+		issueCtx := gen.CreateIssueContextWithIssueParent(issue.ID, issue.Key, issue.Key, issue.Fields.Project.ID, parent.ID, issueTypeName)
 		return []*core.Context{source, projectCtx, parentCtx, issueCtx}
 	}
 
