@@ -81,8 +81,8 @@ func transformPushEvent(event map[string]any) (*Activity, error) {
 	// Use ContextGenerator to create hierarchical contexts
 	gen := core.NewContextGenerator()
 	contexts := []*core.Context{
-		gen.CreateSourceContext(),             // Level 1: source:github
-		gen.CreateRepositoryContext(repoName), // Level 2: repository:{repo}
+		gen.CreateSourceContext(),
+		gen.CreateRepositoryContext(repoName),
 	}
 
 	return &Activity{
@@ -143,9 +143,9 @@ func transformPullRequestEvent(event map[string]any) (*Activity, error) {
 
 	gen := core.NewContextGenerator()
 	contexts := []*core.Context{
-		gen.CreateSourceContext(),               // Level 1: source:github
-		gen.CreateRepositoryContext(repoName),   // Level 2: repository:{repo}
-		gen.CreatePRContext(repoName, prNumber), // Level 3: pull_request:{number}
+		gen.CreateSourceContext(),
+		gen.CreateRepositoryContext(repoName),
+		gen.CreatePRContext(repoName, prNumber),
 	}
 
 	return &Activity{
@@ -206,9 +206,9 @@ func transformIssuesEvent(event map[string]any) (*Activity, error) {
 
 	gen := core.NewContextGenerator()
 	contexts := []*core.Context{
-		gen.CreateSourceContext(),                     // Level 1: source:github
-		gen.CreateRepositoryContext(repoName),         // Level 2: repository:{repo}
-		gen.CreateIssueContext(repoName, issueNumber), // Level 3: issue:{number}
+		gen.CreateSourceContext(),
+		gen.CreateRepositoryContext(repoName),
+		gen.CreateIssueContext(repoName, issueNumber),
 	}
 
 	return &Activity{
@@ -277,9 +277,9 @@ func transformPRCommentEvent(event map[string]any) (*Activity, error) {
 
 	gen := core.NewContextGenerator()
 	contexts := []*core.Context{
-		gen.CreateSourceContext(),               // Level 1: source:github
-		gen.CreateRepositoryContext(repoName),   // Level 2: repository:{repo}
-		gen.CreatePRContext(repoName, prNumber), // Level 3: pull_request:{number}
+		gen.CreateSourceContext(),
+		gen.CreateRepositoryContext(repoName),
+		gen.CreatePRContext(repoName, prNumber),
 	}
 
 	return &Activity{
@@ -326,9 +326,9 @@ func transformIssueCommentOnlyEvent(event map[string]any) (*Activity, error) {
 
 	gen := core.NewContextGenerator()
 	contexts := []*core.Context{
-		gen.CreateSourceContext(),                     // Level 1: source:github
-		gen.CreateRepositoryContext(repoName),         // Level 2: repository:{repo}
-		gen.CreateIssueContext(repoName, issueNumber), // Level 3: issue:{number}
+		gen.CreateSourceContext(),
+		gen.CreateRepositoryContext(repoName),
+		gen.CreateIssueContext(repoName, issueNumber),
 	}
 
 	return &Activity{
@@ -382,8 +382,8 @@ func transformDeleteEvent(event map[string]any) (*Activity, error) {
 
 	gen := core.NewContextGenerator()
 	contexts := []*core.Context{
-		gen.CreateSourceContext(),             // Level 1: source:github
-		gen.CreateRepositoryContext(repoName), // Level 2: repository:{repo}
+		gen.CreateSourceContext(),
+		gen.CreateRepositoryContext(repoName),
 	}
 
 	return &Activity{
@@ -451,9 +451,9 @@ func transformPRReviewCommentEvent(event map[string]any) (*Activity, error) {
 
 	gen := core.NewContextGenerator()
 	contexts := []*core.Context{
-		gen.CreateSourceContext(),               // Level 1: source:github
-		gen.CreateRepositoryContext(repoName),   // Level 2: repository:{repo}
-		gen.CreatePRContext(repoName, prNumber), // Level 3: pull_request:{number}
+		gen.CreateSourceContext(),
+		gen.CreateRepositoryContext(repoName),
+		gen.CreatePRContext(repoName, prNumber),
 	}
 
 	return &Activity{
@@ -520,9 +520,9 @@ func transformPRReviewEvent(event map[string]any) (*Activity, error) {
 
 	gen := core.NewContextGenerator()
 	contexts := []*core.Context{
-		gen.CreateSourceContext(),               // Level 1: source:github
-		gen.CreateRepositoryContext(repoName),   // Level 2: repository:{repo}
-		gen.CreatePRContext(repoName, prNumber), // Level 3: pull_request:{number}
+		gen.CreateSourceContext(),
+		gen.CreateRepositoryContext(repoName),
+		gen.CreatePRContext(repoName, prNumber),
 	}
 
 	return &Activity{

@@ -12,7 +12,6 @@ func TestCreateSourceContext(t *testing.T) {
 	want := &Context{
 		Id:           "github:source",
 		Name:         "github:source",
-		Level:        1,
 		ParentId:     "",
 		ConnectorId:  "github",
 		ResourceType: "source",
@@ -32,7 +31,6 @@ func TestCreateRepositoryContext(t *testing.T) {
 	want := &Context{
 		Id:           "github:repository:octocat/Hello-World",
 		Name:         "repository:octocat/Hello-World",
-		Level:        2,
 		ParentId:     "github:source",
 		ConnectorId:  "github",
 		ResourceType: "repository",
@@ -52,7 +50,6 @@ func TestCreatePRContext(t *testing.T) {
 	want := &Context{
 		Id:           "github:pull_request:octocat/Hello-World:42",
 		Name:         "PR #42",
-		Level:        3,
 		ParentId:     "github:repository:octocat/Hello-World",
 		ConnectorId:  "github",
 		ResourceType: "pull_request",
@@ -73,7 +70,6 @@ func TestCreateIssueContext(t *testing.T) {
 	want := &Context{
 		Id:           "github:issue:octocat/Hello-World:101",
 		Name:         "Issue #101",
-		Level:        3,
 		ParentId:     "github:repository:octocat/Hello-World",
 		ConnectorId:  "github",
 		ResourceType: "issue",

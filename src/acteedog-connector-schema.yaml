@@ -118,7 +118,6 @@ components:
       required:
         - id
         - name
-        - level
         - connectorId
         - resourceType
         - parentId
@@ -128,8 +127,6 @@ components:
           type: string
         name:
           type: string
-        level:
-          type: integer
         parentId:
           type: string
         connectorId:
@@ -198,22 +195,18 @@ components:
     ContextMapping:
       required:
         - nameTemplate
-        - level
         - resourceType
         - idTemplate
       properties:
         nameTemplate:
           type: string
           description: "Template for context name using {{groupName}} placeholders (e.g., 'repository:{{owner}}/{{repo}}'). For static names, use plain strings without placeholders (e.g., 'github:source')."
-        level:
-          type: integer
-          description: "Hierarchy level (1=source, 2=repository, 3=PR/Issue)"
         resourceType:
           type: string
           description: "Resource type identifier (e.g., 'source', 'repository', 'pull_request', 'issue', 'channel', 'thread')"
         parentIndex:
           type: integer
-          description: "Index of parent context in contextMappings array (null for root/level 1)"
+          description: "Index of parent context in contextMappings array (null for root contexts)"
         idTemplate:
           type: string
           description: "Template for context ID using {{groupName}} placeholders (e.g., 'repository:{{owner}}/{{repo}}')"
