@@ -3,7 +3,7 @@ module jira-connector
 go 1.24
 
 require (
-	github.com/extism/go-pdk v1.1.0
+	github.com/extism/go-pdk v1.1.3
 	github.com/stretchr/testify v1.11.1
 )
 
