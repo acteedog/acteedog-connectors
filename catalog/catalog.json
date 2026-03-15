@@ -56,7 +56,7 @@
       "latest_version": "0.2.3",
       "allowed_hosts": ["slack.com"],
       "capabilities": {
-        "activity": false
+        "activity": true
       },
       "versions": [
         {

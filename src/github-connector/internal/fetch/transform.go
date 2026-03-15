@@ -9,7 +9,7 @@ import (
 type Activity struct {
 	ActivityType string
 	Contexts     []*core.Context
-	Description  *string
+	Description  string
 	Id           string
 	Metadata     any
 	Source       string
@@ -89,7 +89,7 @@ func transformPushEvent(event map[string]any) (*Activity, error) {
 		Id:           id,
 		Timestamp:    timestamp,
 		Title:        title,
-		Description:  &description,
+		Description:  description,
 		Source:       core.ConnectorID,
 		ActivityType: "push",
 		Url:          &url,
@@ -152,7 +152,7 @@ func transformPullRequestEvent(event map[string]any) (*Activity, error) {
 		Id:           id,
 		Timestamp:    timestamp,
 		Title:        title,
-		Description:  &description,
+		Description:  description,
 		Source:       core.ConnectorID,
 		ActivityType: "pull_request",
 		Url:          &url,
@@ -215,7 +215,7 @@ func transformIssuesEvent(event map[string]any) (*Activity, error) {
 		Id:           id,
 		Timestamp:    timestamp,
 		Title:        title,
-		Description:  &description,
+		Description:  description,
 		Source:       core.ConnectorID,
 		ActivityType: "issues",
 		Url:          &url,
@@ -286,7 +286,7 @@ func transformPRCommentEvent(event map[string]any) (*Activity, error) {
 		Id:           id,
 		Timestamp:    timestamp,
 		Title:        title,
-		Description:  &description,
+		Description:  description,
 		Source:       core.ConnectorID,
 		ActivityType: "pr_comment",
 		Url:          &url,
@@ -335,7 +335,7 @@ func transformIssueCommentOnlyEvent(event map[string]any) (*Activity, error) {
 		Id:           id,
 		Timestamp:    timestamp,
 		Title:        title,
-		Description:  &description,
+		Description:  description,
 		Source:       core.ConnectorID,
 		ActivityType: "issue_comment",
 		Url:          &url,
@@ -390,7 +390,7 @@ func transformDeleteEvent(event map[string]any) (*Activity, error) {
 		Id:           id,
 		Timestamp:    timestamp,
 		Title:        title,
-		Description:  &description,
+		Description:  description,
 		Source:       core.ConnectorID,
 		ActivityType: "delete",
 		Url:          &url,
@@ -460,7 +460,7 @@ func transformPRReviewCommentEvent(event map[string]any) (*Activity, error) {
 		Id:           id,
 		Timestamp:    timestamp,
 		Title:        title,
-		Description:  &description,
+		Description:  description,
 		Source:       core.ConnectorID,
 		ActivityType: "pr_review_comment",
 		Url:          &url,
@@ -529,7 +529,7 @@ func transformPRReviewEvent(event map[string]any) (*Activity, error) {
 		Id:           id,
 		Timestamp:    timestamp,
 		Title:        title,
-		Description:  &description,
+		Description:  description,
 		Source:       core.ConnectorID,
 		ActivityType: "pr_review",
 		Url:          &url,

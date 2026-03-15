@@ -59,7 +59,7 @@ func TestFetchActivities(t *testing.T) {
 					Source:       "github",
 					Id:           "github:6031147775",
 					Title:        "Deleted branch chore/golangci-lint in ymtdzzz/otel-tui",
-					Description:  ptrString("branch chore/golangci-lint was deleted"),
+					Description:  "branch chore/golangci-lint was deleted",
 					Url:          ptrString("https://github.com/ymtdzzz/otel-tui"),
 					Timestamp:    time.Date(2025, 11, 18, 0, 37, 3, 0, time.UTC),
 					Metadata: map[string]any{
@@ -125,7 +125,7 @@ func TestFetchActivities(t *testing.T) {
 					Source:       "github",
 					Id:           "github:4548540416",
 					Title:        "Commented on Issue #340",
-					Description:  ptrString("I’m currently working on #352 . Once that’s done, I plan to work on this issue next."),
+					Description:  "I’m currently working on #352 . Once that’s done, I plan to work on this issue next.",
 					Url:          ptrString("https://github.com/ymtdzzz/otel-tui/issues/340#issuecomment-3506104349"),
 					Timestamp:    time.Date(2025, 11, 8, 7, 32, 14, 0, time.UTC),
 					Metadata: map[string]any{
@@ -208,7 +208,7 @@ func TestFetchActivities(t *testing.T) {
 					Source:       "github",
 					Id:           "github:4716363699",
 					Title:        "Issue #375 labeled in ymtdzzz/otel-tui",
-					Description:  ptrString("Issue #375 was labeled"),
+					Description:  "Issue #375 was labeled",
 					Url:          ptrString("https://github.com/ymtdzzz/otel-tui/issues/375"),
 					Timestamp:    time.Date(2025, 11, 17, 7, 15, 21, 0, time.UTC),
 					Metadata: map[string]any{
@@ -292,7 +292,7 @@ func TestFetchActivities(t *testing.T) {
 					Source:       "github",
 					Id:           "github:4719356430",
 					Title:        "Commented on PR #52580",
-					Description:  ptrString("This is a comment on the PR."),
+					Description:  "This is a comment on the PR.",
 					Url:          ptrString("https://github.com/testorg/testrepo/pull/52580#issuecomment-3540831349"),
 					Timestamp:    time.Date(2025, 11, 17, 9, 43, 25, 0, time.UTC),
 					Metadata: map[string]any{
@@ -375,7 +375,7 @@ func TestFetchActivities(t *testing.T) {
 					Source:       "github",
 					Id:           "github:4645219660",
 					Title:        "Reviewed PR #52742 in testorg/testrepo",
-					Description:  ptrString("This is a great change! Approved."),
+					Description:  "This is a great change! Approved.",
 					Url:          ptrString("https://github.com/testorg/testrepo/pull/52742#pullrequestreview-3457546608"),
 					Timestamp:    time.Date(2025, 11, 13, 5, 34, 50, 0, time.UTC),
 					Metadata: map[string]any{
@@ -460,7 +460,7 @@ func TestFetchActivities(t *testing.T) {
 					Source:       "github",
 					Id:           "github:4714496145",
 					Title:        "Commented on PR #52580 in testorg/testrepo",
-					Description:  ptrString("This is pull request review comment body."),
+					Description:  "This is pull request review comment body.",
 					Url:          ptrString("https://github.com/testorg/testrepo/pull/52580#discussion_r2532700510"),
 					Timestamp:    time.Date(2025, 11, 17, 4, 56, 32, 0, time.UTC),
 					Metadata: map[string]any{
@@ -546,7 +546,7 @@ func TestFetchActivities(t *testing.T) {
 					Source:       "github",
 					Id:           "github:1234567890",
 					Title:        "PR #10286 merged in testorg/testrepo",
-					Description:  ptrString("Pull request #10286 was merged"),
+					Description:  "Pull request #10286 was merged",
 					Url:          ptrString("https://github.com/testorg/testrepo/pull/10286"),
 					Timestamp:    time.Date(2025, 11, 12, 1, 6, 1, 0, time.UTC),
 					Metadata: map[string]any{
@@ -631,7 +631,7 @@ func TestFetchActivities(t *testing.T) {
 					Source:       "github",
 					Id:           "github:5894071350",
 					Title:        "Push to ymtdzzz/otel-tui",
-					Description:  ptrString("Pushed to refs/heads/feature/refactor_components in ymtdzzz/otel-tui"),
+					Description:  "Pushed to refs/heads/feature/refactor_components in ymtdzzz/otel-tui",
 					Url:          ptrString("https://github.com/ymtdzzz/otel-tui/commit/4fb5eb96ecc5141ff2383d720508bd0ccaa1b820"),
 					Timestamp:    time.Date(2025, 11, 12, 12, 4, 19, 0, time.UTC),
 					Metadata: map[string]any{

@@ -1,0 +1,172 @@
+{
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "id": "10038",
+  "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/issue/10038",
+  "key": "TES-6",
+  "fields": {
+    "statuscategorychangedate": "2026-03-10T23:04:43.753+0900",
+    "issuetype": {
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/issuetype/10001",
+      "id": "10001",
+      "description": "This is an epic",
+      "iconUrl": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/2/universal_avatar/view/type/issuetype/avatar/10307?size=medium",
+      "name": "Epic",
+      "subtask": false,
+      "avatarId": 10307,
+      "entityId": "entity-id",
+      "hierarchyLevel": 1
+    },
+    "components": [],
+    "timespent": null,
+    "timeoriginalestimate": null,
+    "project": {
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/project/10000",
+      "id": "10000",
+      "key": "TES",
+      "name": "test-project",
+      "projectTypeKey": "software",
+      "simplified": true,
+      "avatarUrls": {
+        "48x48": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410",
+        "24x24": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410?size=small",
+        "16x16": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410?size=xsmall",
+        "32x32": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/universal_avatar/view/type/project/avatar/10410?size=medium"
+      }
+    },
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "This is a test epic."
+            }
+          ]
+        }
+      ]
+    },
+    "fixVersions": [],
+    "aggregatetimespent": null,
+    "customfield_10034": null,
+    "statusCategory": {
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/statuscategory/2",
+      "id": 2,
+      "key": "new",
+      "colorName": "blue-gray",
+      "name": "To Do"
+    },
+    "resolution": null,
+    "customfield_10015": null,
+    "timetracking": {},
+    "security": null,
+    "attachment": [],
+    "aggregatetimeestimate": null,
+    "resolutiondate": null,
+    "workratio": -1,
+    "summary": "Test Epic",
+    "issuerestriction": {
+      "issuerestrictions": {},
+      "shouldDisplay": true
+    },
+    "watches": {
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/issue/TES-6/watchers",
+      "watchCount": 1,
+      "isWatching": true
+    },
+    "lastViewed": "2026-03-10T23:05:40.536+0900",
+    "creator": {
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/user?accountId=account-id",
+      "accountId": "account-id",
+      "emailAddress": "test.user@example.com",
+      "avatarUrls": {
+        "48x48": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+        "24x24": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+        "16x16": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+        "32x32": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png"
+      },
+      "displayName": "Test User",
+      "active": true,
+      "timeZone": "Asia/Tokyo",
+      "accountType": "atlassian"
+    },
+    "subtasks": [],
+    "created": "2026-03-10T23:04:42.979+0900",
+    "customfield_10021": null,
+    "reporter": {
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/user?accountId=account-id",
+      "accountId": "account-id",
+      "emailAddress": "test.user@example.com",
+      "avatarUrls": {
+        "48x48": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+        "24x24": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+        "16x16": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png",
+        "32x32": "https://secure.gravatar.com/avatar/gravatar-id?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYM-2.png"
+      },
+      "displayName": "Test User",
+      "active": true,
+      "timeZone": "Asia/Tokyo",
+      "accountType": "atlassian"
+    },
+    "aggregateprogress": {
+      "progress": 0,
+      "total": 0
+    },
+    "priority": {
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/priority/3",
+      "iconUrl": "https://subdomain.atlassian.net/images/icons/priorities/medium_new.svg",
+      "name": "Medium",
+      "id": "3"
+    },
+    "customfield_10001": null,
+    "labels": [],
+    "customfield_10017": "grey",
+    "environment": null,
+    "customfield_10019": "0|i00013:",
+    "timeestimate": null,
+    "aggregatetimeoriginalestimate": null,
+    "versions": [],
+    "duedate": null,
+    "progress": {
+      "progress": 0,
+      "total": 0
+    },
+    "issuelinks": [],
+    "votes": {
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/issue/TES-6/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "comment": {
+      "comments": [],
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/issue/10038/comment",
+      "maxResults": 0,
+      "total": 0,
+      "startAt": 0
+    },
+    "assignee": null,
+    "worklog": {
+      "startAt": 0,
+      "maxResults": 20,
+      "total": 0,
+      "worklogs": []
+    },
+    "updated": "2026-03-10T23:04:44.068+0900",
+    "status": {
+      "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/status/10000",
+      "description": "",
+      "iconUrl": "https://subdomain.atlassian.net/images/icons/statuses/generic.png",
+      "name": "To Do",
+      "id": "10000",
+      "statusCategory": {
+        "self": "https://api.atlassian.com/ex/jira/cloud-id/rest/api/3/statuscategory/2",
+        "id": 2,
+        "key": "new",
+        "colorName": "blue-gray",
+        "name": "To Do"
+      }
+    }
+  }
+}
