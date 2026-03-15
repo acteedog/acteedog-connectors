@@ -31,13 +31,14 @@ exports:
       contentType: application/json
       $ref: "#/components/schemas/TestConnectionRequest"
 
-  GetContextPatterns:
-    description: |
-      Get static URL patterns and context mapping definitions for cross-plugin context detection.
-      Pattern matching and context extraction will be done on the Tauri side for performance.
+  MatchContext:
+    description: Match contexts based on provided URLs
+    input:
+      contentType: application/json
+      $ref: "#/components/schemas/MatchContextRequest"
     output:
       contentType: application/json
-      $ref: "#/components/schemas/ContextPatternsResponse"
+      $ref: "#/components/schemas/MatchContextResponse"
 
 components:
   schemas:
@@ -166,53 +167,38 @@ components:
         context:
           $ref: "#/components/schemas/Context"
 
-    ContextPatternsResponse:
+    MatchContextRequest:
       required:
-        - patterns
+        - config
+        - urls
       properties:
-        patterns:
-          type: array
-          items:
-            $ref: "#/components/schemas/ContextPatternDefinition"
-
-    ContextPatternDefinition:
-      required:
-        - pattern
-        - contextMappings
-      properties:
-        pattern:
-          type: string
-          description: "Regex pattern with named groups (e.g., 'https://github\\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/pull/(?P<number>\\d+)')"
-        excludePattern:
-          type: string
-          description: "Optional regex pattern to exclude URLs from matching even if pattern matches (e.g., 'https://github\\.com/user-attachments/')"
-        contextMappings:
-          type: array
-          items:
-            $ref: "#/components/schemas/ContextMapping"
-          description: "List of context mappings to create from URL pattern matches"
-
-    ContextMapping:
-      required:
-        - nameTemplate
-        - resourceType
-        - idTemplate
-      properties:
-        nameTemplate:
-          type: string
-          description: "Template for context name using {{groupName}} placeholders (e.g., 'repository:{{owner}}/{{repo}}'). For static names, use plain strings without placeholders (e.g., 'github:source')."
-        resourceType:
-          type: string
-          description: "Resource type identifier (e.g., 'source', 'repository', 'pull_request', 'issue', 'channel', 'thread')"
-        parentIndex:
-          type: integer
-          description: "Index of parent context in contextMappings array (null for root contexts)"
-        idTemplate:
-          type: string
-          description: "Template for context ID using {{groupName}} placeholders (e.g., 'repository:{{owner}}/{{repo}}')"
-        enrichmentParams:
+        config:
           type: object
-          description: "Parameters for enrichment using {{groupName}} templates (e.g., {'repo': '{{owner}}/{{repo}}', 'pr_number': '{{number}}'})"
+        urls:
+          type: array
+          items:
+            type: string
+
+    MatchContextResponse:
+      required:
+        - results
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/MatchContextResult"
+
+    MatchContextResult:
+      required:
+        - url
+        - contexts
+      properties:
+        url:
+          type: string
+        contexts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Context"
 
     TestConnectionRequest:
       required:
