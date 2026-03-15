@@ -2,15 +2,39 @@
   "version": "1",
   "connectors": [
     {
+      "id": "jira",
+      "name": "Jira Connector",
+      "description": "Track issues, comments from Jira projects. An API token with scopes: 'read:jira-user' and 'read:jira-work' is required.",
+      "latest_version": "0.1.0",
+      "allowed_hosts": ["api.atlassian.com"],
+      "capabilities": {
+        "activity": true
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "min_acteedog_version": "0.2.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/jira/0.1.0/plugin.wasm",
+          "checksum": "sha256:1c6a81c63817c4db946914cd493e7c1cc6e756eae3d5c4b498fff728d4c1e695"
+        }
+      ]
+    },
+    {
       "id": "github",
       "name": "GitHub Connector",
       "description": "Track commits, pull requests, issues, and reviews from GitHub repositories",
-      "latest_version": "0.2.4",
+      "latest_version": "0.2.5",
       "allowed_hosts": ["api.github.com"],
       "capabilities": {
         "activity": true
       },
       "versions": [
+        {
+          "version": "0.2.5",
+          "min_acteedog_version": "0.2.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/github/0.2.5/plugin.wasm",
+          "checksum": "sha256:181ca5672cd2cd8ac2bd4b488dff8a97d8f1c0098b978c5af452455147c1de94"
+        },
         {
           "version": "0.2.4",
           "min_acteedog_version": "0.1.5",
@@ -53,12 +77,18 @@
       "id": "slack",
       "name": "Slack Connector",
       "description": "Monitor channels, direct messages, and threads from Slack workspaces. An user token with scopes: channels:history, channels:read, groups:read, im:read, mpim:read, search:read is required.",
-      "latest_version": "0.2.3",
+      "latest_version": "0.2.4",
       "allowed_hosts": ["slack.com"],
       "capabilities": {
         "activity": true
       },
       "versions": [
+        {
+          "version": "0.2.4",
+          "min_acteedog_version": "0.2.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/slack/0.2.4/plugin.wasm",
+          "checksum": "sha256:b52b1727543c88ff837fb1913f10247f683a873be9fd9efb3954eb76e666abd4"
+        },
         {
           "version": "0.2.3",
           "min_acteedog_version": "0.1.5",
