@@ -89,24 +89,33 @@ func _GetConfigSchema() int32 {
   return 0
 }
 
-//export GetContextPatterns
-func _GetContextPatterns() int32 {
+//export MatchContext
+func _MatchContext() int32 {
 	var err error
 	_ = err
-            output, err := GetContextPatterns()
-    		if err != nil {
-			pdk.SetError(err)
-			return -1
-		}
-  
-      			pdk.Log(pdk.LogDebug, "GetContextPatterns: setting JSON output")
+      			pdk.Log(pdk.LogDebug, "MatchContext: getting JSON input")
+			var input MatchContextRequest
+			err = pdk.InputJSON(&input)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+    
+		pdk.Log(pdk.LogDebug, "MatchContext: calling implementation function")
+          output, err := MatchContext(input)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+      
+      			pdk.Log(pdk.LogDebug, "MatchContext: setting JSON output")
 			err = pdk.OutputJSON(output)
 			if err != nil {
 				pdk.SetError(err)
 				return -1
 			}
       
-	pdk.Log(pdk.LogDebug, "GetContextPatterns: returning")
+	pdk.Log(pdk.LogDebug, "MatchContext: returning")
   return 0
 }
 
@@ -190,47 +199,6 @@ func _TestConnection() int32 {
 		
 	
 	// 
-	type ContextMapping struct {
-						// Parameters for enrichment using {{groupName}} templates (e.g., {'repo': '{{owner}}/{{repo}}', 'pr_number': '{{number}}'})
-				EnrichmentParams interface{} `json:"enrichmentParams,omitempty"`
-						// Template for context ID using {{groupName}} placeholders (e.g., 'repository:{{owner}}/{{repo}}')
-				IdTemplate string `json:"idTemplate"`
-						// Template for context name using {{groupName}} placeholders (e.g., 'repository:{{owner}}/{{repo}}'). For static names, use plain strings without placeholders (e.g., 'github:source').
-				NameTemplate string `json:"nameTemplate"`
-						// Index of parent context in contextMappings array (null for root contexts)
-				ParentIndex *int64 `json:"parentIndex,omitempty"`
-						// Resource type identifier (e.g., 'source', 'repository', 'pull_request', 'issue', 'channel', 'thread')
-				ResourceType string `json:"resourceType"`
-		
-	}
-		
-	
-		
-	
-	// 
-	type ContextPatternDefinition struct {
-						// List of context mappings to create from URL pattern matches
-				ContextMappings []ContextMapping `json:"contextMappings"`
-						// Optional regex pattern to exclude URLs from matching even if pattern matches (e.g., 'https://github\.com/user-attachments/')
-				ExcludePattern *string `json:"excludePattern,omitempty"`
-						// Regex pattern with named groups (e.g., 'https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/pull/(?P<number>\d+)')
-				Pattern string `json:"pattern"`
-		
-	}
-		
-	
-		
-	
-	// 
-	type ContextPatternsResponse struct {
-						Patterns []ContextPatternDefinition `json:"patterns"`
-		
-	}
-		
-	
-		
-	
-	// 
 	type EnrichRequest struct {
 						Config interface{} `json:"config"`
 						Context Context `json:"context"`
@@ -271,6 +239,35 @@ func _TestConnection() int32 {
 	// 
 	type FetchResponse struct {
 						Activities []Activity `json:"activities"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type MatchContextRequest struct {
+						Config interface{} `json:"config"`
+						Urls []string `json:"urls"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type MatchContextResponse struct {
+						Results []MatchContextResult `json:"results"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type MatchContextResult struct {
+						Contexts []Context `json:"contexts"`
+						Url string `json:"url"`
 		
 	}
 		
