@@ -2,7 +2,9 @@ package fetch
 
 // JiraSearchResponse represents the response from the Jira search/jql API
 type JiraSearchResponse struct {
-	Issues []JiraIssue `json:"issues"`
+	Issues        []JiraIssue `json:"issues"`
+	IsLast        bool        `json:"isLast"`
+	NextPageToken string      `json:"nextPageToken"`
 }
 
 // JiraIssue represents a single Jira issue

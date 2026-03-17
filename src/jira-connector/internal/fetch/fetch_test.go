@@ -10,14 +10,33 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// mockHTTPClient is a simple in-test implementation of HTTPClient
+// mockHTTPClient is a simple in-test implementation of HTTPClient.
+// If responses has multiple entries, each successive call returns the next response.
+// If all responses are exhausted, the last one is returned on subsequent calls.
 type mockHTTPClient struct {
-	response *JiraSearchResponse
-	err      error
+	responses      []*JiraSearchResponse
+	errs           []error
+	callCount      int
+	capturedTokens []string
 }
 
-func (m *mockHTTPClient) FetchIssues(cloudID, email, apiToken string, projectIDs []string, dateFrom, dateTo string) (*JiraSearchResponse, error) {
-	return m.response, m.err
+func newMockHTTPClient(response *JiraSearchResponse, err error) *mockHTTPClient {
+	return &mockHTTPClient{responses: []*JiraSearchResponse{response}, errs: []error{err}}
+}
+
+func newPaginatedMockHTTPClient(responses []*JiraSearchResponse) *mockHTTPClient {
+	errs := make([]error, len(responses))
+	return &mockHTTPClient{responses: responses, errs: errs}
+}
+
+func (m *mockHTTPClient) FetchIssues(cloudID, email, apiToken string, projectIDs []string, dateFrom, dateTo string, nextPageToken string) (*JiraSearchResponse, error) {
+	m.capturedTokens = append(m.capturedTokens, nextPageToken)
+	idx := m.callCount
+	if idx >= len(m.responses) {
+		idx = len(m.responses) - 1
+	}
+	m.callCount++
+	return m.responses[idx], m.errs[idx]
 }
 
 func loadJiraSearchResponse(t *testing.T, path string) *JiraSearchResponse {
@@ -347,7 +366,7 @@ func TestFetchActivities(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			response := loadJiraSearchResponse(t, tt.testdataPath)
-			httpClient := &mockHTTPClient{response: response}
+			httpClient := newMockHTTPClient(response, nil)
 
 			fetcher, err := NewActivityFetcher(httpClient, tt.cfg, tt.targetDate, core.NewNoopLogger())
 			if err != nil {
@@ -367,4 +386,73 @@ func TestFetchActivities(t *testing.T) {
 
 func ptrString(s string) *string {
 	return &s
+}
+
+func TestFetchActivities_Pagination(t *testing.T) {
+	cfg := map[string]any{
+		"cloud_id":       "cloud-id",
+		"email":          "test.user@example.com",
+		"api_token":      "test-api-token",
+		"project_ids":    []any{"10000"},
+		"site_subdomain": "myorg",
+	}
+
+	// Page 1: isLast=false, nextPageToken="page2token"
+	page1 := &JiraSearchResponse{
+		IsLast:        false,
+		NextPageToken: "page2token",
+		Issues: []JiraIssue{
+			{
+				ID:  "10001",
+				Key: "TES-1",
+				Fields: JiraFields{
+					Summary:   "Issue Page 1",
+					Created:   "2026-03-10T10:00:00.000+0000",
+					Creator:   &JiraUser{EmailAddress: "test.user@example.com"},
+					Project:   &JiraProjectRef{ID: "10000", Key: "TES", Name: "test-project"},
+					IssueType: &JiraIssueType{ID: "10001", Name: "Task"},
+				},
+			},
+		},
+	}
+
+	// Page 2: isLast=true
+	page2 := &JiraSearchResponse{
+		IsLast: true,
+		Issues: []JiraIssue{
+			{
+				ID:  "10002",
+				Key: "TES-2",
+				Fields: JiraFields{
+					Summary:   "Issue Page 2",
+					Created:   "2026-03-10T11:00:00.000+0000",
+					Creator:   &JiraUser{EmailAddress: "test.user@example.com"},
+					Project:   &JiraProjectRef{ID: "10000", Key: "TES", Name: "test-project"},
+					IssueType: &JiraIssueType{ID: "10001", Name: "Task"},
+				},
+			},
+		},
+	}
+
+	httpClient := newPaginatedMockHTTPClient([]*JiraSearchResponse{page1, page2})
+
+	fetcher, err := NewActivityFetcher(httpClient, cfg, "2026-03-10", core.NewNoopLogger())
+	if err != nil {
+		t.Fatalf("Failed to create ActivityFetcher: %v", err)
+	}
+
+	got, err := fetcher.FetchActivities()
+	assert.NoError(t, err)
+
+	// 2 pages × 1 issue each → 2 created activities
+	assert.Len(t, got, 2)
+	assert.Equal(t, 2, httpClient.callCount)
+
+	// 1st call should have empty token, 2nd call should have "page2token"
+	assert.Equal(t, []string{"", "page2token"}, httpClient.capturedTokens)
+
+	// Check activity IDs
+	ids := []string{got[0].Id, got[1].Id}
+	assert.Contains(t, ids, "jira:project:10000:issue:10001:created")
+	assert.Contains(t, ids, "jira:project:10000:issue:10002:created")
 }

@@ -62,7 +62,7 @@ func convertActivity(activity *fetch.Activity) Activity {
 
 type fetchHTTPClient struct{}
 
-func (c *fetchHTTPClient) FetchIssues(cloudID, email, apiToken string, projectIDs []string, dateFrom, dateTo string) (*fetch.JiraSearchResponse, error) {
+func (c *fetchHTTPClient) FetchIssues(cloudID, email, apiToken string, projectIDs []string, dateFrom, dateTo string, nextPageToken string) (*fetch.JiraSearchResponse, error) {
 	// Build project list for JQL: "10000","10001"
 	quotedIDs := make([]string, len(projectIDs))
 	for i, id := range projectIDs {
@@ -76,11 +76,15 @@ func (c *fetchHTTPClient) FetchIssues(cloudID, email, apiToken string, projectID
 	)
 
 	apiURL := fmt.Sprintf(
-		"%s/%s/rest/api/3/search/jql?jql=%s&fields=*all&expand=changelog&maxResults=5000",
+		"%s/%s/rest/api/3/search/jql?jql=%s&fields=*all&expand=changelog&maxResults=50",
 		core.JiraAPIBase,
 		cloudID,
 		url.QueryEscape(jql),
 	)
+
+	if nextPageToken != "" {
+		apiURL += "&nextPageToken=" + url.QueryEscape(nextPageToken)
+	}
 
 	logger.Debug(fmt.Sprintf("Fetching issues: %s", apiURL))
 

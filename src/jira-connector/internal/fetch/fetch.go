@@ -45,38 +45,51 @@ func (f *ActivityFetcher) FetchActivities() ([]*Activity, error) {
 	f.logger.Info("Starting to fetch Jira issues")
 
 	nextDate := f.config.startTime.AddDate(0, 0, 1).Format("2006-01-02")
-	response, err := f.httpClient.FetchIssues(
-		f.config.CloudID,
-		f.config.Email,
-		f.config.APIToken,
-		f.config.ProjectIDs,
-		f.config.targetDate,
-		nextDate,
-	)
-	if err != nil {
-		return nil, fmt.Errorf("failed to fetch issues: %w", err)
-	}
-
-	if response == nil || len(response.Issues) == 0 {
-		f.logger.Info("No issues found in response")
-		return []*Activity{}, nil
-	}
-
-	f.logger.Info(fmt.Sprintf("Fetched %d issues", len(response.Issues)))
-
 	cgen := core.NewContextGenerator(f.config.CloudID)
 	activities := []*Activity{}
 
-	for i := range response.Issues {
-		issueActivities, err := f.transformIssue(&response.Issues[i], cgen)
+	nextPageToken := ""
+	totalIssues := 0
+	for {
+		response, err := f.httpClient.FetchIssues(
+			f.config.CloudID,
+			f.config.Email,
+			f.config.APIToken,
+			f.config.ProjectIDs,
+			f.config.targetDate,
+			nextDate,
+			nextPageToken,
+		)
 		if err != nil {
-			f.logger.Warn(fmt.Sprintf("Skipping issue: %s", err.Error()))
-			continue
+			return nil, fmt.Errorf("failed to fetch issues: %w", err)
 		}
-		activities = append(activities, issueActivities...)
+
+		if response == nil || len(response.Issues) == 0 {
+			if totalIssues == 0 {
+				f.logger.Info("No issues found in response")
+			}
+			break
+		}
+
+		totalIssues += len(response.Issues)
+		f.logger.Info(fmt.Sprintf("Fetched %d issues (page token: %q)", len(response.Issues), nextPageToken))
+
+		for i := range response.Issues {
+			issueActivities, err := f.transformIssue(&response.Issues[i], cgen)
+			if err != nil {
+				f.logger.Warn(fmt.Sprintf("Skipping issue: %s", err.Error()))
+				continue
+			}
+			activities = append(activities, issueActivities...)
+		}
+
+		if response.IsLast {
+			break
+		}
+		nextPageToken = response.NextPageToken
 	}
 
-	f.logger.Info(fmt.Sprintf("Transformed %d activities", len(activities)))
+	f.logger.Info(fmt.Sprintf("Transformed %d activities from %d issues", len(activities), totalIssues))
 
 	return activities, nil
 }
