@@ -5,12 +5,18 @@
       "id": "jira",
       "name": "Jira Connector",
       "description": "Track issues, comments from Jira projects. An API token with scopes: 'read:jira-user' and 'read:jira-work' is required.",
-      "latest_version": "0.1.0",
+      "latest_version": "0.1.1",
       "allowed_hosts": ["api.atlassian.com"],
       "capabilities": {
         "activity": true
       },
       "versions": [
+        {
+          "version": "0.1.1",
+          "min_acteedog_version": "0.2.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/jira/0.1.1/plugin.wasm",
+          "checksum": "sha256:81e94d74ea38d88febb174611ed7c7ed7aa573684a958f096f4cc89f68cf1f5d"
+        },
         {
           "version": "0.1.0",
           "min_acteedog_version": "0.2.0",
