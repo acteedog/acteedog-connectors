@@ -1,0 +1,6 @@
+name: local
+variables:
+  - secret: true
+    name: oauth_token
+  - secret: true
+    name: email

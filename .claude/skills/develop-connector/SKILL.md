@@ -96,7 +96,7 @@ src/{name}-connector/
 
 Returns the JSON Schema for user-supplied connector settings.
 
-- Fields prefixed with `credential_` are treated as credentials (tokens, passwords, etc.).
+- Secret fields (tokens, passwords, etc.) are declared in `AuthMethod.Fields` with `Secret: true`, not in `Properties`. The host stores them in the OS keychain.
 - Include all required fields in the `Required` slice.
 - Use JSON Schema-compatible type strings: `"string"`, `"array"`, `"boolean"`, etc.
 
@@ -366,3 +366,166 @@ Review the API documentation and pick the most appropriate strategy. Avoid fetch
 
 - Use `{connector-name}-connector` as the module name (e.g. `module github-connector`).
 - Keep external dependencies minimal and always verify the build works with tinygo.
+
+---
+
+## 9. Authentication Methods
+
+### 9.1 Defining `auth_methods` in `GetConfigSchema`
+
+`ConfigSchema.AuthMethods` declares the authentication methods the connector supports.
+The host reads this field to render the appropriate UI and pass `active_auth_method` in the config.
+
+```go
+authMethods := []AuthMethod{
+    {
+        Id:          "token",
+        Type:        AuthMethodTypeBearer,
+        Label:       "Personal Access Token",
+        Description: strPtr("Description of PAT auth"),
+        Fields: []AuthField{
+            {Key: "personal_access_token", Name: "Personal Access Token", Secret: &secretTrue},
+        },
+    },
+    {
+        Id:          "oauth_device",
+        Type:        AuthMethodTypeOauthDevice,
+        Label:       "OAuth (Device Flow)",
+        Description: strPtr("Authenticate via Device Flow. No redirect required."),
+        Fields:      []AuthField{},  // no form fields — OAuth UI is handled by the host
+    },
+}
+```
+
+**`AuthMethodType` values:**
+
+| Type | Host behaviour |
+|---|---|
+| `bearer` / `basic` | Renders form fields; stores secrets in keychain |
+| `oauth_device` | Runs Device Flow (host polls `PollDeviceToken`); stores tokens in keychain |
+| `oauth_web` | Runs Web Application Flow (loopback server + browser redirect) |
+
+**Key rules:**
+- `Fields` must be empty (`[]AuthField{}`) for `oauth_device` / `oauth_web` — the host manages the token UI.
+- The `Id` value becomes the `active_auth_method` value passed into the connector's config at runtime.
+
+### 9.2 `internal/auth/` Package
+
+The `internal/auth/` package abstracts the per-method HTTP authentication logic behind a single `Client` interface.
+
+**Files:**
+
+| File | Build tag | Purpose |
+|---|---|---|
+| `client.go` | none | `Client` interface (`Get(url string) ([]byte, int, error)`) |
+| `bearer.go` | `wasip1` | `BearerClient` — reads `cfg["personal_access_token"]` |
+| `oauth.go` | `wasip1` | `OAuthClient` — reads `cfg["oauth_access_token"]` + `cfg["oauth_refresh_token"]` |
+| `factory.go` | `wasip1` | `NewClient(cfg map[string]any) (Client, error)` — dispatches on `active_auth_method` |
+| `host.go` | `wasip1` | `//go:wasmimport` declaration for the `store_oauth_tokens` host function |
+
+**All files that import `github.com/extism/go-pdk` must carry `//go:build wasip1`** — the PDK is not available outside the WASM target and the build will fail without the tag.
+
+`factory.go` dispatch pattern:
+
+```go
+func NewClient(cfg map[string]any) (Client, error) {
+    method, _ := cfg["active_auth_method"].(string)
+    switch method {
+    case "oauth_device", "oauth_web":
+        return newOAuthClient(cfg)
+    default:
+        // "token" or unset → PAT bearer auth
+        return newBearerClient(cfg)
+    }
+}
+```
+
+### 9.3 Integrating `auth.Client` into HTTP Clients
+
+Remove the `token` parameter from `HTTPClient` interfaces and from `internal/fetch/config.go` / `internal/enrich/config.go`.
+Instead, store an `auth.Client` inside the PDK `HTTPClient` implementation in `fetch.go` / `enrichment.go`.
+
+```go
+// fetch.go
+type fetchHTTPClient struct {
+    authClient auth.Client
+}
+
+func (c *fetchHTTPClient) FetchEvents(username string, page int) ([]byte, int, error) {
+    url := fmt.Sprintf("%s/users/%s/events?per_page=100&page=%d", baseURL, username, page)
+    return c.authClient.Get(url)
+}
+
+// initialise in FetchActivities:
+authClient, err := auth.NewClient(config)
+client := &fetchHTTPClient{authClient: authClient}
+```
+
+This pattern keeps `internal/fetch/` and `internal/enrich/` free of authentication logic and makes them fully testable with hand-written or mockgen mocks.
+
+### 9.4 Token Refresh via Host Function
+
+When `oauth_access_token` expires, the host cannot detect this automatically.
+The connector is responsible for refreshing the token transparently.
+
+**Mechanism:**
+
+1. `internal/auth/host.go` declares the host function using `//go:wasmimport`:
+
+```go
+//go:build wasip1
+
+package auth
+
+import "github.com/extism/go-pdk"
+
+//go:wasmimport acteedog store_oauth_tokens
+func hostStoreOAuthTokens(ptr uint64)
+
+func storeOAuthTokens(json string) {
+    mem := pdk.AllocateString(json)
+    defer mem.Free()
+    hostStoreOAuthTokens(mem.Offset())
+}
+```
+
+2. `OAuthClient.Get()` retries once on HTTP 401 if a `refresh_token` is available:
+
+```go
+func (c *oauthClient) Get(url string) ([]byte, int, error) {
+    body, status, err := c.doRequest(url)
+    if status == 401 && c.refreshToken != "" {
+        if err := c.refresh(); err != nil {
+            return nil, status, fmt.Errorf("token expired and refresh failed: %w — please reconnect", err)
+        }
+        body, status, err = c.doRequest(url)
+    }
+    return body, status, err
+}
+```
+
+3. `refresh()` calls the provider's token endpoint, updates `c.accessToken` / `c.refreshToken` in memory, then calls `storeOAuthTokens(json)` to persist the new tokens to the host keychain.
+
+**Rules:**
+- Only retry once — if the refreshed token also returns 401, surface the error to the caller.
+- If `refreshToken` is empty, do not attempt a refresh (tokens may be non-expiring).
+- `storeOAuthTokens` failures are non-fatal for the current request (the in-memory token was already updated), but should be logged as a warning.
+- The JSON payload passed to `storeOAuthTokens` must be: `{"access_token":"...","refresh_token":"..."}` (omit `refresh_token` if unchanged or unavailable).
+
+### 9.5 OAuth Device Flow (`StartDeviceFlow` / `PollDeviceToken`)
+
+Implement these two WASM exports when `oauth_device` is listed in `auth_methods`.
+
+**`StartDeviceFlow`** — called once by the host to begin the flow:
+- POST to the provider's device code endpoint.
+- Return `DeviceFlowResponse` with `device_code`, `user_code`, `verification_uri`, `expires_in`, `interval`.
+- The host displays `user_code` and `verification_uri` to the user.
+
+**`PollDeviceToken`** — called repeatedly by the host at `interval`-second intervals:
+- POST to the provider's token endpoint with `device_code`.
+- `authorization_pending`: return `OAuthTokenResponse{AccessToken: ""}` — the host continues polling.
+- Token granted: return `OAuthTokenResponse` with a non-empty `AccessToken`.
+- Terminal error (`expired_token`, `access_denied`, etc.): return an error — the host stops polling and shows an error.
+
+**`allowed_hosts` reminder:**
+Add every host that the OAuth flow contacts (device code endpoint, token endpoint) to `allowed_hosts` in `catalog.json`. These calls happen inside the WASM sandbox and will fail silently if the host is not listed.

@@ -1,0 +1,29 @@
+app_id = ""
+
+# This is where 'xtp plugin push' expects to find the wasm file after the build script has run.
+bin = "dist/plugin.wasm"
+extension_point_id = ""
+# This is the 'binding' name used for the plugin.
+name = "google-calendar-connector"
+
+[scripts]
+# xtp plugin build runs this script to generate the wasm file
+# `-scheduler none` must be set if we use crypto/sha256. see https://github.com/tinygo-org/tinygo/issues/4847
+build = """
+[ -n "${GOOGLE_CALENDAR_CLIENT_SECRET:-}" ] || { echo 'ERROR: GOOGLE_CALENDAR_CLIENT_SECRET is not set' >&2; exit 1; }
+[ -n "${GOOGLE_CALENDAR_CLIENT_ID:-}" ] || { echo 'ERROR: GOOGLE_CALENDAR_CLIENT_ID is not set' >&2; exit 1; }
+mkdir -p dist
+tinygo build \
+  -buildmode c-shared \
+  -target wasip1 \
+  -o dist/plugin.wasm \
+  -scheduler none \
+  -ldflags="-X 'google-calendar-connector/internal/auth.GoogleCalendarClientSecret=${GOOGLE_CALENDAR_CLIENT_SECRET}' -X 'google-calendar-connector/internal/auth.GoogleCalendarClientID=${GOOGLE_CALENDAR_CLIENT_ID}'" \
+  .
+"""
+
+# xtp plugin init runs this script to format the code
+format = "go fmt && go mod tidy && goimports -w main.go"
+
+# xtp plugin init runs this script before running the format script
+prepare = "bash prepare.sh && go get ./..."

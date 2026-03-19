@@ -8,7 +8,18 @@ name = "github-connector"
 
 [scripts]
 # xtp plugin build runs this script to generate the wasm file
-build = "mkdir -p dist && tinygo build -buildmode c-shared -target wasip1 -o dist/plugin.wasm ."
+# `-scheduler none` must be set if we use crypto/sha256. see https://github.com/tinygo-org/tinygo/issues/4847
+build = """
+[ -n "${GITHUB_APP_CLIENT_ID:-}" ] || { echo 'ERROR: GITHUB_APP_CLIENT_ID is not set' >&2; exit 1; }
+mkdir -p dist
+tinygo build \
+  -buildmode c-shared \
+  -target wasip1 \
+  -o dist/plugin.wasm \
+  -scheduler none \
+  -ldflags="-X 'github-connector/internal/auth.GithubAppClientID=${GITHUB_APP_CLIENT_ID}'" \
+  .
+"""
 
 # xtp plugin init runs this script to format the code
 format = "go fmt && go mod tidy && goimports -w main.go"

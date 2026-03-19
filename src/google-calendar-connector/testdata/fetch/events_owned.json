@@ -1,0 +1,81 @@
+{
+  "kind": "calendar#events",
+  "etag": "\"test-etag\"",
+  "summary": "you@example.com",
+  "description": "",
+  "updated": "2026-03-21T13:43:57.760Z",
+  "timeZone": "Asia/Tokyo",
+  "accessRole": "owner",
+  "defaultReminders": [
+    {
+      "method": "popup",
+      "minutes": 30
+    }
+  ],
+  "items": [
+    {
+      "kind": "calendar#event",
+      "etag": "\"12345\"",
+      "id": "calendar-id-1",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=my-eid",
+      "created": "2026-03-16T13:15:40.000Z",
+      "updated": "2026-03-16T13:15:41.079Z",
+      "summary": "test MTG 01",
+      "creator": {
+        "email": "you@example.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "you@example.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2026-03-15T10:00:00+09:00",
+        "timeZone": "Asia/Tokyo"
+      },
+      "end": {
+        "dateTime": "2026-03-15T12:00:00+09:00",
+        "timeZone": "Asia/Tokyo"
+      },
+      "iCalUID": "icalid@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"567890\"",
+      "id": "calendar-id-2",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=my-eid",
+      "created": "2026-03-16T13:15:47.000Z",
+      "updated": "2026-03-16T13:15:48.239Z",
+      "summary": "テストMTG２",
+      "creator": {
+        "email": "you@example.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "you@example.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2026-03-15T15:00:00+09:00",
+        "timeZone": "Asia/Tokyo"
+      },
+      "end": {
+        "dateTime": "2026-03-15T15:30:00+09:00",
+        "timeZone": "Asia/Tokyo"
+      },
+      "iCalUID": "icalid@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    }
+  ]
+}

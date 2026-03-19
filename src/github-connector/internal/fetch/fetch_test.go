@@ -44,12 +44,12 @@ func TestFetchActivities(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/events/delete.json")
 
 				mockHTTP := mock_fetch.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 1).Return([]map[string]any{response}, nil).Times(1)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 2).Return([]map[string]any{}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 1).Return([]map[string]any{response}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 2).Return([]map[string]any{}, nil).Times(1)
 				return mockHTTP
 			},
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 				"username":                         "username",
 			},
 			targetDate: "2025-11-18",
@@ -108,12 +108,12 @@ func TestFetchActivities(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/events/issue_comment.json")
 
 				mockHTTP := mock_fetch.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 1).Return([]map[string]any{response}, nil).Times(1)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 2).Return([]map[string]any{}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 1).Return([]map[string]any{response}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 2).Return([]map[string]any{}, nil).Times(1)
 				return mockHTTP
 			},
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 				"username":                         "username",
 			},
 			targetDate: "2025-11-08",
@@ -188,12 +188,12 @@ func TestFetchActivities(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/events/issues.json")
 
 				mockHTTP := mock_fetch.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 1).Return([]map[string]any{response}, nil).Times(1)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 2).Return([]map[string]any{}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 1).Return([]map[string]any{response}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 2).Return([]map[string]any{}, nil).Times(1)
 				return mockHTTP
 			},
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 				"username":                         "username",
 			},
 			targetDate: "2025-11-17",
@@ -269,12 +269,12 @@ func TestFetchActivities(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/events/pr_comment.json")
 
 				mockHTTP := mock_fetch.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 1).Return([]map[string]any{response}, nil).Times(1)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 2).Return([]map[string]any{}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 1).Return([]map[string]any{response}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 2).Return([]map[string]any{}, nil).Times(1)
 				return mockHTTP
 			},
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 				"username":                         "username",
 			},
 			targetDate: "2025-11-17",
@@ -349,12 +349,12 @@ func TestFetchActivities(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/events/pr_review.json")
 
 				mockHTTP := mock_fetch.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 1).Return([]map[string]any{response}, nil).Times(1)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 2).Return([]map[string]any{}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 1).Return([]map[string]any{response}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 2).Return([]map[string]any{}, nil).Times(1)
 				return mockHTTP
 			},
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 				"username":                         "username",
 			},
 			targetDate: "2025-11-13",
@@ -431,12 +431,12 @@ func TestFetchActivities(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/events/pr_review_comment.json")
 
 				mockHTTP := mock_fetch.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 1).Return([]map[string]any{response}, nil).Times(1)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 2).Return([]map[string]any{}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 1).Return([]map[string]any{response}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 2).Return([]map[string]any{}, nil).Times(1)
 				return mockHTTP
 			},
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 				"username":                         "username",
 			},
 			targetDate: "2025-11-17",
@@ -514,12 +514,12 @@ func TestFetchActivities(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/events/pull_request.json")
 
 				mockHTTP := mock_fetch.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 1).Return([]map[string]any{response}, nil).Times(1)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 2).Return([]map[string]any{}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 1).Return([]map[string]any{response}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 2).Return([]map[string]any{}, nil).Times(1)
 				return mockHTTP
 			},
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 				"username":                         "username",
 			},
 			targetDate: "2025-11-12",
@@ -596,12 +596,12 @@ func TestFetchActivities(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/events/push.json")
 
 				mockHTTP := mock_fetch.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 1).Return([]map[string]any{response}, nil).Times(1)
-				mockHTTP.EXPECT().FetchActivities("token", "username", 2).Return([]map[string]any{}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 1).Return([]map[string]any{response}, nil).Times(1)
+				mockHTTP.EXPECT().FetchActivities("username", 2).Return([]map[string]any{}, nil).Times(1)
 				return mockHTTP
 			},
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 				"username":                         "username",
 			},
 			targetDate: "2025-11-12",

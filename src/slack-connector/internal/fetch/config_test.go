@@ -17,7 +17,7 @@ func TestNewConfig(t *testing.T) {
 		{
 			name: "valid config",
 			cfg: map[string]any{
-				"bot_token":     "valid_token",
+				"user_oauth_token":     "valid_token",
 				"workspace_url": "example.slack.com",
 				"user_id":       "U12345678",
 			},
@@ -31,7 +31,7 @@ func TestNewConfig(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "invalid config - missing bot_token",
+			name: "invalid config - missing user_oauth_token",
 			cfg: map[string]any{
 				"workspace_url": "example.slack.com",
 				"user_id":       "U12345678",
@@ -43,7 +43,7 @@ func TestNewConfig(t *testing.T) {
 		{
 			name: "invalid config - missing workspace_url",
 			cfg: map[string]any{
-				"bot_token": "valid_token",
+				"user_oauth_token": "valid_token",
 				"user_id":   "U12345678",
 			},
 			targetDate: "2025-12-12T12:00:00+09:00",
@@ -53,7 +53,7 @@ func TestNewConfig(t *testing.T) {
 		{
 			name: "invalid config - missing user_id",
 			cfg: map[string]any{
-				"bot_token":     "valid_token",
+				"user_oauth_token":     "valid_token",
 				"workspace_url": "example.slack.com",
 			},
 			targetDate: "2025-12-12T12:00:00+09:00",

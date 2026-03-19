@@ -10,9 +10,9 @@ type config struct {
 }
 
 func newConfig(cfg map[string]any, targetDate string) (*config, error) {
-	token, ok := cfg["bot_token"].(string)
+	token, ok := cfg["user_oauth_token"].(string)
 	if !ok || token == "" {
-		return nil, fmt.Errorf("missing bot_token")
+		return nil, fmt.Errorf("missing user_oauth_token")
 	}
 
 	workspaceURL, ok := cfg["workspace_url"].(string)

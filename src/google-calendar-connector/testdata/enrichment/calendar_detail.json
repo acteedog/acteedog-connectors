@@ -1,0 +1,25 @@
+{
+  "kind": "calendar#calendarListEntry",
+  "etag": "\"67890\"",
+  "id": "you@example.com",
+  "summary": "you@exmaple.com",
+  "timeZone": "Asia/Tokyo",
+  "colorId": "14",
+  "backgroundColor": "#9fe1e7",
+  "foregroundColor": "#000000",
+  "selected": true,
+  "accessRole": "owner",
+  "defaultReminders": [
+    {
+      "method": "popup",
+      "minutes": 30
+    }
+  ],
+  "notificationSettings": {
+    "notifications": []
+  },
+  "primary": true,
+  "conferenceProperties": {
+    "allowedConferenceSolutionTypes": ["hangoutsMeet"]
+  }
+}

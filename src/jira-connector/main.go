@@ -35,6 +35,20 @@ func parseConfig(raw any) (*connectorConfig, error) {
 
 // GetConfigSchema returns the configuration schema for the Jira connector
 func GetConfigSchema() (ConfigSchema, error) {
+	secretTrue := true
+	secretFalse := false
+	authMethods := []AuthMethod{
+		{
+			Id:          "basic",
+			Type:        AuthMethodTypeBasic,
+			Label:       "API Token (Basic Auth)",
+			Description: strPtr("Basic auth using Atlassian API Token. Generate at Atlassian Account > Security > API Tokens."),
+			Fields: []AuthField{
+				{Key: "email", Name: "Email", Secret: &secretFalse},
+				{Key: "api_token", Name: "API Token", Secret: &secretTrue},
+			},
+		},
+	}
 	return ConfigSchema{
 		Type: "object",
 		Properties: map[string]any{
@@ -42,16 +56,6 @@ func GetConfigSchema() (ConfigSchema, error) {
 				"type":        "string",
 				"title":       "Cloud ID",
 				"description": "Your Atlassian Cloud ID. You can find it at https://your-subdomain.atlassian.net/_edge/tenant_info",
-			},
-			"email": map[string]any{
-				"type":        "string",
-				"title":       "Email",
-				"description": "Email address of your Jira account",
-			},
-			"api_token": map[string]any{
-				"type":        "string",
-				"title":       "API Token",
-				"description": "Jira API Token for authentication with scope 'read:jira-user' and 'read:jira-work'",
 			},
 			"project_ids": map[string]any{
 				"type": "array",
@@ -69,13 +73,14 @@ func GetConfigSchema() (ConfigSchema, error) {
 		},
 		Required: &[]string{
 			"cloud_id",
-			"email",
-			"api_token",
 			"project_ids",
 			"site_subdomain",
 		},
+		AuthMethods: &authMethods,
 	}, nil
 }
+
+func strPtr(s string) *string { return &s }
 
 // TestConnection tests the Jira API connection using the provided configuration
 func TestConnection(input TestConnectionRequest) error {
@@ -156,6 +161,26 @@ func validateConfig(cfg *connectorConfig) error {
 		return fmt.Errorf("site_subdomain is required")
 	}
 	return nil
+}
+
+// BuildOAuthUrl is not supported by this connector.
+func BuildOAuthUrl(_ OAuthUrlRequest) (OAuthUrlResponse, error) {
+	return OAuthUrlResponse{}, fmt.Errorf("OAuth web flow is not supported by this connector")
+}
+
+// ExchangeOAuthCode is not supported by this connector.
+func ExchangeOAuthCode(_ OAuthCodeExchangeRequest) (OAuthTokenResponse, error) {
+	return OAuthTokenResponse{}, fmt.Errorf("OAuth web flow is not supported by this connector")
+}
+
+// StartDeviceFlow is not supported by this connector.
+func StartDeviceFlow() (DeviceFlowResponse, error) {
+	return DeviceFlowResponse{}, fmt.Errorf("OAuth device flow is not supported by this connector")
+}
+
+// PollDeviceToken is not supported by this connector.
+func PollDeviceToken(_ DeviceTokenRequest) (OAuthTokenResponse, error) {
+	return OAuthTokenResponse{}, fmt.Errorf("OAuth device flow is not supported by this connector")
 }
 
 // basicAuthHeader creates a Basic Auth header value from email and API token

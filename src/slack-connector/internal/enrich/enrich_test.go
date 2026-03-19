@@ -46,7 +46,7 @@ func TestEnrichContext(t *testing.T) {
 			},
 			resourceType: "source",
 			cfg: map[string]any{
-				"bot_token":     "token",
+				"user_oauth_token":     "token",
 				"workspace_url": "example.slack.com",
 			},
 			params: map[string]any{},
@@ -68,7 +68,7 @@ func TestEnrichContext(t *testing.T) {
 			},
 			resourceType: "channel",
 			cfg: map[string]any{
-				"bot_token":     "token",
+				"user_oauth_token":     "token",
 				"workspace_url": "example.slack.com",
 			},
 			params: map[string]any{
@@ -104,7 +104,7 @@ func TestEnrichContext(t *testing.T) {
 			},
 			resourceType: "thread",
 			cfg: map[string]any{
-				"bot_token":     "token",
+				"user_oauth_token":     "token",
 				"workspace_url": "example.slack.com",
 			},
 			params: map[string]any{
@@ -139,7 +139,7 @@ func TestEnrichContext(t *testing.T) {
 			},
 			resourceType: "thread",
 			cfg: map[string]any{
-				"bot_token":     "token",
+				"user_oauth_token":     "token",
 				"workspace_url": "example.slack.com",
 			},
 			params: map[string]any{
@@ -171,7 +171,7 @@ func TestEnrichContext(t *testing.T) {
 			},
 			resourceType: "invalid resource",
 			cfg: map[string]any{
-				"bot_token":     "token",
+				"user_oauth_token":     "token",
 				"workspace_url": "example.slack.com",
 			},
 			params: map[string]any{

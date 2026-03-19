@@ -18,34 +18,13 @@ func TestNewConfig(t *testing.T) {
 		{
 			name:        "valid config",
 			contextType: "pull_request",
-			cfg: map[string]any{
-				"credential_personal_access_token": "valid_token",
-			},
-			params: map[string]any{},
+			cfg:         map[string]any{},
+			params:      map[string]any{},
 			wantConfig: &config{
 				contextType:      "pull_request",
-				token:            "valid_token",
 				enrichmentParams: map[string]any{},
 			},
 			wantErr: false,
-		},
-		{
-			name:        "invalid config - missing token",
-			contextType: "pull_request",
-			cfg:         map[string]any{},
-			params:      map[string]any{},
-			wantConfig:  nil,
-			wantErr:     true,
-		},
-		{
-			name:        "invalid config - wrong token type",
-			contextType: "pull_request",
-			cfg: map[string]any{
-				"credential_personal_access_token": 123,
-			},
-			params:     map[string]any{},
-			wantConfig: nil,
-			wantErr:    true,
 		},
 	}
 

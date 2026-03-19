@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github-connector/internal/auth"
 	"github-connector/internal/core"
 	"github-connector/internal/fetch"
 
@@ -18,7 +19,12 @@ func FetchActivities(input FetchRequest) (FetchResponse, error) {
 		return FetchResponse{}, fmt.Errorf("invalid configuration format")
 	}
 
-	fetcher, err := fetch.NewActivityFetcher(&fetchHTTPClient{}, config, input.Params.TargetDate, logger)
+	authClient, err := auth.NewClient(config)
+	if err != nil {
+		return FetchResponse{}, fmt.Errorf("failed to initialize auth client: %w", err)
+	}
+
+	fetcher, err := fetch.NewActivityFetcher(&fetchHTTPClient{authClient: authClient}, config, input.Params.TargetDate, logger)
 	if err != nil {
 		return FetchResponse{}, fmt.Errorf("failed to create activity fetcher: %w", err)
 	}
@@ -63,26 +69,25 @@ func convertActivity(activity *fetch.Activity) Activity {
 	}
 }
 
-type fetchHTTPClient struct{}
+type fetchHTTPClient struct {
+	authClient auth.Client
+}
 
-func (c *fetchHTTPClient) FetchActivities(token, username string, page int) ([]map[string]any, error) {
+func (c *fetchHTTPClient) FetchActivities(username string, page int) ([]map[string]any, error) {
 	url := fmt.Sprintf("https://api.github.com/users/%s/events?per_page=100&page=%d", username, page)
 
 	pdk.Log(pdk.LogDebug, fmt.Sprintf("Fetching page %d: %s", page, url))
 
-	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
-	req.SetHeader("Authorization", "token "+token)
-	req.SetHeader("Accept", "application/vnd.github+json")
-	req.SetHeader("User-Agent", "acteedog/"+core.ConnectorID)
-
-	res := req.Send()
-
-	if res.Status() != 200 {
-		return nil, fmt.Errorf("GitHub API error: HTTP %d", res.Status())
+	body, status, err := c.authClient.Get(url)
+	if err != nil {
+		return nil, fmt.Errorf("failed to send request: %w", err)
+	}
+	if status != 200 {
+		return nil, fmt.Errorf("GitHub API error: HTTP %d", status)
 	}
 
 	var events []map[string]any
-	if err := json.Unmarshal(res.Body(), &events); err != nil {
+	if err := json.Unmarshal(body, &events); err != nil {
 		return nil, fmt.Errorf("failed to parse events: %w", err)
 	}
 

@@ -18,13 +18,11 @@ func TestNewConfig(t *testing.T) {
 		{
 			name: "valid config",
 			cfg: map[string]any{
-				"credential_personal_access_token": "valid_token",
-				"username":                         "octocat",
-				"repository_patterns":              []any{"octocat/*"},
+				"username":            "octocat",
+				"repository_patterns": []any{"octocat/*"},
 			},
 			targetDate: "2025-12-12T12:00:00+09:00",
 			wantConfig: &config{
-				token:              "valid_token",
 				username:           "octocat",
 				repositoryPatterns: []string{"octocat/*"},
 				startTime:          time.Date(2025, 12, 12, 0, 0, 0, 0, time.UTC),
@@ -35,13 +33,11 @@ func TestNewConfig(t *testing.T) {
 		{
 			name: "valid config - date only format",
 			cfg: map[string]any{
-				"credential_personal_access_token": "valid_token",
-				"username":                         "octocat",
-				"repository_patterns":              []any{"octocat/*"},
+				"username":            "octocat",
+				"repository_patterns": []any{"octocat/*"},
 			},
 			targetDate: "2025-12-12",
 			wantConfig: &config{
-				token:              "valid_token",
 				username:           "octocat",
 				repositoryPatterns: []string{"octocat/*"},
 				startTime:          time.Date(2025, 12, 12, 0, 0, 0, 0, time.UTC),
@@ -50,20 +46,9 @@ func TestNewConfig(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "invalid config - missing token",
-			cfg: map[string]any{
-				"username":            "octocat",
-				"repository_patterns": []any{"octocat/*"},
-			},
-			targetDate: "2025-12-12T12:00:00+09:00",
-			wantConfig: nil,
-			wantErr:    true,
-		},
-		{
 			name: "invalid config - missing username",
 			cfg: map[string]any{
-				"credential_personal_access_token": "valid_token",
-				"repository_patterns":              []any{"octocat/*"},
+				"repository_patterns": []any{"octocat/*"},
 			},
 			targetDate: "2025-12-12T12:00:00+09:00",
 			wantConfig: nil,
@@ -72,9 +57,8 @@ func TestNewConfig(t *testing.T) {
 		{
 			name: "invalid config - invalid target date",
 			cfg: map[string]any{
-				"credential_personal_access_token": "valid_token",
-				"username":                         "octocat",
-				"repository_patterns":              []any{"octocat/*"},
+				"username":            "octocat",
+				"repository_patterns": []any{"octocat/*"},
 			},
 			targetDate: "invalid date format",
 			wantConfig: nil,

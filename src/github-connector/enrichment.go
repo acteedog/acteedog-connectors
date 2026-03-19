@@ -3,10 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github-connector/internal/auth"
 	"github-connector/internal/core"
 	"github-connector/internal/enrich"
-
-	"github.com/extism/go-pdk"
 )
 
 // EnrichContext enriches the given context with data from GitHub API
@@ -28,7 +27,12 @@ func EnrichContext(input EnrichRequest) (EnrichResponse, error) {
 		return EnrichResponse{}, fmt.Errorf("invalid configuration format")
 	}
 
-	enricher, err := enrich.NewContextEnricher(&enrichHTTPClient{}, contextType, config, enrichmentParams, logger)
+	authClient, err := auth.NewClient(config)
+	if err != nil {
+		return EnrichResponse{}, fmt.Errorf("failed to initialize auth client: %w", err)
+	}
+
+	enricher, err := enrich.NewContextEnricher(&enrichHTTPClient{authClient: authClient}, contextType, config, enrichmentParams, logger)
 	if err != nil {
 		return EnrichResponse{}, fmt.Errorf("failed to create context enricher: %w", err)
 	}
@@ -99,65 +103,58 @@ func extractEnrichmentParams(metadata any) (map[string]any, error) {
 	return params, nil
 }
 
-type enrichHTTPClient struct{}
+type enrichHTTPClient struct {
+	authClient auth.Client
+}
 
-func (c *enrichHTTPClient) FetchRepository(token, repo string) (map[string]any, error) {
+func (c *enrichHTTPClient) FetchRepository(repo string) (map[string]any, error) {
 	url := fmt.Sprintf("%s/repos/%s", core.GithubAPIBaseURL, repo)
-	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
-	req.SetHeader("Authorization", "token "+token)
-	req.SetHeader("Accept", "application/vnd.github+json")
-	req.SetHeader("User-Agent", "acteedog/"+core.ConnectorID)
-
-	res := req.Send()
-	if res.Status() != 200 {
-		body := string(res.Body())
-		return nil, fmt.Errorf("GitHub API error (status %d): %s", res.Status(), body)
+	body, status, err := c.authClient.Get(url)
+	if err != nil {
+		return nil, fmt.Errorf("failed to send request: %w", err)
+	}
+	if status != 200 {
+		return nil, fmt.Errorf("GitHub API error (status %d): %s", status, string(body))
 	}
 
 	var apiResp map[string]any
-	if err := json.Unmarshal(res.Body(), &apiResp); err != nil {
+	if err := json.Unmarshal(body, &apiResp); err != nil {
 		return nil, fmt.Errorf("failed to parse API response: %w", err)
 	}
 
 	return apiResp, nil
 }
 
-func (c *enrichHTTPClient) FetchPullRequest(token, repo, number string) (map[string]any, error) {
+func (c *enrichHTTPClient) FetchPullRequest(repo, number string) (map[string]any, error) {
 	url := fmt.Sprintf("%s/repos/%s/pulls/%s", core.GithubAPIBaseURL, repo, number)
-	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
-	req.SetHeader("Authorization", "token "+token)
-	req.SetHeader("Accept", "application/vnd.github+json")
-	req.SetHeader("User-Agent", "acteedog/"+core.ConnectorID)
-
-	res := req.Send()
-	if res.Status() != 200 {
-		body := string(res.Body())
-		return nil, fmt.Errorf("GitHub API error (status %d): %s", res.Status(), body)
+	body, status, err := c.authClient.Get(url)
+	if err != nil {
+		return nil, fmt.Errorf("failed to send request: %w", err)
+	}
+	if status != 200 {
+		return nil, fmt.Errorf("GitHub API error (status %d): %s", status, string(body))
 	}
 
 	var apiResp map[string]any
-	if err := json.Unmarshal(res.Body(), &apiResp); err != nil {
+	if err := json.Unmarshal(body, &apiResp); err != nil {
 		return nil, fmt.Errorf("failed to parse API response: %w", err)
 	}
 
 	return apiResp, nil
 }
 
-func (c *enrichHTTPClient) FetchIssue(token, repo, number string) (map[string]any, error) {
+func (c *enrichHTTPClient) FetchIssue(repo, number string) (map[string]any, error) {
 	url := fmt.Sprintf("%s/repos/%s/issues/%s", core.GithubAPIBaseURL, repo, number)
-	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
-	req.SetHeader("Authorization", "token "+token)
-	req.SetHeader("Accept", "application/vnd.github+json")
-	req.SetHeader("User-Agent", "acteedog/"+core.ConnectorID)
-
-	res := req.Send()
-	if res.Status() != 200 {
-		body := string(res.Body())
-		return nil, fmt.Errorf("GitHub API error (status %d): %s", res.Status(), body)
+	body, status, err := c.authClient.Get(url)
+	if err != nil {
+		return nil, fmt.Errorf("failed to send request: %w", err)
+	}
+	if status != 200 {
+		return nil, fmt.Errorf("GitHub API error (status %d): %s", status, string(body))
 	}
 
 	var apiResp map[string]any
-	if err := json.Unmarshal(res.Body(), &apiResp); err != nil {
+	if err := json.Unmarshal(body, &apiResp); err != nil {
 		return nil, fmt.Errorf("failed to parse API response: %w", err)
 	}
 

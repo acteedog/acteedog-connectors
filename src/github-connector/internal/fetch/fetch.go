@@ -62,7 +62,7 @@ func (f *ActivityFetcher) fetchAllEvents() ([]map[string]any, error) {
 
 	// GitHub Events API returns max 300 events (3 pages with per_page=100)
 	for page := 1; page <= 3; page++ {
-		events, err := f.httpClient.FetchActivities(f.config.token, f.config.username, page)
+		events, err := f.httpClient.FetchActivities(f.config.username, page)
 		if err != nil {
 			return nil, fmt.Errorf("error fetching activities on page %d: %w", page, err)
 		}

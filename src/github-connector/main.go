@@ -5,6 +5,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github-connector/internal/auth"
 	"github-connector/internal/core"
 
 	"github.com/extism/go-pdk"
@@ -12,14 +13,28 @@ import (
 
 // GetConfigSchema returns the configuration schema for the GitHub connector
 func GetConfigSchema() (ConfigSchema, error) {
+	secretTrue := true
+	authMethods := []AuthMethod{
+		{
+			Id:          "token",
+			Type:        AuthMethodTypeBearer,
+			Label:       "Personal Access Token",
+			Description: strPtr("GitHub Personal Access Token authentication. Required scopes: repo, read:user"),
+			Fields: []AuthField{
+				{Key: "personal_access_token", Name: "Personal Access Token", Secret: &secretTrue},
+			},
+		},
+		{
+			Id:          "oauth_device",
+			Type:        AuthMethodTypeOauthDevice,
+			Label:       "GitHub App (Device Flow)",
+			Description: strPtr("Authenticate via GitHub Device Flow. Open GitHub in browser and enter a code. No redirect required."),
+			Fields:      []AuthField{},
+		},
+	}
 	return ConfigSchema{
 		Type: "object",
 		Properties: map[string]any{
-			"credential_personal_access_token": map[string]any{
-				"type":        "string",
-				"title":       "Personal Access Token",
-				"description": "GitHub Personal Access Token for authentication",
-			},
 			"username": map[string]any{
 				"type":        "string",
 				"title":       "Username",
@@ -34,12 +49,12 @@ func GetConfigSchema() (ConfigSchema, error) {
 				"description": "Repository patterns to include (e.g., 'myorg/*', 'user/repo'). Leave empty for all repositories. Use * for wildcards.",
 			},
 		},
-		Required: &[]string{
-			"credential_personal_access_token",
-			"username",
-		},
+		Required:    &[]string{"username"},
+		AuthMethods: &authMethods,
 	}, nil
 }
+
+func strPtr(s string) *string { return &s }
 
 // TestConnection tests the GitHub API connection using the provided configuration
 func TestConnection(input TestConnectionRequest) error {
@@ -56,22 +71,19 @@ func TestConnection(input TestConnectionRequest) error {
 		return fmt.Errorf("invalid configuration format")
 	}
 
-	token, ok := config["credential_personal_access_token"].(string)
-	if !ok || token == "" {
-		return fmt.Errorf("personal access token is required")
+	authClient, err := auth.NewClient(config)
+	if err != nil {
+		return err
 	}
 
 	url := fmt.Sprintf("%s/user", core.GithubAPIBaseURL)
 
-	req := pdk.NewHTTPRequest(pdk.MethodGet, url)
-	req.SetHeader("Authorization", fmt.Sprintf("token %s", token))
-	req.SetHeader("Accept", "application/vnd.github.v3+json")
-	req.SetHeader("User-Agent", "acteedog-github-connector")
-
 	pdk.Log(pdk.LogInfo, fmt.Sprintf("Testing connection to: %s", url))
 
-	res := req.Send()
-	statusCode := res.Status()
+	body, statusCode, err := authClient.Get(url)
+	if err != nil {
+		return fmt.Errorf("request failed: %w", err)
+	}
 
 	pdk.Log(pdk.LogInfo, fmt.Sprintf("Response status: %d", statusCode))
 
@@ -82,7 +94,7 @@ func TestConnection(input TestConnectionRequest) error {
 
 	var errorMsg string
 	if statusCode == 401 {
-		errorMsg = "Authentication failed: Invalid or expired Personal Access Token"
+		errorMsg = "Authentication failed: Invalid or expired token"
 	} else if statusCode == 403 {
 		errorMsg = "Access forbidden: Check token permissions"
 	} else if statusCode >= 500 {
@@ -94,7 +106,7 @@ func TestConnection(input TestConnectionRequest) error {
 	var githubError struct {
 		Message string `json:"message"`
 	}
-	if err := json.Unmarshal(res.Body(), &githubError); err == nil && githubError.Message != "" {
+	if err := json.Unmarshal(body, &githubError); err == nil && githubError.Message != "" {
 		errorMsg = fmt.Sprintf("%s: %s", errorMsg, githubError.Message)
 	}
 
@@ -108,11 +120,6 @@ func validateConfig(config any) error {
 	configMap, ok := config.(map[string]any)
 	if !ok {
 		return fmt.Errorf("invalid configuration format")
-	}
-
-	token, ok := configMap["credential_personal_access_token"].(string)
-	if !ok || token == "" {
-		return fmt.Errorf("personal Access Token is required")
 	}
 
 	username, ok := configMap["username"].(string)
@@ -185,4 +192,123 @@ func validateRepositoryPattern(pattern string) error {
 	}
 
 	return nil
+}
+
+// BuildOAuthUrl is a stub for the OAuth Web Flow.
+// GitHub App requires client_secret for token exchange, which cannot be safely
+// embedded in a desktop app binary. Use oauth_device (Device Flow) instead.
+func BuildOAuthUrl(input OAuthUrlRequest) (OAuthUrlResponse, error) {
+	return OAuthUrlResponse{}, fmt.Errorf("oauth_web flow is not supported for GitHub App; use oauth_device (Device Flow) instead")
+}
+
+// ExchangeOAuthCode is a stub for the OAuth Web Flow.
+// See BuildOAuthUrl for the reason.
+func ExchangeOAuthCode(input OAuthCodeExchangeRequest) (OAuthTokenResponse, error) {
+	return OAuthTokenResponse{}, fmt.Errorf("oauth_web flow is not supported for GitHub App; use oauth_device (Device Flow) instead")
+}
+
+// StartDeviceFlow initiates the GitHub OAuth Device Flow.
+// It requests a device code and user code from GitHub, which the host then
+// displays to the user. The user visits verification_uri and enters user_code.
+func StartDeviceFlow() (DeviceFlowResponse, error) {
+	body := fmt.Sprintf("client_id=%s&scope=repo,read:user", auth.GithubAppClientID)
+
+	req := pdk.NewHTTPRequest(pdk.MethodPost, "https://github.com/login/device/code")
+	req.SetHeader("Accept", "application/json")
+	req.SetHeader("Content-Type", "application/x-www-form-urlencoded")
+	req.SetHeader("User-Agent", "acteedog-github-connector")
+	req.SetBody([]byte(body))
+
+	pdk.Log(pdk.LogInfo, "StartDeviceFlow: requesting device code")
+	res := req.Send()
+
+	if res.Status() != 200 {
+		return DeviceFlowResponse{}, fmt.Errorf("device flow request failed with status %d", res.Status())
+	}
+
+	var resp struct {
+		DeviceCode       string `json:"device_code"`
+		UserCode         string `json:"user_code"`
+		VerificationUri  string `json:"verification_uri"`
+		ExpiresIn        int64  `json:"expires_in"`
+		Interval         int64  `json:"interval"`
+		Error            string `json:"error"`
+		ErrorDescription string `json:"error_description"`
+	}
+	if err := json.Unmarshal(res.Body(), &resp); err != nil {
+		return DeviceFlowResponse{}, fmt.Errorf("failed to parse device code response: %w", err)
+	}
+	if resp.Error != "" {
+		return DeviceFlowResponse{}, fmt.Errorf("device flow error: %s: %s", resp.Error, resp.ErrorDescription)
+	}
+
+	pdk.Log(pdk.LogInfo, fmt.Sprintf("StartDeviceFlow: user_code=%s verification_uri=%s", resp.UserCode, resp.VerificationUri))
+	return DeviceFlowResponse{
+		DeviceCode:      resp.DeviceCode,
+		UserCode:        resp.UserCode,
+		VerificationUri: resp.VerificationUri,
+		ExpiresIn:       resp.ExpiresIn,
+		Interval:        resp.Interval,
+	}, nil
+}
+
+// PollDeviceToken polls the GitHub token endpoint for a Device Flow token.
+// Returns an OAuthTokenResponse with an empty AccessToken when authorization
+// is still pending (the host should continue polling at the specified interval).
+// Returns an error for terminal states: expired_token, access_denied, etc.
+func PollDeviceToken(input DeviceTokenRequest) (OAuthTokenResponse, error) {
+	body := fmt.Sprintf(
+		"client_id=%s&device_code=%s&grant_type=urn:ietf:params:oauth:grant-type:device_code",
+		auth.GithubAppClientID,
+		input.DeviceCode,
+	)
+
+	req := pdk.NewHTTPRequest(pdk.MethodPost, "https://github.com/login/oauth/access_token")
+	req.SetHeader("Accept", "application/json")
+	req.SetHeader("Content-Type", "application/x-www-form-urlencoded")
+	req.SetHeader("User-Agent", "acteedog-github-connector")
+	req.SetBody([]byte(body))
+
+	res := req.Send()
+
+	if res.Status() != 200 {
+		return OAuthTokenResponse{}, fmt.Errorf("token poll failed with status %d", res.Status())
+	}
+
+	var resp struct {
+		AccessToken      string `json:"access_token"`
+		RefreshToken     string `json:"refresh_token,omitempty"`
+		ExpiresIn        int64  `json:"expires_in,omitempty"`
+		Error            string `json:"error,omitempty"`
+		ErrorDescription string `json:"error_description,omitempty"`
+	}
+	if err := json.Unmarshal(res.Body(), &resp); err != nil {
+		return OAuthTokenResponse{}, fmt.Errorf("failed to parse token poll response: %w", err)
+	}
+
+	switch resp.Error {
+	case "":
+		// Success or access_token is present
+	case "authorization_pending", "slow_down":
+		// Not yet authorized — return empty token to signal the host to keep polling
+		pdk.Log(pdk.LogDebug, fmt.Sprintf("PollDeviceToken: %s, continuing poll", resp.Error))
+		return OAuthTokenResponse{AccessToken: ""}, nil
+	default:
+		// Terminal error: expired_token, access_denied, incorrect_device_code, etc.
+		return OAuthTokenResponse{}, fmt.Errorf("device flow error: %s: %s", resp.Error, resp.ErrorDescription)
+	}
+
+	if resp.AccessToken == "" {
+		return OAuthTokenResponse{}, fmt.Errorf("token poll returned empty access token without error")
+	}
+
+	pdk.Log(pdk.LogInfo, "PollDeviceToken: token acquired successfully")
+	result := OAuthTokenResponse{AccessToken: resp.AccessToken}
+	if resp.RefreshToken != "" {
+		result.RefreshToken = &resp.RefreshToken
+	}
+	if resp.ExpiresIn != 0 {
+		result.ExpiresIn = &resp.ExpiresIn
+	}
+	return result, nil
 }
