@@ -1,0 +1,49 @@
+{
+  "kind": "calendar#calendarList",
+  "etag": "\"test-etag\"",
+  "nextSyncToken": "next-sync-token",
+  "items": [
+    {
+      "kind": "calendar#calendarListEntry",
+      "etag": "\"12345\"",
+      "id": "test.calendar@example.com",
+      "summary": "test-calendar",
+      "description": "This is a test calendar",
+      "timeZone": "Asia/Tokyo",
+      "colorId": "1",
+      "backgroundColor": "#16a765",
+      "foregroundColor": "#000000",
+      "selected": true,
+      "accessRole": "reader",
+      "defaultReminders": [],
+      "conferenceProperties": {
+        "allowedConferenceSolutionTypes": ["hangoutsMeet"]
+      }
+    },
+    {
+      "kind": "calendar#calendarListEntry",
+      "etag": "\"67890\"",
+      "id": "you@example.com",
+      "summary": "you@exmaple.com",
+      "timeZone": "Asia/Tokyo",
+      "colorId": "14",
+      "backgroundColor": "#9fe1e7",
+      "foregroundColor": "#000000",
+      "selected": true,
+      "accessRole": "owner",
+      "defaultReminders": [
+        {
+          "method": "popup",
+          "minutes": 30
+        }
+      ],
+      "notificationSettings": {
+        "notifications": []
+      },
+      "primary": true,
+      "conferenceProperties": {
+        "allowedConferenceSolutionTypes": ["hangoutsMeet"]
+      }
+    }
+  ]
+}

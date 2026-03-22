@@ -10,6 +10,8 @@ collections:
     path: "collections/slack"
   - name: "jira"
     path: "collections/jira"
+  - name: "google-calendar"
+    path: "collections/google-calendar"
 
 specs:
 

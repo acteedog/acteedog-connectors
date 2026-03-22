@@ -1,0 +1,60 @@
+{
+  "kind": "calendar#event",
+  "etag": "\"567890\"",
+  "id": "calendar-id-2",
+  "status": "confirmed",
+  "htmlLink": "https://www.google.com/calendar/event?eid=eid",
+  "created": "2026-03-21T13:43:36.000Z",
+  "updated": "2026-03-21T13:43:57.760Z",
+  "summary": "Invited event 2",
+  "creator": {
+    "email": "another@example.com"
+  },
+  "organizer": {
+    "email": "another@example.com"
+  },
+  "start": {
+    "dateTime": "2026-03-16T14:30:00+09:00",
+    "timeZone": "Asia/Tokyo"
+  },
+  "end": {
+    "dateTime": "2026-03-16T15:30:00+09:00",
+    "timeZone": "Asia/Tokyo"
+  },
+  "iCalUID": "icaluid@google.com",
+  "sequence": 0,
+  "attendees": [
+    {
+      "email": "another@example.com",
+      "organizer": true,
+      "responseStatus": "accepted"
+    },
+    {
+      "email": "you@example.com",
+      "self": true,
+      "responseStatus": "accepted"
+    }
+  ],
+  "hangoutLink": "https://meet.google.com/meet-id",
+  "conferenceData": {
+    "entryPoints": [
+      {
+        "entryPointType": "video",
+        "uri": "https://meet.google.com/meet-id",
+        "label": "meet.google.com/meet-id"
+      }
+    ],
+    "conferenceSolution": {
+      "key": {
+        "type": "hangoutsMeet"
+      },
+      "name": "Google Meet",
+      "iconUri": "https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png"
+    },
+    "conferenceId": "meet-id"
+  },
+  "reminders": {
+    "useDefault": true
+  },
+  "eventType": "default"
+}

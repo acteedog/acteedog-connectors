@@ -40,16 +40,16 @@ func (m *MockHTTPClient) EXPECT() *MockHTTPClientMockRecorder {
 }
 
 // FetchActivities mocks base method.
-func (m *MockHTTPClient) FetchActivities(token, username string, page int) ([]map[string]any, error) {
+func (m *MockHTTPClient) FetchActivities(username string, page int) ([]map[string]any, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FetchActivities", token, username, page)
+	ret := m.ctrl.Call(m, "FetchActivities", username, page)
 	ret0, _ := ret[0].([]map[string]any)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FetchActivities indicates an expected call of FetchActivities.
-func (mr *MockHTTPClientMockRecorder) FetchActivities(token, username, page any) *gomock.Call {
+func (mr *MockHTTPClientMockRecorder) FetchActivities(username, page any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchActivities", reflect.TypeOf((*MockHTTPClient)(nil).FetchActivities), token, username, page)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchActivities", reflect.TypeOf((*MockHTTPClient)(nil).FetchActivities), username, page)
 }

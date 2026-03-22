@@ -40,46 +40,46 @@ func (m *MockHTTPClient) EXPECT() *MockHTTPClientMockRecorder {
 }
 
 // FetchIssue mocks base method.
-func (m *MockHTTPClient) FetchIssue(token, repo, number string) (map[string]any, error) {
+func (m *MockHTTPClient) FetchIssue(repo, number string) (map[string]any, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FetchIssue", token, repo, number)
+	ret := m.ctrl.Call(m, "FetchIssue", repo, number)
 	ret0, _ := ret[0].(map[string]any)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FetchIssue indicates an expected call of FetchIssue.
-func (mr *MockHTTPClientMockRecorder) FetchIssue(token, repo, number any) *gomock.Call {
+func (mr *MockHTTPClientMockRecorder) FetchIssue(repo, number any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchIssue", reflect.TypeOf((*MockHTTPClient)(nil).FetchIssue), token, repo, number)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchIssue", reflect.TypeOf((*MockHTTPClient)(nil).FetchIssue), repo, number)
 }
 
 // FetchPullRequest mocks base method.
-func (m *MockHTTPClient) FetchPullRequest(token, repo, number string) (map[string]any, error) {
+func (m *MockHTTPClient) FetchPullRequest(repo, number string) (map[string]any, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FetchPullRequest", token, repo, number)
+	ret := m.ctrl.Call(m, "FetchPullRequest", repo, number)
 	ret0, _ := ret[0].(map[string]any)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FetchPullRequest indicates an expected call of FetchPullRequest.
-func (mr *MockHTTPClientMockRecorder) FetchPullRequest(token, repo, number any) *gomock.Call {
+func (mr *MockHTTPClientMockRecorder) FetchPullRequest(repo, number any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchPullRequest", reflect.TypeOf((*MockHTTPClient)(nil).FetchPullRequest), token, repo, number)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchPullRequest", reflect.TypeOf((*MockHTTPClient)(nil).FetchPullRequest), repo, number)
 }
 
 // FetchRepository mocks base method.
-func (m *MockHTTPClient) FetchRepository(token, repo string) (map[string]any, error) {
+func (m *MockHTTPClient) FetchRepository(repo string) (map[string]any, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FetchRepository", token, repo)
+	ret := m.ctrl.Call(m, "FetchRepository", repo)
 	ret0, _ := ret[0].(map[string]any)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FetchRepository indicates an expected call of FetchRepository.
-func (mr *MockHTTPClientMockRecorder) FetchRepository(token, repo any) *gomock.Call {
+func (mr *MockHTTPClientMockRecorder) FetchRepository(repo any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchRepository", reflect.TypeOf((*MockHTTPClient)(nil).FetchRepository), token, repo)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchRepository", reflect.TypeOf((*MockHTTPClient)(nil).FetchRepository), repo)
 }

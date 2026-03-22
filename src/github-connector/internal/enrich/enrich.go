@@ -57,7 +57,7 @@ func (e *ContextEnricher) enrichRepository(context *core.Context) (*core.Context
 
 	e.logger.Info(fmt.Sprintf("Enriching repository: %s", repo))
 
-	response, err := e.httpClient.FetchRepository(e.config.token, repo)
+	response, err := e.httpClient.FetchRepository(repo)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch repository data: %w", err)
 	}
@@ -120,7 +120,7 @@ func (e *ContextEnricher) enrichPullRequest(context *core.Context) (*core.Contex
 
 	e.logger.Info(fmt.Sprintf("Enriching pull request: %s #%s", repo, number))
 
-	response, err := e.httpClient.FetchPullRequest(e.config.token, repo, number)
+	response, err := e.httpClient.FetchPullRequest(repo, number)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch pull request data: %w", err)
 	}
@@ -189,7 +189,7 @@ func (e *ContextEnricher) enrichIssue(context *core.Context) (*core.Context, err
 
 	e.logger.Info(fmt.Sprintf("Enriching issue: %s #%s", repo, number))
 
-	response, err := e.httpClient.FetchIssue(e.config.token, repo, number)
+	response, err := e.httpClient.FetchIssue(repo, number)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch issue data: %w", err)
 	}

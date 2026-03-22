@@ -52,9 +52,9 @@ func TestFetchActivities(t *testing.T) {
 				return mockHTTP
 			},
 			cfg: map[string]any{
-				"bot_token":     "token",
-				"workspace_url": "test-workspace.slack.com",
-				"user_id":       "U12345678",
+				"user_oauth_token": "token",
+				"workspace_url":    "test-workspace.slack.com",
+				"user_id":          "U12345678",
 			},
 			targetDate: "2025-12-13",
 			want: []*Activity{
@@ -137,9 +137,9 @@ func TestFetchActivities(t *testing.T) {
 				return mockHTTP
 			},
 			cfg: map[string]any{
-				"bot_token":     "token",
-				"workspace_url": "test-workspace.slack.com",
-				"user_id":       "U12345678",
+				"user_oauth_token": "token",
+				"workspace_url":    "test-workspace.slack.com",
+				"user_id":          "U12345678",
 			},
 			targetDate: "2025-12-13",
 			want: []*Activity{

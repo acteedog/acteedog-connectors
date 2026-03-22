@@ -46,7 +46,7 @@ func TestEnrichContext(t *testing.T) {
 			},
 			resourceType: "source",
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 			},
 			params: map[string]any{},
 			want: &core.Context{
@@ -62,12 +62,12 @@ func TestEnrichContext(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/enrichment/repository.json")
 
 				mockHTTP := mock_enrich.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchRepository("token", "owner/repo").Return(response, nil).Times(1)
+				mockHTTP.EXPECT().FetchRepository("owner/repo").Return(response, nil).Times(1)
 				return mockHTTP
 			},
 			resourceType: "repository",
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 			},
 			params: map[string]any{
 				"repo": "owner/repo",
@@ -98,12 +98,12 @@ func TestEnrichContext(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/enrichment/pr.json")
 
 				mockHTTP := mock_enrich.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchPullRequest("token", "owner/repo", "123").Return(response, nil).Times(1)
+				mockHTTP.EXPECT().FetchPullRequest("owner/repo", "123").Return(response, nil).Times(1)
 				return mockHTTP
 			},
 			resourceType: "pull_request",
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 			},
 			params: map[string]any{
 				"repo":      "owner/repo",
@@ -141,12 +141,12 @@ func TestEnrichContext(t *testing.T) {
 				response := loadJSONTestData(t, "../../testdata/enrichment/issue.json")
 
 				mockHTTP := mock_enrich.NewMockHTTPClient(ctrl)
-				mockHTTP.EXPECT().FetchIssue("token", "owner/repo", "123").Return(response, nil).Times(1)
+				mockHTTP.EXPECT().FetchIssue("owner/repo", "123").Return(response, nil).Times(1)
 				return mockHTTP
 			},
 			resourceType: "issue",
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 			},
 			params: map[string]any{
 				"repo":         "owner/repo",
@@ -177,7 +177,7 @@ func TestEnrichContext(t *testing.T) {
 			},
 			resourceType: "invalid resource",
 			cfg: map[string]any{
-				"credential_personal_access_token": "token",
+				"active_auth_method": "token",
 			},
 			params:  map[string]any{},
 			want:    nil,

@@ -6,18 +6,12 @@ import (
 )
 
 type config struct {
-	token              string
 	username           string
 	repositoryPatterns []string
 	startTime, endTime time.Time
 }
 
 func newConfig(cfg map[string]any, targetDate string) (*config, error) {
-	token, ok := cfg["credential_personal_access_token"].(string)
-	if !ok || token == "" {
-		return nil, fmt.Errorf("missing personal access token")
-	}
-
 	username, ok := cfg["username"].(string)
 	if !ok || username == "" {
 		return nil, fmt.Errorf("missing username")
@@ -40,7 +34,6 @@ func newConfig(cfg map[string]any, targetDate string) (*config, error) {
 	}
 
 	return &config{
-		token:              token,
 		username:           username,
 		repositoryPatterns: repositoryPatterns,
 		startTime:          startTime,

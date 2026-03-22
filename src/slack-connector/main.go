@@ -12,14 +12,21 @@ import (
 
 // GetConfigSchema returns the configuration schema for the Slack connector
 func GetConfigSchema() (ConfigSchema, error) {
+	secretTrue := true
+	authMethods := []AuthMethod{
+		{
+			Id:          "token",
+			Type:        AuthMethodTypeBearer,
+			Label:       "User OAuth Token",
+			Description: strPtr("Slack User OAuth Token (xoxp-...). Obtain from Slack App OAuth & Permissions page."),
+			Fields: []AuthField{
+				{Key: "user_oauth_token", Name: "User OAuth Token", Secret: &secretTrue},
+			},
+		},
+	}
 	return ConfigSchema{
 		Type: "object",
 		Properties: map[string]any{
-			"bot_token": map[string]any{
-				"type":        "string",
-				"title":       "Bot User OAuth Token",
-				"description": "User OAuth Token (xoxp-...)",
-			},
 			"user_id": map[string]any{
 				"type":        "string",
 				"title":       "User ID",
@@ -33,11 +40,33 @@ func GetConfigSchema() (ConfigSchema, error) {
 			},
 		},
 		Required: &[]string{
-			"bot_token",
 			"user_id",
 			"workspace_url",
 		},
+		AuthMethods: &authMethods,
 	}, nil
+}
+
+func strPtr(s string) *string { return &s }
+
+// BuildOAuthUrl is not supported by this connector.
+func BuildOAuthUrl(_ OAuthUrlRequest) (OAuthUrlResponse, error) {
+	return OAuthUrlResponse{}, fmt.Errorf("OAuth web flow is not supported by this connector")
+}
+
+// ExchangeOAuthCode is not supported by this connector.
+func ExchangeOAuthCode(_ OAuthCodeExchangeRequest) (OAuthTokenResponse, error) {
+	return OAuthTokenResponse{}, fmt.Errorf("OAuth web flow is not supported by this connector")
+}
+
+// StartDeviceFlow is not supported by this connector.
+func StartDeviceFlow() (DeviceFlowResponse, error) {
+	return DeviceFlowResponse{}, fmt.Errorf("OAuth device flow is not supported by this connector")
+}
+
+// PollDeviceToken is not supported by this connector.
+func PollDeviceToken(_ DeviceTokenRequest) (OAuthTokenResponse, error) {
+	return OAuthTokenResponse{}, fmt.Errorf("OAuth device flow is not supported by this connector")
 }
 
 // TestConnection tests the Slack API connection using the provided configuration
@@ -55,9 +84,9 @@ func TestConnection(input TestConnectionRequest) error {
 		return fmt.Errorf("invalid configuration format")
 	}
 
-	botToken, ok := config["bot_token"].(string)
+	botToken, ok := config["user_oauth_token"].(string)
 	if !ok || botToken == "" {
-		return fmt.Errorf("bot_token is required")
+		return fmt.Errorf("user_oauth_token is required")
 	}
 
 	url := fmt.Sprintf("%s/auth.test", core.SlackAPIBaseURL)
@@ -116,9 +145,9 @@ func validateConfig(config any) error {
 		return fmt.Errorf("invalid configuration format")
 	}
 
-	botToken, ok := configMap["bot_token"].(string)
+	botToken, ok := configMap["user_oauth_token"].(string)
 	if !ok || botToken == "" {
-		return fmt.Errorf("bot_token is required")
+		return fmt.Errorf("user_oauth_token is required")
 	}
 
 	userID, ok := configMap["user_id"].(string)

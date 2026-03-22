@@ -2,11 +2,41 @@
 package main
 
 import (
-	
+	"errors"
 	"time"
 
 	pdk "github.com/extism/go-pdk"
 )
+
+//export BuildOAuthUrl
+func _BuildOAuthUrl() int32 {
+	var err error
+	_ = err
+      			pdk.Log(pdk.LogDebug, "BuildOAuthUrl: getting JSON input")
+			var input OAuthUrlRequest
+			err = pdk.InputJSON(&input)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+    
+		pdk.Log(pdk.LogDebug, "BuildOAuthUrl: calling implementation function")
+          output, err := BuildOAuthUrl(input)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+      
+      			pdk.Log(pdk.LogDebug, "BuildOAuthUrl: setting JSON output")
+			err = pdk.OutputJSON(output)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+      
+	pdk.Log(pdk.LogDebug, "BuildOAuthUrl: returning")
+  return 0
+}
 
 //export EnrichContext
 func _EnrichContext() int32 {
@@ -35,6 +65,36 @@ func _EnrichContext() int32 {
 			}
       
 	pdk.Log(pdk.LogDebug, "EnrichContext: returning")
+  return 0
+}
+
+//export ExchangeOAuthCode
+func _ExchangeOAuthCode() int32 {
+	var err error
+	_ = err
+      			pdk.Log(pdk.LogDebug, "ExchangeOAuthCode: getting JSON input")
+			var input OAuthCodeExchangeRequest
+			err = pdk.InputJSON(&input)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+    
+		pdk.Log(pdk.LogDebug, "ExchangeOAuthCode: calling implementation function")
+          output, err := ExchangeOAuthCode(input)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+      
+      			pdk.Log(pdk.LogDebug, "ExchangeOAuthCode: setting JSON output")
+			err = pdk.OutputJSON(output)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+      
+	pdk.Log(pdk.LogDebug, "ExchangeOAuthCode: returning")
   return 0
 }
 
@@ -119,6 +179,57 @@ func _MatchContext() int32 {
   return 0
 }
 
+//export PollDeviceToken
+func _PollDeviceToken() int32 {
+	var err error
+	_ = err
+      			pdk.Log(pdk.LogDebug, "PollDeviceToken: getting JSON input")
+			var input DeviceTokenRequest
+			err = pdk.InputJSON(&input)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+    
+		pdk.Log(pdk.LogDebug, "PollDeviceToken: calling implementation function")
+          output, err := PollDeviceToken(input)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+      
+      			pdk.Log(pdk.LogDebug, "PollDeviceToken: setting JSON output")
+			err = pdk.OutputJSON(output)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+      
+	pdk.Log(pdk.LogDebug, "PollDeviceToken: returning")
+  return 0
+}
+
+//export StartDeviceFlow
+func _StartDeviceFlow() int32 {
+	var err error
+	_ = err
+            output, err := StartDeviceFlow()
+    		if err != nil {
+			pdk.SetError(err)
+			return -1
+		}
+  
+      			pdk.Log(pdk.LogDebug, "StartDeviceFlow: setting JSON output")
+			err = pdk.OutputJSON(output)
+			if err != nil {
+				pdk.SetError(err)
+				return -1
+			}
+      
+	pdk.Log(pdk.LogDebug, "StartDeviceFlow: returning")
+  return 0
+}
+
 //export TestConnection
 func _TestConnection() int32 {
 	var err error
@@ -168,7 +279,82 @@ func _TestConnection() int32 {
 		
 	
 	// 
+	type AuthField struct {
+						// Field key name in credentials
+				Key string `json:"key"`
+						// Display name for UI
+				Name string `json:"name"`
+						// If true, the value is stored in OS keychain instead of config file
+				Secret *bool `json:"secret,omitempty"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type AuthMethod struct {
+						// Description of the auth method (required scopes, how to obtain tokens, etc.)
+				Description *string `json:"description,omitempty"`
+						// Fields the user must configure. Empty for methods like OAuth where no user input is needed.
+				Fields []AuthField `json:"fields"`
+						// Auth method identifier (e.g. 'token', 'basic', 'oauth')
+				Id string `json:"id"`
+						// Display label for UI
+				Label string `json:"label"`
+						Type AuthMethodType `json:"type"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type AuthMethodType string
+	const (
+					AuthMethodTypeBearer AuthMethodType = "bearer"
+					AuthMethodTypeBasic AuthMethodType = "basic"
+					AuthMethodTypeOauthWeb AuthMethodType = "oauth_web"
+					AuthMethodTypeOauthDevice AuthMethodType = "oauth_device"
+			)
+
+	func (v AuthMethodType) String() string {
+		switch (v) {
+				case AuthMethodTypeBearer:
+			return `bearer`
+				case AuthMethodTypeBasic:
+			return `basic`
+				case AuthMethodTypeOauthWeb:
+			return `oauth_web`
+				case AuthMethodTypeOauthDevice:
+			return `oauth_device`
+				default: 
+			return ""
+		}
+	}
+
+	func stringToAuthMethodType(s string) (AuthMethodType, error) {
+		switch (s) {
+				case `bearer`:
+			return AuthMethodTypeBearer, nil
+				case `basic`:
+			return AuthMethodTypeBasic, nil
+				case `oauth_web`:
+			return AuthMethodTypeOauthWeb, nil
+				case `oauth_device`:
+			return AuthMethodTypeOauthDevice, nil
+				default:
+			return AuthMethodType(""), errors.New("unable to convert string to AuthMethodType")
+		}
+	}
+
+		
+	
+		
+	
+	// 
 	type ConfigSchema struct {
+						AuthMethods *[]AuthMethod `json:"auth_methods,omitempty"`
 						Properties interface{} `json:"properties"`
 						Required *[]string `json:"required,omitempty"`
 						Type string `json:"type"`
@@ -192,6 +378,34 @@ func _TestConnection() int32 {
 						Title *string `json:"title,omitempty"`
 						UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 						Url *string `json:"url,omitempty"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type DeviceFlowResponse struct {
+						// Device verification code used to poll for the token
+				DeviceCode string `json:"device_code"`
+						// Seconds until device_code and user_code expire
+				ExpiresIn int64 `json:"expires_in"`
+						// Minimum seconds between polling requests
+				Interval int64 `json:"interval"`
+						// Code the user must enter at verification_uri
+				UserCode string `json:"user_code"`
+						// URL where the user enters the user_code
+				VerificationUri string `json:"verification_uri"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type DeviceTokenRequest struct {
+						// Device verification code received from StartDeviceFlow
+				DeviceCode string `json:"device_code"`
 		
 	}
 		
@@ -268,6 +482,56 @@ func _TestConnection() int32 {
 	type MatchContextResult struct {
 						Contexts []Context `json:"contexts"`
 						Url string `json:"url"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type OAuthCodeExchangeRequest struct {
+						// Authorization code received in callback
+				Code string `json:"code"`
+						// Same redirect_uri used in the authorization request
+				RedirectUri string `json:"redirect_uri"`
+						// State parameter received in callback (for connector to verify internally if needed)
+				State string `json:"state"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type OAuthTokenResponse struct {
+						// Empty string means authorization_pending (Device Flow polling only)
+				AccessToken string `json:"access_token"`
+						// Access token lifetime in seconds. Absent means non-expiring.
+				ExpiresIn *int64 `json:"expires_in,omitempty"`
+						// Present only if the provider issues refresh tokens
+				RefreshToken *string `json:"refresh_token,omitempty"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type OAuthUrlRequest struct {
+						// Loopback redirect URI provided by acteedog host
+				RedirectUri string `json:"redirect_uri"`
+		
+	}
+		
+	
+		
+	
+	// 
+	type OAuthUrlResponse struct {
+						// CSRF token generated by connector; host must verify this in the callback
+				State string `json:"state"`
+						// Full authorization URL to open in browser
+				Url string `json:"url"`
 		
 	}
 		
