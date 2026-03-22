@@ -10,11 +10,11 @@ import (
 
 func TestParseDateRange(t *testing.T) {
 	tests := []struct {
-		name        string
-		targetDate  string
-		wantStart   time.Time
-		wantEnd     time.Time
-		wantErr     bool
+		name       string
+		targetDate string
+		wantStart  time.Time
+		wantEnd    time.Time
+		wantErr    bool
 	}{
 		{
 			name:       "date only",

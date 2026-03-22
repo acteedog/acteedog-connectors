@@ -8,6 +8,6 @@ type Client interface {
 }
 
 // bearerAuthHeader returns the Authorization header value for Bearer token auth
-func bearerAuthHeader(token string) string {
+func bearerAuthHeader(token string) string { //nolint:unused // used in wasip1-only files (oauth.go) which are invisible to golangci-lint
 	return fmt.Sprintf("Bearer %s", token)
 }

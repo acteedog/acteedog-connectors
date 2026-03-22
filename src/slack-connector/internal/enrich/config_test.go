@@ -19,8 +19,8 @@ func TestNewConfig(t *testing.T) {
 			name:        "valid config",
 			contextType: "channel",
 			cfg: map[string]any{
-				"user_oauth_token":     "valid_token",
-				"workspace_url": "https://example.slack.com",
+				"user_oauth_token": "valid_token",
+				"workspace_url":    "https://example.slack.com",
 			},
 			params: map[string]any{},
 			wantConfig: &config{
@@ -55,8 +55,8 @@ func TestNewConfig(t *testing.T) {
 			name:        "invalid config - wrong token type",
 			contextType: "channel",
 			cfg: map[string]any{
-				"user_oauth_token":     123,
-				"workspace_url": "https://example.slack.com",
+				"user_oauth_token": 123,
+				"workspace_url":    "https://example.slack.com",
 			},
 			params:     map[string]any{},
 			wantConfig: nil,

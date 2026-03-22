@@ -50,7 +50,7 @@ func TestFetchActivities(t *testing.T) {
 			},
 			cfg: map[string]any{
 				"active_auth_method": "token",
-				"username":                         "username",
+				"username":           "username",
 			},
 			targetDate: "2025-11-18",
 			want: []*Activity{
@@ -114,7 +114,7 @@ func TestFetchActivities(t *testing.T) {
 			},
 			cfg: map[string]any{
 				"active_auth_method": "token",
-				"username":                         "username",
+				"username":           "username",
 			},
 			targetDate: "2025-11-08",
 			want: []*Activity{
@@ -194,7 +194,7 @@ func TestFetchActivities(t *testing.T) {
 			},
 			cfg: map[string]any{
 				"active_auth_method": "token",
-				"username":                         "username",
+				"username":           "username",
 			},
 			targetDate: "2025-11-17",
 			want: []*Activity{
@@ -275,7 +275,7 @@ func TestFetchActivities(t *testing.T) {
 			},
 			cfg: map[string]any{
 				"active_auth_method": "token",
-				"username":                         "username",
+				"username":           "username",
 			},
 			targetDate: "2025-11-17",
 			want: []*Activity{
@@ -355,7 +355,7 @@ func TestFetchActivities(t *testing.T) {
 			},
 			cfg: map[string]any{
 				"active_auth_method": "token",
-				"username":                         "username",
+				"username":           "username",
 			},
 			targetDate: "2025-11-13",
 			want: []*Activity{
@@ -437,7 +437,7 @@ func TestFetchActivities(t *testing.T) {
 			},
 			cfg: map[string]any{
 				"active_auth_method": "token",
-				"username":                         "username",
+				"username":           "username",
 			},
 			targetDate: "2025-11-17",
 			want: []*Activity{
@@ -520,7 +520,7 @@ func TestFetchActivities(t *testing.T) {
 			},
 			cfg: map[string]any{
 				"active_auth_method": "token",
-				"username":                         "username",
+				"username":           "username",
 			},
 			targetDate: "2025-11-12",
 			want: []*Activity{
@@ -602,7 +602,7 @@ func TestFetchActivities(t *testing.T) {
 			},
 			cfg: map[string]any{
 				"active_auth_method": "token",
-				"username":                         "username",
+				"username":           "username",
 			},
 			targetDate: "2025-11-12",
 			want: []*Activity{

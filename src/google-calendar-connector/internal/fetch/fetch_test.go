@@ -103,8 +103,8 @@ func TestFetchActivities(t *testing.T) {
 			name:         "other calendar (test.calendar@example.com) is filtered out",
 			calendarList: calendarList,
 			eventResponses: map[string]*EventListResponse{
-				targetEmail:                  eventsOwned,
-				"test.calendar@example.com":  eventsInvited,
+				targetEmail:                 eventsOwned,
+				"test.calendar@example.com": eventsInvited,
 			},
 			targetEmail: targetEmail,
 			targetDate:  "2026-03-15",

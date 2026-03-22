@@ -17,9 +17,9 @@ func TestNewConfig(t *testing.T) {
 		{
 			name: "valid config",
 			cfg: map[string]any{
-				"user_oauth_token":     "valid_token",
-				"workspace_url": "example.slack.com",
-				"user_id":       "U12345678",
+				"user_oauth_token": "valid_token",
+				"workspace_url":    "example.slack.com",
+				"user_id":          "U12345678",
 			},
 			targetDate: "2025-12-12T12:00:00+09:00",
 			wantConfig: &config{
@@ -44,7 +44,7 @@ func TestNewConfig(t *testing.T) {
 			name: "invalid config - missing workspace_url",
 			cfg: map[string]any{
 				"user_oauth_token": "valid_token",
-				"user_id":   "U12345678",
+				"user_id":          "U12345678",
 			},
 			targetDate: "2025-12-12T12:00:00+09:00",
 			wantConfig: nil,
@@ -53,8 +53,8 @@ func TestNewConfig(t *testing.T) {
 		{
 			name: "invalid config - missing user_id",
 			cfg: map[string]any{
-				"user_oauth_token":     "valid_token",
-				"workspace_url": "example.slack.com",
+				"user_oauth_token": "valid_token",
+				"workspace_url":    "example.slack.com",
 			},
 			targetDate: "2025-12-12T12:00:00+09:00",
 			wantConfig: nil,

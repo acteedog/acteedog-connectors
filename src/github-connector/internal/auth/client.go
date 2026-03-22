@@ -8,6 +8,6 @@ type Client interface {
 }
 
 // authorizationHeader builds the Authorization header value for GitHub API requests.
-func authorizationHeader(token string) string {
+func authorizationHeader(token string) string { //nolint:unused // used in wasip1-only files (bearer.go, oauth.go) which are invisible to golangci-lint
 	return "token " + token
 }

@@ -197,4 +197,3 @@ func parseEventTime(et core.EventTime) (time.Time, bool, error) {
 	}
 	return time.Time{}, false, fmt.Errorf("event has neither dateTime nor date")
 }
-

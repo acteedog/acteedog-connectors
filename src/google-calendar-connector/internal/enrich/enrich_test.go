@@ -6,7 +6,6 @@ import (
 	"google-calendar-connector/internal/core"
 	"os"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -46,26 +45,18 @@ func loadEventDetail(t *testing.T, path string) *core.Event {
 	return &data
 }
 
-func ptrString(s string) *string {
-	return &s
-}
-
-func ptrTime(t time.Time) *time.Time {
-	return &t
-}
-
 func TestEnrichContext(t *testing.T) {
 	calendarDetail := loadCalendarDetail(t, "../../testdata/enrichment/calendar_detail.json")
 	eventDetail := loadEventDetail(t, "../../testdata/enrichment/event_detail.json")
 
 	tests := []struct {
-		name           string
-		contextType    string
-		params         any
-		mock           *mockHTTPClient
-		inputContext   *core.Context
-		checkFn        func(t *testing.T, ctx *core.Context)
-		wantErr        bool
+		name         string
+		contextType  string
+		params       any
+		mock         *mockHTTPClient
+		inputContext *core.Context
+		checkFn      func(t *testing.T, ctx *core.Context)
+		wantErr      bool
 	}{
 		{
 			name:        "source: sets title, description, url",
