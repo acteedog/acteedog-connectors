@@ -27,8 +27,8 @@ func GetConfigSchema() (ConfigSchema, error) {
 		{
 			Id:          "oauth_device",
 			Type:        AuthMethodTypeOauthDevice,
-			Label:       "GitHub App (Device Flow)",
-			Description: strPtr("Authenticate via GitHub Device Flow. Open GitHub in browser and enter a code. No redirect required."),
+			Label:       "GitHub App",
+			Description: strPtr("Authenticate via GitHub Device Flow. The GitHub App (https://github.com/apps/acteedog-github-connector) must be installed in the target organization beforehand."),
 			Fields:      []AuthField{},
 		},
 	}
@@ -211,7 +211,7 @@ func ExchangeOAuthCode(input OAuthCodeExchangeRequest) (OAuthTokenResponse, erro
 // It requests a device code and user code from GitHub, which the host then
 // displays to the user. The user visits verification_uri and enters user_code.
 func StartDeviceFlow() (DeviceFlowResponse, error) {
-	body := fmt.Sprintf("client_id=%s&scope=repo,read:user", auth.GithubAppClientID)
+	body := fmt.Sprintf("client_id=%s", auth.GithubAppClientID)
 
 	req := pdk.NewHTTPRequest(pdk.MethodPost, "https://github.com/login/device/code")
 	req.SetHeader("Accept", "application/json")
