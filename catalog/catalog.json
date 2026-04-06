@@ -2,15 +2,43 @@
   "version": "1",
   "connectors": [
     {
+      "id": "google-calendar",
+      "name": "Google Calendar Connector",
+      "description": "Track events and meetings from Google Calendar. OAuth 2.0 authentication is required.",
+      "latest_version": "0.1.0",
+      "allowed_hosts": [
+        "www.googleapis.com",
+        "accounts.google.com",
+        "oauth2.googleapis.com"
+      ],
+      "capabilities": {
+        "activity": true
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "min_acteedog_version": "0.3.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/google-calendar/0.1.0/plugin.wasm",
+          "checksum": "sha256:545ac0c98ff919fb4e5205bd5f2be3651db3c3a1349e391a68797716f7c8778d"
+        }
+      ]
+    },
+    {
       "id": "jira",
       "name": "Jira Connector",
       "description": "Track issues, comments from Jira projects. An API token with scopes: 'read:jira-user' and 'read:jira-work' is required.",
-      "latest_version": "0.1.1",
+      "latest_version": "0.1.2",
       "allowed_hosts": ["api.atlassian.com"],
       "capabilities": {
         "activity": true
       },
       "versions": [
+        {
+          "version": "0.1.2",
+          "min_acteedog_version": "0.3.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/jira/0.1.2/plugin.wasm",
+          "checksum": "sha256:91923a3a5e0d9c15cce35b144129b7ef128d9b5ed7c82ce4f0ed14f4662b34ad"
+        },
         {
           "version": "0.1.1",
           "min_acteedog_version": "0.2.0",
@@ -29,12 +57,18 @@
       "id": "github",
       "name": "GitHub Connector",
       "description": "Track commits, pull requests, issues, and reviews from GitHub repositories",
-      "latest_version": "0.2.5",
-      "allowed_hosts": ["api.github.com"],
+      "latest_version": "0.2.6",
+      "allowed_hosts": ["api.github.com", "github.com"],
       "capabilities": {
         "activity": true
       },
       "versions": [
+        {
+          "version": "0.2.6",
+          "min_acteedog_version": "0.3.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/github/0.2.6/plugin.wasm",
+          "checksum": "sha256:137f3213a1e3410393a641b6ed5a113580b0258d98ff7ed1d2b6cbc773a7f6af"
+        },
         {
           "version": "0.2.5",
           "min_acteedog_version": "0.2.0",
@@ -83,12 +117,18 @@
       "id": "slack",
       "name": "Slack Connector",
       "description": "Monitor channels, direct messages, and threads from Slack workspaces. An user token with scopes: channels:history, channels:read, groups:read, im:read, mpim:read, search:read is required.",
-      "latest_version": "0.2.4",
+      "latest_version": "0.2.5",
       "allowed_hosts": ["slack.com"],
       "capabilities": {
         "activity": true
       },
       "versions": [
+        {
+          "version": "0.2.5",
+          "min_acteedog_version": "0.3.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/slack/0.2.5/plugin.wasm",
+          "checksum": "sha256:2f99f5cec89081dcd064dc9c4fa00a9d1c3189179c338f7d15024a164e9f63b8"
+        },
         {
           "version": "0.2.4",
           "min_acteedog_version": "0.2.0",
