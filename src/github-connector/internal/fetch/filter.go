@@ -3,9 +3,8 @@ package fetch
 import "time"
 
 // filterEventsByDate filters events by the target date range
-func filterEventsByDate(events []map[string]any, startTime, endTime time.Time) ([]map[string]any, bool) {
+func filterEventsByDate(events []map[string]any, startTime, endTime time.Time) []map[string]any {
 	filtered := []map[string]any{}
-	shouldStop := false
 
 	for _, event := range events {
 		createdAtStr, ok := event["created_at"].(string)
@@ -21,14 +20,9 @@ func filterEventsByDate(events []map[string]any, startTime, endTime time.Time) (
 		if createdAt.After(startTime) && createdAt.Before(endTime) {
 			filtered = append(filtered, event)
 		}
-
-		if createdAt.Before(startTime) {
-			shouldStop = true
-			break
-		}
 	}
 
-	return filtered, shouldStop
+	return filtered
 }
 
 // filterEventsByRepository filters events by repository patterns
