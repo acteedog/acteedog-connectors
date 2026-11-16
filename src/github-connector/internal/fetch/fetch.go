@@ -60,7 +60,9 @@ func (f *ActivityFetcher) FetchActivities() ([]*Activity, error) {
 func (f *ActivityFetcher) fetchAllEvents() ([]map[string]any, error) {
 	allEvents := []map[string]any{}
 
-	// GitHub Events API returns max 300 events (3 pages with per_page=100)
+	// GitHub Events API returns max 300 events (3 pages with per_page=100).
+	// Events are not sorted by created_at, so every page is read instead of
+	// stopping at the first event older than the target date.
 	for page := 1; page <= 3; page++ {
 		events, err := f.httpClient.FetchActivities(f.config.username, page)
 		if err != nil {
@@ -72,16 +74,10 @@ func (f *ActivityFetcher) fetchAllEvents() ([]map[string]any, error) {
 			break
 		}
 
-		// Filter events by date and check if we should stop
-		filteredEvents, shouldStop := filterEventsByDate(events, f.config.startTime, f.config.endTime)
+		filteredEvents := filterEventsByDate(events, f.config.startTime, f.config.endTime)
 		allEvents = append(allEvents, filteredEvents...)
 
 		f.logger.Debug(fmt.Sprintf("Page %d: %d events fetched, %d filtered", page, len(events), len(filteredEvents)))
-
-		if shouldStop {
-			f.logger.Debug("Reached events outside date range, stopping pagination")
-			break
-		}
 	}
 
 	return allEvents, nil

@@ -676,6 +676,36 @@ func TestFetchActivities(t *testing.T) {
 	}
 }
 
+func TestFetchActivities_UnsortedEvents(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	t.Cleanup(ctrl.Finish)
+
+	push := loadJSONTestData(t, "../../testdata/events/push.json")                // 2025-11-12
+	older := loadJSONTestData(t, "../../testdata/events/issue_comment.json")      // 2025-11-08
+	pullRequest := loadJSONTestData(t, "../../testdata/events/pull_request.json") // 2025-11-12
+
+	// An event older than the target date appears before target-date events,
+	// both within a page and across pages.
+	mockHTTP := mock_fetch.NewMockHTTPClient(ctrl)
+	mockHTTP.EXPECT().FetchActivities("username", 1).Return([]map[string]any{older, push}, nil).Times(1)
+	mockHTTP.EXPECT().FetchActivities("username", 2).Return([]map[string]any{pullRequest}, nil).Times(1)
+	mockHTTP.EXPECT().FetchActivities("username", 3).Return([]map[string]any{}, nil).Times(1)
+
+	fetcher, err := NewActivityFetcher(mockHTTP, map[string]any{"username": "username"}, "2025-11-12", core.NewNoopLogger())
+	if err != nil {
+		t.Fatalf("Failed to create ActivityFetcher: %v", err)
+	}
+
+	got, err := fetcher.FetchActivities()
+	assert.NoError(t, err)
+
+	ids := make([]string, 0, len(got))
+	for _, a := range got {
+		ids = append(ids, a.Id)
+	}
+	assert.Equal(t, []string{"github:5894071350", "github:1234567890"}, ids)
+}
+
 func ptrString(s string) *string {
 	return &s
 }
