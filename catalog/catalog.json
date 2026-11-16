@@ -57,12 +57,18 @@
       "id": "github",
       "name": "GitHub Connector",
       "description": "Track commits, pull requests, issues, and reviews from GitHub repositories",
-      "latest_version": "0.2.6",
+      "latest_version": "0.2.7",
       "allowed_hosts": ["api.github.com", "github.com"],
       "capabilities": {
         "activity": true
       },
       "versions": [
+        {
+          "version": "0.2.7",
+          "min_acteedog_version": "0.3.0",
+          "download_url": "https://raw.githubusercontent.com/acteedog/acteedog-connectors/refs/heads/main/catalog/connectors/github/0.2.7/plugin.wasm",
+          "checksum": "sha256:9c480cffaccd07c0ea8b616051d7303d22559c306260f53b1f3d87851be2492b"
+        },
         {
           "version": "0.2.6",
           "min_acteedog_version": "0.3.0",
